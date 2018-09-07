@@ -21,6 +21,7 @@ import warnings
 import logging
 
 import io_mp
+from io_mp import dictitems,dictvalues,dictkeys
 import sampler
 from cosmoHammer.likelihood.chain.LikelihoodComputationChain import (
     LikelihoodComputationChain)
@@ -93,7 +94,7 @@ def run(cosmo, data, command_line):
     chain.addCoreModule(cosmo)
 
     # Add each likelihood class as a LikelihoodModule
-    for likelihood in data.lkl.itervalues():
+    for likelihood in dictvalues(data.lkl):
         chain.addLikelihoodModule(likelihood)
 
     # Define the file prefix
@@ -196,7 +197,7 @@ class DerivedUtil(SampleFileUtil):
         # extend the pos array to also contain the value of the derived
         # parameters
         derived = np.array(
-            [[a for a in elem.itervalues()] for elem in data])
+            [[a for a in dictvalues(elem)] for elem in data])
         final = np.concatenate((pos, derived), axis=1)
 
         posFile.write("\n".join(
