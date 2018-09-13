@@ -122,8 +122,8 @@ def extend_chain(data, cosmo, command_line, target_folder, chain_name,
                 for name, value in dictitems(derived):
                     data.mcmc_parameters[name]['current'] = value
                 for name in dictkeys(derived):
-                    data.mcmc_parameters[elem]['current'] /= \
-                        data.mcmc_parameters[elem]['scale']
+                    data.mcmc_parameters[name]['current'] /= \
+                        data.mcmc_parameters[name]['scale']
                 # Accept the point
                 sampler.accept_step(data)
                 io_mp.print_vector([output_chain], N, loglike, data)

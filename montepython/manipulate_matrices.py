@@ -7,6 +7,10 @@
 import numpy as np
 import sys
 
+try:
+    from builtins import raw_input as py_input
+except NameError:
+    from builtins import input as py_input
 
 def merge_matrices(path1, path2):
 
@@ -37,7 +41,7 @@ def merge_matrices(path1, path2):
 
     answer = None
     while not answer:
-        answer = raw_input('Specify parameters to keep: ')
+        answer = py_input('Specify parameters to keep: ')
 
     indices1 = extract_indices(answer, names1)
 
@@ -57,7 +61,7 @@ def merge_matrices(path1, path2):
         print(index+1, elem)
     print()
 
-    answer = raw_input('Specify parameters to keep (can be empty): ')
+    answer = py_input('Specify parameters to keep (can be empty): ')
 
     try:
         indices2 = extract_indices(answer, names2)
@@ -103,7 +107,7 @@ def merge_matrices(path1, path2):
 
     result = None
     while not result:
-        result = raw_input('writing the resulting covariance matrix to file:\n')
+        result = py_input('writing the resulting covariance matrix to file:\n')
 
     with open(result, 'w') as output:
         output.write('# '+', '.join(['%16s' % e for e in final_list]))

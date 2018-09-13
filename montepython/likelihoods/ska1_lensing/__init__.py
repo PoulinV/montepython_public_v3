@@ -16,6 +16,11 @@ import numpy as np
 import math
 import warnings
 
+try:
+    xrange
+except NameError:
+    xrange = range
+
 class ska1_lensing(Likelihood):
 
     def __init__(self, path, data, command_line):
@@ -420,7 +425,7 @@ class ska1_lensing(Likelihood):
                 self.data_directory, self.fiducial_file)
             with open(fid_file_path, 'w') as fid_file:
                 fid_file.write('# Fiducial parameters')
-                for key, value in data.mcmc_parameters.iteritems():
+                for key, value in io_mp.dictitems(data.mcmc_parameters):
                     fid_file.write(
                         ', %s = %.5g' % (key, value['current']*value['scale']))
                 fid_file.write('\n')
@@ -428,7 +433,7 @@ class ska1_lensing(Likelihood):
                     for Bin1 in range(self.nbin):
                         for Bin2 in range(self.nbin):
                             fid_file.write("%.8g\n" % Cl[nl, Bin1, Bin2])
-            print '\n'
+            print('\n')
             warnings.warn(
                 "Writing fiducial model in %s, for %s likelihood\n" % (
                     self.data_directory+'/'+self.fiducial_file, self.name))
@@ -472,7 +477,7 @@ class ska1_lensing(Likelihood):
         # self.l, to finally compute the likelihood (sum over all l's)
         dof = 1./(int(self.l[-1])-int(self.l[0])+1)
 
-        ells = range(int(self.l[0]), int(self.l[-1])+1)
+        ells = list(range(int(self.l[0]), int(self.l[-1])+1))
 
         # Define cov theory, observ and error on the whole integer range of ell
         # values
@@ -532,7 +537,7 @@ class ska1_lensing(Likelihood):
                     vector = np.array([epsilon_l-step,
                                        epsilon_l,
                                        epsilon_l+step])
-                    #print vector.shape
+                    #print(vector.shape)
                 # Computing the function on three neighbouring points
                     function_vector = np.zeros(3, 'float64')
                     for k in range(3):
@@ -603,6 +608,6 @@ class ska1_lensing(Likelihood):
             chi2 += epsilon**2
 
         #end = time.time()
-        #print "time needed in s:",(end-start)
+        #print("time needed in s:",(end-start))
 
         return -chi2/2.

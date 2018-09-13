@@ -251,7 +251,7 @@ def run(cosmo, data, command_line):
         Please see the encompassing function docstring
 
         """
-        for i, name in zip(range(ndim), NS_param_names):
+        for i, name in zip(list(range(ndim)), NS_param_names):
             cube[i] = data.mcmc_parameters[name]['prior']\
                 .map_from_unit_interval(cube[i])
 
@@ -262,7 +262,7 @@ def run(cosmo, data, command_line):
 
         """
         # Updates values: cube --> data
-        for i, name in zip(range(ndim), NS_param_names):
+        for i, name in zip(list(range(ndim)), NS_param_names):
             data.mcmc_parameters[name]['current'] = cube[i]
         # Propagate the information towards the cosmo arguments
         data.update_cosmo_arguments()
@@ -408,7 +408,7 @@ def from_NS_output_to_chains(folder):
         # Add ACCEPTED points
         mode_data = np.array(mode_lines[i].split(), dtype='float64')
         columns = 2+NS_arguments['n_params']
-        mode_data = mode_data.reshape([mode_data.shape[0]/columns, columns])
+        mode_data = mode_data.reshape([mode_data.shape[0]//columns, columns])
         # Rearrange: sample-prob | -2*loglik | params (clustering first)
         #       ---> sample-prob |   -loglik | params (log.param order)
         mode_data[:, 1]  = mode_data[:, 1] / 2.

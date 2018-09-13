@@ -1803,11 +1803,11 @@ class Likelihood_mpk(Likelihood):
             a1maxval=self.a1maxval
             self.a1list=np.zeros(self.nptstot)
             self.a2list=np.zeros(self.nptstot)
-            da1 = a1maxval/(nptsa1/2)
-            da2 = self.a2maxpos(-a1maxval) / (nptsa2/2)
+            da1 = a1maxval/(nptsa1//2)
+            da2 = self.a2maxpos(-a1maxval) / (nptsa2//2)
             count=0
-            for i in range(-nptsa1/2, nptsa1/2+1):
-                for j in range(-nptsa2/2, nptsa2/2+1):
+            for i in range(-nptsa1//2, nptsa1//2+1):
+                for j in range(-nptsa2//2, nptsa2//2+1):
                     a1val = da1*i
                     a2val = da2*j
                     if ((a2val >= 0.0 and a2val <= self.a2maxpos(a1val) and a2val >= self.a2minfinalpos(a1val)) or \

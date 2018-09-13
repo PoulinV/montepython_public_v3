@@ -189,7 +189,7 @@ def custom_help(split_string="<++>"):
         def __call__(self, parser, namespace, values, option_string=None):
 
             # create the help string and store it into a string
-            from StringIO import StringIO
+            from io import StringIO
             fstr = StringIO()
             try:
                 parser.print_help(file=fstr)

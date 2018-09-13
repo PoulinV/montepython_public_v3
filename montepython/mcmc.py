@@ -42,6 +42,12 @@ from pprint import pprint
 import io_mp
 import sampler
 
+# Python 2.x - 3.x compatibility: Always use more efficient range function
+try:
+    xrange
+except NameError:
+    xrange = range
+
 
 def get_new_position(data, eigv, U, k, Cholesky, Rotation):
     """

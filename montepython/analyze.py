@@ -29,8 +29,15 @@ import matplotlib.pyplot as plt
 import warnings
 import importlib
 import io_mp
-from itertools import ifilterfalse
-from itertools import ifilter
+try:
+    from itertools import ifilterfalse as py_filterfalse
+except ImportError:
+    from itertools import filterfalse as py_filterfalse
+try:
+    from itertools import ifilter as py_filter
+except ImportError:
+    from itertools import filter as py_filter
+
 import scipy.ndimage
 import scipy.special
 import numpy.linalg as la
@@ -42,6 +49,12 @@ from io_mp import dictitems,dictvalues,dictkeys
 LOG_LKL_CUTOFF = 3
 
 NUM_COLORS = 6
+
+# Python 2.x - 3.x compatibility: Always use more efficient range function
+try:
+    xrange
+except NameError:
+    xrange = range
 
 
 def analyze(command_line):
@@ -1682,7 +1695,7 @@ def find_maximum_of_likelihood(info):
         # This reads the chains excluding comment lines:
         with open(chain_file, 'r') as f:
             cheese = (np.array([float(line.split()[1].strip())
-                                for line in ifilterfalse(iscomment,f)]))
+                                for line in py_filterfalse(iscomment,f)]))
 
         try:
             min_minus_lkl.append(cheese[:].min())
@@ -1745,7 +1758,7 @@ def remove_bad_points(info):
         # This read the chains excluding comment lines:
         with open(chain_file, 'r') as f:
             cheese = (np.array([[float(elem) for elem in line.split()]
-                                for line in ifilterfalse(iscomment,f)]))
+                                for line in py_filterfalse(iscomment,f)]))
         # If the file contains a broken line with a different number of
         # elements, the previous array generation might fail, and will not have
         # the correct shape. Hence the following command will fail. To avoid
@@ -1797,7 +1810,7 @@ def remove_bad_points(info):
             # The last of these comments gives the number of lines to be skipped in the files
             if info.markovian and not info.update:
                 with open(chain_file, 'r') as f:
-                    for line in ifilter(iscomment,f):
+                    for line in py_filter(iscomment,f):
                         start = int(line.split()[2])
                 markovian = start
 
@@ -2052,7 +2065,7 @@ class Information(object):
         """
 
         # Assign a unique id to this instance
-        self.id = self._ids.next()
+        self.id = next(self._ids)
 
         # Defining the sigma contours (1, 2 and 3-sigma)
         self.levels = np.array([68.26, 95.4, 99.7])/100.
