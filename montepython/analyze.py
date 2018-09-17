@@ -36,7 +36,7 @@ except ImportError:
 try:
     from itertools import ifilter as py_filter
 except ImportError:
-    from itertools import filter as py_filter
+    from builtins import filter as py_filter
 
 import scipy.ndimage
 import scipy.special
@@ -659,7 +659,7 @@ def compute_posterior(information_instances):
                     # Execute some customisation scripts for the 1d plots
                     if (info.custom1d != []):
                         for elem in info.custom1d:
-                            execfile('plot_files/'+elem)
+                            exec(open('plot_files/'+elem).read())
 
                     ##################################################
                     # plot 1D posterior in 1D plot                   #
@@ -724,7 +724,7 @@ def compute_posterior(information_instances):
                         # Execute some customisation scripts for the 1d plots
                         if (info.custom1d != []):
                             for elem in info.custom1d:
-                                execfile('plot_files/'+elem)
+                                exec(open('plot_files/'+elem).read())
 
                         ########################################################
                         # plot 1D mean likelihood in diagonal of triangle plot #
@@ -861,7 +861,7 @@ def compute_posterior(information_instances):
                         # Execute some customisation scripts for the 2d contour plots
                         if (info.custom2d != []):
                            for elem in info.custom2d:
-                               execfile('plot_files/'+elem)
+                               exec(open('plot_files/'+elem).read())
 
                         # plotting contours, using the ctr_level method (from Karim
                         # Benabed). Note that only the 1 and 2 sigma contours are
@@ -2103,7 +2103,7 @@ class Information(object):
         # overrides the command line options
         if command_line.optional_plot_file:
             plot_file_vars = {'info': self,'plt': plt}
-            execfile(command_line.optional_plot_file, plot_file_vars)
+            exec(open(command_line.optional_plot_file, plot_file_vars).read())
 
         # check and store keep_fraction
         if command_line.keep_fraction<=0 or command_line.keep_fraction>1:
