@@ -1,0 +1,100 @@
+#------Experiments to test (separated with commas)-----
+
+data.experiments=['fake_planckpol_lowT', 'fake_planckpol_highTP', 'fake_S4','tau_006']
+
+#------ Settings for the over-sampling.
+# The first element will always be set to 1, for it is the sampling of the
+# cosmological parameters. The other numbers describe the over sampling of the
+# nuisance parameter space. This array must have the same dimension as the
+# number of blocks in your run (so, 1 for cosmological parameters, and then 1
+# for each experiment with varying nuisance parameters).
+# Note that when using Planck likelihoods, you definitely want to use [1, 4],
+# to oversample as much as possible the 14 nuisance parameters.
+# Remember to order manually the experiments from slowest to fastest (putting
+# Planck as the first set of experiments should be a safe bet, except if you
+# also have LSS experiments).
+# If you have experiments without nuisance, you do not need to specify an
+# additional entry in the over_sampling list (notice for instance that, out of
+# the three Planck likelihoods used, only Planck_highl requires nuisance
+# parameters, therefore over_sampling has a length of two (cosmology, plus one
+# set of nuisance).
+#data.over_sampling=[1, 4]
+
+#------ Parameter list -------
+
+# data.parameters[class name] = [mean, min, max, 1-sigma, scale, role]
+# - if min max irrelevant, put to None
+# - if fixed, put 1-sigma to 0
+# - if scale irrelevant, put to 1, otherwise to the appropriate factor
+# - role is either 'cosmo', 'nuisance' or 'derived'. You should put the derived
+# parameters at the end, and in case you are using the `-j fast` Cholesky
+# decomposition, you should order your nuisance parameters from slowest to
+# fastest.
+
+# Cosmological parameters list
+
+data.parameters['omega_b']              = [0.022253,    0.018,     0.03,  0.00028,  1, 'cosmo']
+data.parameters['omega_dmeff'] 		= [0.11919,    0.1,   0.13, 0.0027,     1, 'cosmo']
+data.parameters['100*theta_s']          = [ 1.0418, 1.0402,1.0433,   3e-4,     1, 'cosmo']
+data.parameters['ln10^{10}A_s']         = [ 3.0753,   2.98,  3.18,  0.0029,     1, 'cosmo']
+data.parameters['n_s']                  = [0.96229,    0.9,   1.1,  0.0074,     1, 'cosmo']
+data.parameters['tau_reio']             = [0.09463,   0.02,  0.11,   0.013,     1, 'cosmo']
+data.parameters['log10sigma_dmeff'] = [-33.5, -33.5, -31.5, 0.5, 1, 'cosmo']
+
+# Nuisance parameter list, same call, except the name does not have to be a class name
+
+#data.parameters['A_planck']          = [100.028,   90,  110,  0.25,  0.01,'nuisance']
+
+# Derived parameters
+
+#data.parameters['z_reio']          = [1, None, None, 0,     1,   'derived']
+#data.parameters['Omega_Lambda']    = [1, None, None, 0,     1,   'derived']
+#data.parameters['YHe']             = [1, None, None, 0,     1,   'derived']
+#data.parameters['H0']              = [0, None, None, 0,     1,   'derived']
+#data.parameters['sigma8']          = [0, None, None, 0,     1,   'derived']
+
+# Other cosmo parameters (fixed parameters, precision parameters, etc.)
+
+# Other class parameters (fixed parameters, precision parameters, etc.)
+data.cosmo_arguments['omega_cdm'] = 1.0e-10
+#data.cosmo_arguments['tight_coupling_trigger_tau_c_over_tau_k']   = 0.
+#data.cosmo_arguments['tight_coupling_trigger_tau_c_over_tau_h']   = 0.
+
+
+data.cosmo_arguments['sBBN file'] = data.path['cosmo']+'/bbn/sBBN.dat'
+data.cosmo_arguments['k_pivot'] = 0.05
+
+# The base model features two massless
+# and one massive neutrino with m=0.06eV.
+# The settings below ensures that Neff=3.046
+# and m/omega = 93.14 eV
+data.cosmo_arguments['N_ur'] = 2.0328
+data.cosmo_arguments['N_ncdm'] = 1
+data.cosmo_arguments['m_ncdm'] = 0.06
+data.cosmo_arguments['T_ncdm'] = 0.71611
+
+# These two are required to get sigma8 as a derived parameter
+# (class must compute the P(k) until sufficient k)
+data.cosmo_arguments['output'] = 'mPk'
+data.cosmo_arguments['P_k_max_h/Mpc'] = 5.
+data.cosmo_arguments['k_per_decade_for_pk'] = 100
+
+#####
+#####
+data.cosmo_arguments['dmeff_baryon_heat_exchange'] = 'yes'
+data.cosmo_arguments['calculation_a_la_dvorkin_et_al'] = 'no'
+data.cosmo_arguments['dmeff_Vrms_dynamic'] = 'yes'
+data.cosmo_arguments['dmeff_Vfull_dynamic'] = 'no'
+data.cosmo_arguments['Vrel_dmeff_rate'] = 30
+data.cosmo_arguments['sigma_dmeff_security'] = 'yes'
+data.cosmo_arguments['dmeff_interacting_species'] = 'hydrogen'
+data.cosmo_arguments['gauge']='synchronous'
+data.cosmo_arguments['dmeff_niter_dynamic_max']=20
+data.cosmo_arguments['Vrms_convergence_tol'] = 1e-2
+data.cosmo_arguments['m_dmeff'] = 1e-4
+data.cosmo_arguments['npow_dmeff'] = -2
+data.cosmo_arguments['z_rate_off_dmeff']=200
+#------ Mcmc parameters ----
+
+data.N=20
+data.write_step=5
