@@ -1,0 +1,10 @@
+import matplotlib.pyplot as plt
+#info.redefine = {'Gamma_dcdm': '(f_dcdm*Gamma_dcdm)'}
+#info.to_change = {'Gamma_dcdm':'f_dcdm Gamma_dcdm' }
+info.to_plot = ['omega_b','omega_cdm', 'f_dcdm', 'Gamma_dcdm', '100*theta_s', 'ln10^{10}A_s','n_s','tau_reio','sigma8']
+#info.to_plot = ['omega_b','omega_totcdm', 'f_dcdm', 'Gamma_dcdm', '100*theta_s', 'ln10^{10}A_s','n_s','tau_reio','sigma8']
+#info.to_plot = ['omega_totcdm', 'f_dcdm', 'Gamma_dcdm']
+info.ticknumber = 10
+info.ticksize = 5
+#info.to_plot = ['f_dcdm', 'Gamma_dcdm']
+#info.bins=5

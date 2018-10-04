@@ -3,9 +3,11 @@
 
 if (name == 'H_0') or (second_name == 'H_0'):
 
-    center=73.24
-    sigma=1.74
-    contour_color = info.MP_color['Orange']
+    #center=73.24
+    #sigma=1.74
+    center = 73.55
+    sigma = 1.66	    
+    contour_color = info.MP_color['Grey']
     contour_alpha = 0.5
 
     # add vertical contours when H0 is on the x axis

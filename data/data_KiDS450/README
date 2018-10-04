@@ -1,0 +1,117 @@
+PREFACE:
+
+In this tarball we provide data products accompanying the paper Koehlinger & KiDS 2017 (arXiv1706.02892). These include uncalibrated data-vectors (as they come out of the quadratic estimator algorithm), covariance matrices and supplementary files expected by the publicly available likelihood module (see link below) written for the ‘Monte Python’ package.
+
+If the folder structures and filenames are preserved, this likelihood module will work 'out-of-the-box' after specifying some paths to the root folder containing this README and some of its subfolders.
+The uncalibrated data-vectors and covariance matrices (as well as the supplementary files) for the 2 z-bin and 3 z-bin analyses are contained in the subfolders '2zbins' and '3zbins’.
+
+Since applying calibrations (e.g. the multiplicative bias correction) but also a proper comparison to theoretical band powers (via the band window functions) is non-trivial, we strongly encourage you to download the publicly available likelihood module (either to use directly with ‘Monte Python’ or to use as a blueprint for your own code). The module is intended to be used with the publicly available ‘Monte Python’ package (based on the Boltzmann-code ’CLASS’ for cosmological calculations). All required software packages are public and can be obtained following the links below:
+
+likelihood module (available after the paper has been accepted for publication):
+https://bitbucket.org/fkoehlin/kids450_qe_likelihood_public 
+
+Monte Python:
+https://github.com/baudren/montepython_public
+
+CLASS:
+https://github.com/lesgourg/class_public
+
+
+Optional packages for using the highly efficient MultiNest sampler within Monte Python (including e.g. efficient evidence calculations):
+
+PyMultiNest
+https://github.com/JohannesBuchner/PyMultiNest
+
+MultiNest
+https://github.com/JohannesBuchner/MultiNest
+
+
+VERY IMPORTANT:
+
+a) The data-vectors are uncalibrated, i.e. no multiplicative bias correction nor any of the other corrections listed in Koehlinger & KiDS 2017 (arXiv1706.02892) were applied to them. The same holds for the supplied covariance matrices. All calibrations and the masking of bands (see below) are applied internally in the likelihood module!
+b) The first, second-to-last and last ExE band powers should not be used in a likelihood analysis, the same is true for the second-to-last and last BxB band powers (see Koehlinger & KiDS 2017).
+c) For the redshift-ordering of the matrices but also for the naming of the tomographic data-vectors, we use the following convention (with Python as example code):
+
+for zbin1 in range(zbins):
+    for zbin2 in range(zbin1 + 1):
+        ...
+
+For 3 z-bins the ordering of all redshift-correlations is:
+z1 x z1, z2 x z1, z2 x z2, z3 x z1, z3 x z1, z3 x z2, and z3 x z3.
+
+
+CONTENTS of this folder:
+
+1) folders < 2zbins > and < 3zbins > (we list here only the contents of the folder < 2zbins > but note that all descriptions of files also apply to the folder < 3zbins >):
+
+< band_powers_EE_z{:}xz{:}.dat >
+These files contain the seven (from low multipoles to high multipoles) uncalibrated ExE band powers measured for the (unique) z-bin combinations z{:} x z{:}. 
+
+< band_powers_BB_z{:}xz{:}.dat >
+Similarly, these files contain the six (from low multipoles to high multipoles) uncalibrated BxB band powers measured for all tomographic bin combinations.
+
+The bin edges (in the same order) and the naive bin centers can be found in the files < multipoles_EE.dat > and < multipoles_BB.dat > in the root folder. The naive bin centers should only be used for plotting purposes, for likelihood evaluations the theory predictions need to be convolved with the band window matrix:
+
+< band_window_matrix_nell100.dat >
+Matrix that contains the band window functions calculated for 100 multipole nodes listed in the file below.
+
+< multipole_nodes_for_band_window_functions_nell100.dat >
+
+Just a list of 100 multipole nodes on which the band window function was calculated.
+
+< covariance_all_z_EE_BB.dat >
+The full covariance matrix of the ExE and BxB band powers including their cross-covariance. The ordering is as follows:
+
+EE1(z1xz1) … EE7(z1xz1), EE1(z2xz1) … EE7(z2xz1), EE1(z2xz2) … EE7(z2xz2); BB1(z1xz1) … BB6(z1xz1), BB1(z2xz1) … BB6(z2xz1), BB1(z2xz2) … BB6(z2xz2)
+
+(Note the convention for the redshift-bin correlations as noted above, especially for the matrices of the 3 z-bin analysis!)
+
+< covariance_all_z_EE.dat >
+
+The ExE block from the full matrix.
+
+< covariance_all_z_BB.dat >
+
+The BxB block from the full matrix.
+
+< m_correction_avg.txt >
+
+File that lists the averaged multiplicative bias correction per tomographic bin.
+
+< sigma_int_n_eff_2zbins.dat >
+
+File listing properties of the source galaxy sample per tomographic bin, i.e.
+z-min, z-max       —> borders of z-bin
+sigma_e1, sigma_e2 —> the e1 and e2 components of the ellipticity dispersion for that z-bin
+neff               —> the effective number of galaxies per sq. arcmin
+nobj               —> the total number of objects in that z-bin
+
+2) folder < Nz_DIR >
+
+< n_z_avg_{:}z{:}.hist >
+
+Files that contain histograms based on the direct photo-z calibration method (‘DIR’) of the source redshift distribution,  n(z) in the given redshift range {:} <= z < {:}. Contained are the z-values of the left bin-edges versus the normalized number counts in that bin; note that the first and the last row can be discarded (only included for consistency with the redshift integration of the likelihood module). 
+
+Ranges for 3 z-bin analysis:
+
+0.10 <= z1 < 0.30
+0.30 <= z2 < 0.60
+0.60 <= z3 < 0.90
+
+Ranges for 2 z-bin analysis:
+
+0.10 <= z1 < 0.45
+0.45 <= z2 < 0.90
+
+Subfolder < bootstraps >
+
+Contains subfolders < {:}z{:} > for the ranges listed above, each of these folders containing 1000 bootstrap versions (index runs from 0 to 999) of n(z) in the same histogram-format listed above.
+
+3) folder < Resetting_bias >
+
+Contains two supplementary files required in the likelihood module for applying the ‘resetting-bias’ calibration required for the BxB data-vector.
+
+4) files < multipoles_{EE, BB}.dat >
+
+Not required for the likelihood module!
+Files containing the multipole-bin edges for the ExE (EE) and BxB (BB) band-power vectors and the naive multipole bin center (this should only be used for plotting!).

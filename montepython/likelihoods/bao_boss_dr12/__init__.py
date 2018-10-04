@@ -15,7 +15,8 @@ class bao_boss_dr12(Likelihood):
 
         # are there conflicting experiments?
         conflicting_experiments = [
-            'bao', 'bao_boss', 'bao_known_rs'
+            'bao', 'bao_known_rs'
+#            'bao', 'bao_boss', 'bao_known_rs' ###bao_boss not conflicting; only MGS and 6DF
             'bao_boss_aniso', 'bao_boss_aniso_gauss_approx']
         for experiment in conflicting_experiments:
             if experiment in data.experiments:

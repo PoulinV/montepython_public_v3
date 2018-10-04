@@ -2,7 +2,7 @@
 # a gaussian prior/likelihood on
 # sigma_8 (Omega_m/a)^b
 
-if ((second_name == 'sigma_8') and (name == 'Omega_\mathrm{m}')) or (name == 'sigma_8') and (second_name == 'Omega_\mathrm{m}'):
+if ((second_name == r'$\sigma_8$') and (name == 'Omega_m')) or (name == r'$\sigma_8$') and (second_name == 'Omega_m'):
 
     center = 0.782
     sigma = 0.010
@@ -12,7 +12,7 @@ if ((second_name == 'sigma_8') and (name == 'Omega_\mathrm{m}')) or (name == 'si
     contour_alpha = 0.5
 
     # add contours when sigma_8 is on the x axis
-    if (second_name == 'sigma_8') and (name == 'Omega_\mathrm{m}'):
+    if (second_name == r'$\sigma_8$') and (name == 'Omega_m'):
         x1 = info.extent[0]
         x2 = info.extent[1]
         xx = np.arange(x1,x2,(x2-x1)/20.)
@@ -34,7 +34,7 @@ if ((second_name == 'sigma_8') and (name == 'Omega_\mathrm{m}')) or (name == 'si
                              alpha=contour_alpha)
 
     # add contours when sigma_8 is on the y axis
-    if (name == 'sigma_8') and (second_name == 'Omega_\mathrm{m}'):
+    if (name == r'$\sigma_8$') and (second_name == 'Omega_m'):
         x1 = info.extent[0]
         x2 = info.extent[1]
         xx = np.arange(x1,x2,(x2-x1)/10.)

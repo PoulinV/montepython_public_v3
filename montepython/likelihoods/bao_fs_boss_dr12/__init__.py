@@ -15,7 +15,7 @@ class bao_fs_boss_dr12(Likelihood):
 
         # needed arguments in order to get sigma_8(z) up to z=1 with correct precision
         self.need_cosmo_arguments(data, {'output': 'mPk'})
-        self.need_cosmo_arguments(data, {'P_k_max_h/Mpc': '1.'})
+        #self.need_cosmo_arguments(data, {'P_k_max_h/Mpc': '1.'})
         self.need_cosmo_arguments(data, {'z_max_pk': '1.'})
 
         # are there conflicting experiments?

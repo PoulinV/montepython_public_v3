@@ -445,7 +445,8 @@ class Data(object):
 
             folder = os.path.abspath(os.path.join(
                 self.path['MontePython'], "likelihoods", "%s" % elem))
-            # add the folder of the likelihood to the path of libraries to...
+
+	    # add the folder of the likelihood to the path of libraries to...
             # ... import easily the likelihood.py program
             try:
                 exec "from likelihoods.%s import %s" % (
@@ -476,7 +477,6 @@ class Data(object):
                 else:
                     raise io_mp.ConfigurationError(
                         "The following key: '%s' was not found" % e)
-
     def read_file(self, param, structure, field='', separate=False):
         """
         Execute all lines concerning the Data class from a parameter file
@@ -901,7 +901,9 @@ class Data(object):
             elif elem == 'w0wa':
                 self.cosmo_arguments['wa_fld'] = self.cosmo_arguments[elem] - self.cosmo_arguments['w0_fld']
                 del self.cosmo_arguments[elem]
-
+            elif elem == 'log10_a_c':
+                self.cosmo_arguments['a_c'] = 10**(self.cosmo_arguments[elem])
+                del self.cosmo_arguments[elem]
             # Finally, deal with all the parameters ending with __i, where i is
             # an integer. Replace them all with their name without the trailing
             # double underscore, concatenated with each other. The test is

@@ -257,7 +257,7 @@ def convergence(info):
     # Circle through all files to find the global maximum of likelihood
     #print '--> Finding global maximum of likelihood'
     find_maximum_of_likelihood(info)
-
+	
     # Restarting the circling through files, this time removing the burnin,
     # given the maximum of likelihood previously found and the global variable
     # LOG_LKL_CUTOFF. spam now contains all the accepted points that were
@@ -1667,13 +1667,15 @@ def find_maximum_of_likelihood(info):
     maximum.
     """
     min_minus_lkl = []
+    
     for chain_file in info.files:
         # cheese will brutally contain everything (- log likelihood) in the
         # file chain_file being scanned.
         # This could potentially be faster with pandas, but is already quite
         # fast
         #
-        # This would read the chains including comment lines:
+
+	# This would read the chains including comment lines:
         #cheese = (np.array([float(line.split()[1].strip())
         #                    for line in open(chain_file, 'r')]))
         #

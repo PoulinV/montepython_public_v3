@@ -1,0 +1,11 @@
+import matplotlib.pyplot as plt
+#info.redefine = {'Gamma_dcdm': '(f_dcdm*Gamma_dcdm)'}
+#info.to_change = {'Gamma_dcdm':'f_dcdm Gamma_dcdm' }
+info.to_change = {'omega_totcdm':'omega_cdm'}
+info.to_plot = ['omega_cdm','sigma8','H0','f_dcdm','Gamma_dcdm']
+#info.to_plot = ['omega_totcdm', 'f_dcdm', 'Gamma_dcdm']
+info.legendnames=['CMB','HST+WL+BAO+Planck Cluster','All Experiments']
+info.ticknumber = 10
+info.ticksize = 5
+#info.to_plot = ['f_dcdm', 'Gamma_dcdm']
+#info.bins=5
