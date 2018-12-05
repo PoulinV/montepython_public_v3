@@ -22,10 +22,15 @@ import logging
 
 import io_mp
 import sampler
-from cosmoHammer.likelihood.chain.LikelihoodComputationChain import (
-    LikelihoodComputationChain)
-from cosmoHammer.sampler.CosmoHammerSampler import CosmoHammerSampler
-from cosmoHammer.util.SampleFileUtil import SampleFileUtil
+import cosmoHammer
+from cosmoHammer import CosmoHammerSampler
+from cosmoHammer import LikelihoodComputationChain
+from cosmoHammer.util import SampleFileUtil
+#from cosmoHammer.likelihood.chain.LikelihoodComputationChain import (
+#    LikelihoodComputationChain)
+#from cosmoHammer.sampler.CosmoHammerSampler import CosmoHammerSampler
+#from cosmoHammer.util.SampleFileUtil import SampleFileUtil
+
 
 # Cosmo Hammer subfolder and name separator
 CH_subfolder = 'CH'

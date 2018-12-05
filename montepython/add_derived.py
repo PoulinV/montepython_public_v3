@@ -53,13 +53,15 @@ def run(cosmo, data, command_line):
             [0, None, None, 0, 1, 'derived'], param)
     # Reset the cosmo_arguments dict output entry, and adapt it in case a
     # derived parameter requires a particular CLASS behaviour.
-    data.cosmo_arguments.update({'output': ''})
+    data.cosmo_arguments.update({'output': 'mPk'})
     for key in ['lensing', 'l_max_scalars']:
         if key in data.cosmo_arguments.keys():
             data.cosmo_arguments.pop(key)
     if 'sigma8' in new_derived:
         data.cosmo_arguments.update({'output': 'mPk'})
-
+    if 'rd_rec' or '100*theta_d' in new_derived:
+	print "here"
+	data.cosmo_arguments.update({'compute damping scale':'yes'})	
     # Copy the log.param over from the starting folder, and add new lines
     # concerning the new derived parameters, for analysis.
     copy_log_file(starting_folder, target_folder, new_derived)

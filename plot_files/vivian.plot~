@@ -1,0 +1,4 @@
+info.redefine = {'omega_cdm': 'omega_dcdmdr+omega_cdm'}
+info.redefine = {'omega_dcdmdr':'omega_dcdmdr/(omega_dcdmdr+omega_cdm)'}
+info.to_change = {'omega_cdm':'omega_cdmtot', 'omega_dcdmdr': 'F_dcdmdr'} 
+

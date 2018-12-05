@@ -1,13 +1,15 @@
 #------Experiments to test (separated with commas)-----
 #data.experiments=['core_lens_extr_mnu','euclid_lensing_theoritical_errors_0p025','euclid_pk_theoritical_errors_0p025','tau_21cm']
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','sdss_lrgDR7','kids450_qe_likelihood_public','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18']
-data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18','sdss_lrgDR7','kids450_qe_likelihood_public']
+#data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18','sdss_lrgDR7','kids450_qe_likelihood_public']
+data.experiments=['Planck_highl_TTTEEE','Planck_lowl_TT','simlow','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18']
+#data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18']
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','kids450_qe_likelihood_public','Pantheon','bao_boss','SH0ES_18']
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','JLA','bao_boss','bao_fs_boss_dr12','SH0ES_18']
 #data.experiments=['Planck_highl_TTTEEE','simlow','Planck_lensing','Planck_SZ','bao_boss','bao_boss_aniso','hst_riess_2016','CFHTLens_correlation']
 #data.experiments=['Planck_highl_TTTEEE','simlow','Planck_lensing','bao_boss','bao_boss_aniso','Planck_SZ','sdss_lrgDR7']
 #data.experiments=['Planck_highl_TTTEEE','simlow','Planck_lensing','Planck_SZ','bao_boss','WiggleZ','bao_boss_aniso']
-#data.experiments=['Planck_highl_TTTEEE','simlow','Planck_lensing']
+#data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing']
 
 #------ Settings for the over-sampling.
 # The first element will always be set to 1, for it is the sampling of the
@@ -25,7 +27,7 @@ data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','Pantheon
 # the three Planck likelihoods used, only Planck_highl requires nuisance
 # parameters, therefore over_sampling has a length of two (cosmology, plus one
 # set of nuisance).
-data.over_sampling=[1, 4, 4, 4]
+data.over_sampling=[1, 4, 4]
 
 #------ Parameter list -------
 
@@ -46,9 +48,11 @@ data.parameters['100*theta_s']  = [1.04075,   None, None,   3e-4,    1, 'cosmo']
 data.parameters['ln10^{10}A_s'] = [  3.053,   None, None, 0.0029,    1, 'cosmo']
 data.parameters['n_s']          = [ 0.9624,   None, None, 0.0074,    1, 'cosmo']
 data.parameters['tau_reio']     = [ 0.0581,   0.04, None,  0.013,    1, 'cosmo']
-data.parameters['log10_a_c']     = [ -6,   -6, -3,  0.5,    1, 'cosmo']
+data.parameters['log10_a_c']     = [ -5,   -5, -3,  0.5,    1, 'cosmo']
+#data.parameters['a_c']     = [ 1,  1, 10,  1,    1e-4, 'cosmo']
 #data.parameters['Omega_many_fld']     = [ 10,   0, 1000,  1,    1e-6, 'cosmo']
-data.parameters['Omega_many_fld']     = [ 10,   0, 1000,  1,    1e-9, 'cosmo']
+#data.parameters['Omega_many_fld']     = [ 10,   0, 1000,  1,    1e-9, 'cosmo']
+data.parameters['log10_Omega_many_fld']     = [-7,   -9, -5,  0.5,    1, 'cosmo']
 data.parameters['Theta_initial_fld'] = [3,0,3.14,1,1,'cosmo']
 #data.parameters['N_ur'] = [3,0,5,1,1,'cosmo']
 
@@ -156,18 +160,18 @@ data.parameters['M']	   = [-19.02, None, None, 0.004,  1, 'nuisance']
 
 # KIDS nuisance
 
-data.parameters['m_corr'] = [-0.01368, -0.03368, 0.00632, 0.02, 1, 'nuisance']
+#data.parameters['m_corr'] = [-0.01368, -0.03368, 0.00632, 0.02, 1, 'nuisance']
 
 # amplitudes for residual noise power:
-data.parameters['A_noise_z1'] = [0., -0.1, 0.1, 0.05, 1, 'nuisance']
-data.parameters['A_noise_z2'] = [0., -0.1, 0.1, 0.05, 1, 'nuisance']
-data.parameters['A_noise_z3'] = [0., -0.1, 0.1, 0.05, 1, 'nuisance']
+#data.parameters['A_noise_z1'] = [0., -0.1, 0.1, 0.05, 1, 'nuisance']
+#data.parameters['A_noise_z2'] = [0., -0.1, 0.1, 0.05, 1, 'nuisance']
+#data.parameters['A_noise_z3'] = [0., -0.1, 0.1, 0.05, 1, 'nuisance']
 
 # amplitude for IA:
-data.parameters['A_IA'] = [0., -6., 6., 0.5, 1, 'nuisance']
+#data.parameters['A_IA'] = [0., -6., 6., 0.5, 1, 'nuisance']
 
 # amplitude for baryon feedback:
-data.parameters['A_bary'] = [2., 0., 10., 0.5, 1, 'nuisance']
+#data.parameters['A_bary'] = [2., 0., 10., 0.5, 1, 'nuisance']
 
 # Nuisance parameter list, same call, except the name does not have to be a class name
 
@@ -196,6 +200,10 @@ data.parameters['A_bary'] = [2., 0., 10., 0.5, 1, 'nuisance']
 #data.parameters['YHe']             = [1, None, None, 0,     1,   'derived']
 data.parameters['H0']              = [0, None, None, 0,     1,   'derived']
 #data.parameters['A_s']             = [0, None, None, 0,  1e-9,   'derived']
+data.parameters['rs_rec']          = [0, None, None, 0,     1,   'derived']
+data.parameters['rd_rec']          = [0, None, None, 0,     1,   'derived']
+data.parameters['da_rec']          = [0, None, None, 0,     1,   'derived']
+data.parameters['100*theta_d']          = [0, None, None, 0,     1,   'derived']
 data.parameters['sigma8']          = [0, None, None, 0,     1,   'derived']
 data.parameters['Omega_m']          = [0, None, None, 0,     1,   'derived']
 data.parameters['Omega_Lambda']          = [0, None, None, 0,     1,   'derived']
@@ -214,6 +222,8 @@ data.cosmo_arguments['use_big_theta_fld'] = 'yes'
 data.cosmo_arguments['cs2_is_1'] = 'no'
 data.cosmo_arguments['ca2_switch'] = 'no'
 data.cosmo_arguments['cs2_switch'] = 'no'
+data.cosmo_arguments['compute damping scale'] = 'yes'
+
 #data.cosmo_arguments['Theta_initial_fld'] = 3.14
 # Other cosmo parameters (fixed parameters, precision parameters, etc.)
 
@@ -224,11 +234,11 @@ data.cosmo_arguments['k_pivot'] = 0.05
 # and one massive neutrino with m=0.06eV.
 # The settings below ensures that Neff=3.046
 # and m/omega = 93.14 eV
-#data.cosmo_arguments['N_ur'] = 0.00641
-#data.cosmo_arguments['N_ncdm'] = 0
-#data.cosmo_arguments['deg_ncdm'] = 3
-#data.cosmo_arguments['m_ncdm'] = 0.02
-#data.cosmo_arguments['T_ncdm'] = 0.71611
+data.cosmo_arguments['N_ur'] = 2.0328
+data.cosmo_arguments['N_ncdm'] = 1
+data.cosmo_arguments['deg_ncdm'] = 1
+data.cosmo_arguments['m_ncdm'] = 0.06
+data.cosmo_arguments['T_ncdm'] = 0.71611
 # Increase precision of cosmological parameter extraction to match CORE+ specifications
 #data.cosmo_arguments['tol_background_integration'] = 1.e-3
 #data.cosmo_arguments['tol_thermo_integration'] = 1.e-3
@@ -244,9 +254,9 @@ data.cosmo_arguments['k_pivot'] = 0.05
 
 # These two are required to get sigma8 as a derived parameter 
 # (class must compute the P(k) until sufficient k)
-#data.cosmo_arguments['output'] = 'mPk'
+data.cosmo_arguments['output'] = 'mPk'
 #data.cosmo_arguments['output'] = 'mPk tCl lCl pCl'
-#data.cosmo_arguments['P_k_max_h/Mpc'] = 1
+data.cosmo_arguments['P_k_max_h/Mpc'] = 1
 #data.cosmo_arguments['P_k_max_1/Mpc'] = 25.
 #data.cosmo_arguments['z_max_pk'] = 3.
 
