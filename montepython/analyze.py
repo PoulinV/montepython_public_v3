@@ -37,6 +37,7 @@ import numpy.linalg as la
 
 # Defined to remove the burnin for all the points that were produced before the
 # first time where -log-likelihood <= min-minus-log-likelihood+LOG_LKL_CUTOFF
+#LOG_LKL_CUTOFF = 2.
 LOG_LKL_CUTOFF = 3
 
 NUM_COLORS = 6

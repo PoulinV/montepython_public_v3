@@ -915,6 +915,8 @@ class Data(object):
                 del self.cosmo_arguments[elem]
 	    elif elem == 'log10_m_dmeff':
                 self.cosmo_arguments['m_dmeff'] = 10**(self.cosmo_arguments[elem])
+            elif elem == 'log10_Gamma_neutrinos':
+                self.cosmo_arguments['Gamma_neutrinos'] = 10**(self.cosmo_arguments[elem])
                 del self.cosmo_arguments[elem]
 	    # Finally, deal with all the parameters ending with __i, where i is
             # an integer. Replace them all with their name without the trailing

@@ -2,15 +2,15 @@
 #data.experiments=['core_lens_extr_mnu','euclid_lensing_theoritical_errors_0p025','euclid_pk_theoritical_errors_0p025','tau_21cm']
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','sdss_lrgDR7','kids450_qe_likelihood_public','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18']
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18','sdss_lrgDR7','kids450_qe_likelihood_public']
-data.experiments=['Planck_highl_TTTEEE','Planck_lowl_TT','simlow','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18']
-#data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18']
+#data.experiments=['Planck_highl_TTTEEE','Planck_lowl_TT','simlow','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18']
+#data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18_ADAM']
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','kids450_qe_likelihood_public','Pantheon','bao_boss','SH0ES_18']
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','JLA','bao_boss','bao_fs_boss_dr12','SH0ES_18']
 #data.experiments=['Planck_highl_TTTEEE','simlow','Planck_lensing','Planck_SZ','bao_boss','bao_boss_aniso','hst_riess_2016','CFHTLens_correlation']
 #data.experiments=['Planck_highl_TTTEEE','simlow','Planck_lensing','bao_boss','bao_boss_aniso','Planck_SZ','sdss_lrgDR7']
 #data.experiments=['Planck_highl_TTTEEE','simlow','Planck_lensing','Planck_SZ','bao_boss','WiggleZ','bao_boss_aniso']
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing']
-
+data.experiments=['fake_planck_bluebook']
 #------ Settings for the over-sampling.
 # The first element will always be set to 1, for it is the sampling of the
 # cosmological parameters. The other numbers describe the over sampling of the
@@ -51,8 +51,8 @@ data.parameters['tau_reio']     = [ 0.0581,   0.04, None,  0.013,    1, 'cosmo']
 data.parameters['log10_a_c']     = [ -5,   -5, -3,  0.5,    1, 'cosmo']
 #data.parameters['a_c']     = [ 1,  1, 10,  1,    1e-4, 'cosmo']
 #data.parameters['Omega_many_fld']     = [ 10,   0, 1000,  1,    1e-6, 'cosmo']
-#data.parameters['Omega_many_fld']     = [ 10,   0, 1000,  1,    1e-9, 'cosmo']
-data.parameters['log10_Omega_many_fld']     = [-7,   -9, -5,  0.5,    1, 'cosmo']
+data.parameters['Omega_many_fld']     = [ 10,   0, 1000,  1,    1e-9, 'cosmo']
+#data.parameters['log10_Omega_many_fld']     = [-7,   -9, -5,  0.5,    1, 'cosmo']
 data.parameters['Theta_initial_fld'] = [3,0,3.14,1,1,'cosmo']
 #data.parameters['N_ur'] = [3,0,5,1,1,'cosmo']
 
@@ -250,7 +250,7 @@ data.cosmo_arguments['T_ncdm'] = 0.71611
 #data.cosmo_arguments['delta_l_max'] = 1000
 #data.cosmo_arguments['k_per_decade_for_pk'] = 100
 # Include non-linear corrections from halofit
-#data.cosmo_arguments['non linear'] = 'halofit'
+data.cosmo_arguments['non linear'] = 'halofit'
 
 # These two are required to get sigma8 as a derived parameter 
 # (class must compute the P(k) until sufficient k)

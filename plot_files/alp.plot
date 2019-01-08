@@ -23,7 +23,8 @@ info.to_change={'Omega_many_fld':r'$\Omega_{\rm EDE}$','log10_a_c':'a_c','Omega_
 #info.legendnames = ['All Data','Planck Full','Planck no Lensing']
 #info.legendnames = ['Ricotti','AliHaimoud','Gaggero','Horowitz']
 #info.legendnames = ['instanteneous reionization','asymmetric reionization']
-info.legendnames = [r'$\Lambda$CDM',r'$n=2$',r'$n=3$',r'$n=\infty$']
+#info.legendnames = [r'$\Lambda$CDM',r'$n=2$',r'$n=3$',r'$n=\infty$']
+info.legendnames = ['real data','fake data','fake data 2']
 #info.legendnames = [r'$\Lambda$CDM',r'ULA, $n=2$',r'ULA, $n=\infty$']
 #info.legendnames = [r'$\Lambda$CDM',r'$n=2$',r'$n=3$',r'$n=\infty$']
 info.legendsize=25
@@ -38,11 +39,11 @@ info.line_width = 2
 #info.to_plot = ['omega_b','tau_reio','omega_cdm','100*theta_s', 'ln10^{10}A_s','n_s',r'$100~\theta_s$',r'$M_{\rm PBH}/M_\odot$',r'$\omega_{\rm ALP}$','log10PBH_fraction','PBH_fraction','log10_Omega_fld','H0','Omega_Lambda','Omega_fld','Omega_many_fld','Omega_axion_ac','Theta_initial_fld']
 
 #info.to_plot = ['omega_cdm',r'$\omega_{\rm ALP}$','a_c','Omega_Lambda',r'$f_{\rm axion}(a_c)$','H0']
-#info.to_plot = ['H_0',r'$f_{\rm axion}(a_c)$',r'${\rm Log}_{10}a_c$']
+info.to_plot = ['H_0',r'$f_{\rm axion}(a_c)$',r'${\rm Log}_{10}a_c$']
 #info.to_plot = ['100*theta_s','H_0',r'$100~\theta_s$',r'$f_{\rm axion}(a_c)$',r'$\Delta N_{\rm eff}$',r'${\rm Log}_{10}a_c$',r'$\Omega_m$','tau_reio','n_s','ln10^{10}A_s','omega_cdm','omega_b','Omega_m']
 #info.to_plot = [r'${\rm Log}_{10}a_c$','H_0',r'$f_{\rm axion}(a_c)$',r'$100~\theta_s$',r'$100~\theta_d$','rd_rec','da_rec','n_s','omega_cdm','omega_b','tau_reio','ln10^{10}A_s','n_s']
 #info.to_plot = [r'${\rm Log}_{10}a_c$','H_0',r'$f_{\rm axion}(a_c)$',r'$\Delta N_{\rm eff}$']
-info.to_plot = [r'${\rm Log}_{10}a_c$','Omega_m','H_0',r'$S_8$',r'$f_{\rm axion}(a_c)$','R_ds','theta_s',r'$100~\theta_s$',r'$100~\theta_d$',r'$\Omega_{\rm EDE}$','n_s','ln10^{10}A_s','tau_reio']
+#info.to_plot = [r'${\rm Log}_{10}a_c$','Omega_m','H_0',r'$S_8$',r'$f_{\rm axion}(a_c)$','R_ds','theta_s',r'$100~\theta_s$',r'$100~\theta_d$',r'$\Omega_{\rm EDE}$','n_s','ln10^{10}A_s','tau_reio']
 #info.to_plot = [r'$\sigma_8$','Omega_m']
 #info.custom2d = ['add_h_contour.py']
 info.custom2d = ['add_h_contour.py','add_sigma8_Omegam_contour.py']
