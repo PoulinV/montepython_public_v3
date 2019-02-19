@@ -6,6 +6,7 @@
 # File update by Tim Sprenger to use old number counts and
 # new nuisance parameter sigma_NL, a nonlinear cutoff option
 # and a use_halofit flag
+# derivation is described in arXiv:1801.08331
 
 euclid_pk.data_directory = data.path['data']
 euclid_pk.fiducial_file  = "euclid_pk_fiducial.dat"
@@ -15,6 +16,7 @@ euclid_pk.fiducial_file  = "euclid_pk_fiducial.dat"
 # bias parameters (beta, amplitude:0 and scaling:1, =1 means no deviation to fit model)
 euclid_pk.use_nuisance = ['sigma_NL','beta_0^Euclid','beta_1^Euclid']
 #euclid_pk.use_nuisance = ['sigma_NL']
+# The use of P_shot is no longer recommended:
 #euclid_pk.use_nuisance = ['P_shot']
 
 # redshift range (hard coded, do not change!)
@@ -36,9 +38,9 @@ euclid_pk.kmin = 0.02
 # higher integration boundary for k (in h/Mpc)
 # can use e.g. 0.2 for conservative or 10 for realistic
 # for realistic the theoretical error takes over quickly
-euclid_pk.kmax = 10.
+euclid_pk.kmax = 0.2
 # use z-scaling of kmax via pow(1+z,2/(2+n_s))
-euclid_pk.use_zscaling = False
+euclid_pk.use_zscaling = True
 
 # use halofit method
 euclid_pk.use_halofit = True
@@ -49,25 +51,8 @@ euclid_pk.k_CorrLength_hMpc = 0.05
 euclid_pk.z_CorrLength = 1.0
 euclid_pk.bias_accuracy = 0.025
 
-# obsolete neutrino error
-#euclid_pk.use_nuisance = ['epsilon']
-#euclid_pk.coefficient_f_nu = 0
-
-# efficiency
+# efficiency (smaller than 1 means less galaxies than expected are measured)
 euclid_pk.efficiency = 1.0
 
-# neutrino bias correction according to Raccanelli et al. 1704.07837 (should we cite Castorina et al. 1311.1212 instead?)
-# CAUTION: this option does not correctly account for the effect of neutrinos on the growth factor in the RSD term! use option below!
-euclid_pk.use_neutrino_bias = False
-# if a fiducial model with neutrino bias correction is used
-euclid_pk.use_fiducial_neutrino_bias = False
-
-# apply the correction instead to the power spectrum, i.e. use P_{cdm+baryons} instead of P_m
-# should not be used with the neutrino bias correction
-# CAUTION: this is not consistent! It uses the linear transfer functions to modify the non-linear power spectrum
-euclid_pk.use_cdm_plus_baryons_pk = False
-# if a fiducial model with P_{cdm+b} is used
-euclid_pk.use_fiducial_cdm_plus_baryons_pk = False
-
-# use linear power spectrum for RSD correction
+# use linear power spectrum for RSD correction (recommended)
 euclid_pk.use_linear_rsd = True

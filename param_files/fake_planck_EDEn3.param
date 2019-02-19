@@ -11,7 +11,7 @@
 #data.experiments=['Planck_highl_TTTEEE','simlow','Planck_lensing','Planck_SZ','bao_boss','WiggleZ','bao_boss_aniso']
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing']
 #data.experiments=['fake_planck_bluebook','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18']
-data.experiments=['fake_planck_realistic','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18']
+data.experiments=['fake_planck_realistic_vEDE','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18']
 #------ Settings for the over-sampling.
 # The first element will always be set to 1, for it is the sampling of the
 # cosmological parameters. The other numbers describe the over sampling of the
@@ -83,7 +83,7 @@ data.parameters['alpha_axion'] = [0, None, None, 0,     1,   'derived']
 data.cosmo_arguments['w_fld_parametrization'] = 'pheno_axion'
 data.cosmo_arguments['fld_has_perturbations'] = 'yes'
 data.cosmo_arguments['n_pheno_axion'] = 3
-data.cosmo_arguments['cs2_fld'] = 1
+#data.cosmo_arguments['cs2_fld'] = 1
 data.cosmo_arguments['use_ppf'] = 'no'
 data.cosmo_arguments['use_big_theta_fld'] = 'yes'
 data.cosmo_arguments['cs2_is_1'] = 'no'

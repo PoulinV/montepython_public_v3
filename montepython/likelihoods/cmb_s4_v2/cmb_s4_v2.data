@@ -1,0 +1,38 @@
+# CMB-S4 likelihood, based on CMB-S4 science book (1610.02743)
+# by T. Brinckmann and D.C. Hooper
+
+# where to read/write fiducial model:
+
+cmb_s4_v2.data_directory     = data.path['data']
+cmb_s4_v2.fiducial_file      = 'cmb_s4_v2_fiducial.dat'
+
+# experimental sensitivity:
+
+# l_max_TT = 3000, l_max_EE = 3000 (no highl polarisation from kSZ)
+cmb_s4_v2.l_min              = 30
+cmb_s4_v2.l_max              = 3000
+cmb_s4_v2.f_sky              = 0.40
+cmb_s4_v2.num_channels       = 1
+
+# angular resolution
+# theta_fwhm must be in in arcmin
+# possible channels GHz [30, 40, 85, 95, 145, 155, 215, 270]
+# single channel forecast setup, 150 GHz
+cmb_s4_v2.theta_fwhm = [3.0]
+
+# resolution for Temperature and Polarisation
+# sigma's must be in muK.arcmin
+cmb_s4_v2.sigma_T = [1.0]
+cmb_s4_v2.sigma_P = [1.41]
+
+# do you want to include Bmodes (Gaussian approximation)?
+cmb_s4_v2.Bmodes = False
+cmb_s4_v2.delensing = False
+cmb_s4_v2.delensing_file = 'noise_cmb_s4_v2.dat'
+
+# do you want to include lensing extraction?
+cmb_s4_v2.LensingExtraction = True
+cmb_s4_v2.temporary_Nldd_file = 'noise_cmb_s4_v2.dat'
+cmb_s4_v2.neglect_TD = True
+cmb_s4_v2.unlensed_clTTTEEE = False
+cmb_s4_v2.ExcludeTTTEEE = False

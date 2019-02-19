@@ -1,7 +1,7 @@
 # File update by S. Clesse to fit with Euclid specifications used by the WP6-Forecasts working group
 # and IST-Forecasting subgroup on Weak-Lensing
 # Those specifications can be found in the googledoc document prepared by the Euclid IST - Splinter Group 2
-# Modified by Tim Sprenger in May 2017 to include z-dependent lmax
+# Modified by Tim Sprenger in May 2017 to include z-dependent lmax (see arXiv:1801.08331)
 
 euclid_lensing.data_directory = data.path['data']
 euclid_lensing.fiducial_file  = "euclid_lensing_fiducial.dat"
