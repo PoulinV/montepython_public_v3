@@ -329,9 +329,15 @@ class ska2_lensing(Likelihood):
 	        if (k_sigma[index_z+1]<k_sigma[index_z]) or (k_sigma[index_z+1]>2.5):
 	            k_sigma[index_z+1] = 2.5
 	            k_sigma_problem = True
+<<<<<<< HEAD
 	        #print("%s\t%s" % (k_sigma[index_z], self.z[index_z]))	
 	    if k_sigma_problem:
 	        warnings.warn("There were unphysical (decreasing in redshift or exploding) values of k_sigma (=cosmo.nonlinear_scale(...)). To proceed they were set to 2.5, the highest scale that seems to be stable.")	        
+=======
+	        #print("%s\t%s" % (k_sigma[index_z], self.z[index_z]))
+	    if k_sigma_problem:
+	        warnings.warn("There were unphysical (decreasing in redshift or exploding) values of k_sigma (=cosmo.nonlinear_scale(...)). To proceed they were set to 2.5, the highest scale that seems to be stable.")
+>>>>>>> d33537664b9719c172dab72273939f4301f2f3ba
 
         # Define the alpha function, that will characterize the theoretical
         # uncertainty. Chosen to be 0.001 at low k, raise between 0.1 and 0.2
@@ -568,7 +574,11 @@ class ska2_lensing(Likelihood):
 
                 det_theory_plus_error_cross_obs = 0
                 for i in range(self.nbin):
+<<<<<<< HEAD
                     newCov = np.copy(Cov_theory_plus_error[index,:,:]) #MArchi#newCov = np.copy(Cov_theory_plus_error) 
+=======
+                    newCov = np.copy(Cov_theory_plus_error[index,:,:]) #MArchi#newCov = np.copy(Cov_theory_plus_error)
+>>>>>>> d33537664b9719c172dab72273939f4301f2f3ba
                     newCov[:, i] = Cov_observ[index,:, i] #MArchi#newCov[:, i] = Cov_observ[:, i]
                     det_theory_plus_error_cross_obs += np.linalg.det(newCov)
 

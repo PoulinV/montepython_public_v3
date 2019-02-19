@@ -50,13 +50,11 @@ class ska1_pk(Likelihood):
 		assert error/self.N_g[index_z] <= 0.001, ("dndz integration error is bigger than 0.1%")
 		N_tot += self.N_g[index_z]
 
-	"""
 	# Ntot output
-	print("\nSKA1: Number of detected galaxies and bias in each redshift bin:")
-	for index_z in xrange(self.nbin):
-		print("z-bin[" + str(self.z_mean[index_z]-self.dz/2.) + "," + str(self.z_mean[index_z]+self.dz/2.) + "]: \tN = %.4g" % (self.N_g[index_z]) + " ,\t b = %.4g" % (b[index_z]))
-	print("Total number of detected galaxies: N = %.4g\n" % (N_tot))
-	"""
+	#print("\nSKA1: Number of detected galaxies and bias in each redshift bin:")
+	#for index_z in xrange(self.nbin):
+	#	print("z-bin[" + str(self.z_mean[index_z]-self.dz/2.) + "," + str(self.z_mean[index_z]+self.dz/2.) + "]: \tN = %.4g" % (self.N_g[index_z]) + " ,\t b = %.4g" % (b[index_z]))
+	#print("Total number of detected galaxies: N = %.4g\n" % (N_tot))
 
         # Define the k values for the integration (from kmin to kmax), at which
         # the spectrum will be computed (and stored for the fiducial model)
@@ -126,7 +124,6 @@ class ska1_pk(Likelihood):
 	if self.use_zscaling:
 		kcut *= pow(1.+z,2./(2.+n_s))
 	return kcut
-											
     def loglkl(self, cosmo, data):
 
         # First thing, recover the angular distance and Hubble factor for each
@@ -311,7 +308,7 @@ class ska1_pk(Likelihood):
         for index_z in xrange(self.nbin):
             self.P_shot[index_z] = self.H_fid[2*index_z+1]/(self.D_A_fid[2*index_z+1]**2)*self.V_fid[index_z]/self.N_g[index_z]
 
-        # finally compute chi2, for each z_mean	
+        # finally compute chi2, for each z_mean
 	if self.use_zscaling==0:
 		# redshift dependent cutoff makes integration more complicated
         	chi2 = 0.0
@@ -323,7 +320,7 @@ class ska1_pk(Likelihood):
 		for index_z in xrange(self.nbin):
 			# uncomment printers to get contributions from individual redshift bins
 			#printer1 = chi2*delta_mu
-			# uncomment to display max. kmin (used to infer kmin~0.02): 
+			# uncomment to display max. kmin (used to infer kmin~0.02):
 			#kmin: #print("z=" + str(self.z_mean[index_z]) + " kmin=" + str(34.56/r[2*index_z+1]) + "\tor " + str(6.283/(r[2*index_z+2]-r[2*index_z])))
 			for index_k in xrange(1,self.k_size):
 				if ((self.k_cut(self.z_mean[index_z],cosmo.h(),cosmo.n_s())-self.k_fid[self.k_size-index_k]) > -1.e-6):

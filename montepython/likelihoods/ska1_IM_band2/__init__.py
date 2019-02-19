@@ -104,7 +104,6 @@ class ska1_IM_band2(Likelihood):
 	if self.use_zscaling:
 		kcut *= pow(1.+z,2./(2.+n_s))
 	return kcut
-											
     def loglkl(self, cosmo, data):
 
         # First thing, recover the angular distance and Hubble factor for each
@@ -306,7 +305,7 @@ class ska1_IM_band2(Likelihood):
                 (1.+self.z_mean[index_z])**2*self.D_A_fid[2*index_z+1])**2 /(
                 2.*self.t_tot*3600.*self.nu0*1.e+6*self.N_dish*self.H_fid[2*index_z+1])
 
-        # finally compute chi2, for each z_mean	
+        # finally compute chi2, for each z_mean
 	if self.use_zscaling==0:
 		# redshift dependent cutoff makes integration more complicated
         	chi2 = 0.0
@@ -318,7 +317,7 @@ class ska1_IM_band2(Likelihood):
 		for index_z in xrange(self.nbin):
 			# uncomment printers to get contributions from individual redshift bins
 			#printer1 = chi2*delta_mu
-			# uncomment to display max. kmin (used to infer kmin~0.02): 
+			# uncomment to display max. kmin (used to infer kmin~0.02):
 			#kmin: #print("z=" + str(self.z_mean[index_z]) + " kmin=" + str(34.56/r[2*index_z+1]) + "\tor " + str(6.283/(r[2*index_z+2]-r[2*index_z])))
 			for index_k in xrange(1,self.k_size):
 				if ((self.k_cut(self.z_mean[index_z],cosmo.h(),cosmo.n_s())-self.k_fid[self.k_size-index_k]) > -1.e-6):
