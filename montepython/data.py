@@ -910,13 +910,19 @@ class Data(object):
             elif elem == 'log10_m_axion':
                 self.cosmo_arguments['m_axion'] = 10**(self.cosmo_arguments[elem])
                 del self.cosmo_arguments[elem]
-	    elif elem == 'log10_f_axion':
+ 	    elif elem == 'log10_f_axion':
                 self.cosmo_arguments['f_axion'] = 10**(self.cosmo_arguments[elem])
                 del self.cosmo_arguments[elem]
 	    elif elem == 'log10_m_dmeff':
                 self.cosmo_arguments['m_dmeff'] = 10**(self.cosmo_arguments[elem])
                 del self.cosmo_arguments[elem]
-	    # Finally, deal with all the parameters ending with __i, where i is
+	    elif elem == 'log10_Gamma_neutrinos':
+                self.cosmo_arguments['Gamma_neutrinos'] = 10**(self.cosmo_arguments[elem])
+                del self.cosmo_arguments[elem]
+	    elif elem == 'f_axion_ac':
+		self.cosmo_arguments['log10_fraction_axion_ac'] = math.log10(self.cosmo_arguments[elem])
+		del self.cosmo_arguments[elem]
+            # Finally, deal with all the parameters ending with __i, where i is
             # an integer. Replace them all with their name without the trailing
             # double underscore, concatenated with each other. The test is
             # always on the one ending with __1, as it will be the first on the

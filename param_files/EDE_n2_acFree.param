@@ -247,7 +247,7 @@ data.cosmo_arguments['T_ncdm'] = 0.71611
 #data.cosmo_arguments['delta_l_max'] = 1000
 #data.cosmo_arguments['k_per_decade_for_pk'] = 100
 # Include non-linear corrections from halofit
-#data.cosmo_arguments['non linear'] = 'halofit'
+data.cosmo_arguments['non linear'] = 'halofit'
 
 # These two are required to get sigma8 as a derived parameter 
 # (class must compute the P(k) until sufficient k)
