@@ -42,8 +42,8 @@ data.parameters['h']            = [0.6727,  0.5,0.8, 0.0065,1,   'cosmo']
 data.parameters['n_s']          = [0.9652,  0.9,1.1, 0.004, 1,   'cosmo']
 data.parameters['A_s']          = [2.1985,   1.8,3, 0.038, 1e-9,'cosmo']
 data.parameters['tau_reio']     = [0.078,  0.02,0.12, 0.0044,1,   'cosmo']
-data.parameters['log_epsilon_dmeff']    = [-7,  -7,   0,   0.5,    1, 'cosmo']
-data.parameters['log_ratio_dmeff2cdm']  = [-2,  -4,     0,      1,      1, 'cosmo']
+data.parameters['log_epsilon_dmeff']    = [-3,  -3,   0,   0.5,    1, 'cosmo']
+data.parameters['log_ratio_dmeff2cdm']  = [-2,  -4,     -2,      1,      1, 'cosmo']
 
 
 ####data.parameters['log10sigma_dmeff'] = [-33.5, -33.5, -31.5, 0.5, 1, 'cosmo']
