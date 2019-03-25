@@ -35,6 +35,7 @@ from montepython.likelihood_class import Likelihood_sn
 class Pantheon(Likelihood_sn):
 
     def __init__(self, path, data, command_line):
+
         # Unusual construction, since the data files are not distributed
         # alongside Pantheon (size problems)
         try:
@@ -46,9 +47,11 @@ class Pantheon(Likelihood_sn):
                 "\n-> pantheon.dataset"
                 "\n-> lcparam_full_long.txt"
                 "\n-> sys_full_long.dat")
+
         # Load matrices from text files, whose names were read in the
         # configuration file
         self.C00 = self.read_matrix(self.mag_covmat_file)
+        
         # Reading light-curve parameters from self.data_file (lcparam_full_long.txt)
         self.light_curve_params = self.read_light_curve_parameters()
 
