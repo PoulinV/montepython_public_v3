@@ -1215,6 +1215,14 @@ class Likelihood_mock_cmb(Likelihood):
         except:
             self.ExcludeTTTEEE = False
 
+	#added by Siavash Yasini
+        try:
+            self.OnlyTT
+            if self.OnlyTT and self.ExcludeTTTEEE: 
+                raise io_mp.LikelihoodError("OnlyTT and ExcludeTTTEEE cannot be used simultaneously.")
+        except:
+            self.OnlyTT = False
+
         ##############################################
         # Delensing noise: implemented by  S. Clesse #
         ##############################################
