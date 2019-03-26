@@ -1555,7 +1555,7 @@ class Likelihood_mock_cmb(Likelihood):
 	  
 	    # case with TT only (Added by Siavash Yasini)
             elif self.OnlyTT:
-                Cov_obs = np.array([[self.Cl_fid[0, l]])
+                Cov_obs = np.array([[self.Cl_fid[0, l]]])
                     
                 Cov_the = np.array([[cl['tt'][l]+self.noise_T[l]]])
                     
