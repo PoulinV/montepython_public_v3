@@ -1393,6 +1393,10 @@ class Likelihood_mock_cmb(Likelihood):
             print "  ExcludeTTTEEE is True"
         else:
             print "  ExcludeTTTEEE is False"
+        if self.OnlyTT:
+            print "  OnlyTT is True"
+        else:
+            print "  OnlyTT is False"
         print ""
 
         # end of initialisation
