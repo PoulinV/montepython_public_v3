@@ -1478,7 +1478,10 @@ class Likelihood_mock_cmb(Likelihood):
         # spectra = TT,EE,TE,[BB],[DD,TD]
         # default:
         if not self.ExcludeTTTEEE:
-            num_modes=2
+	    if self.OnlyTT:
+	        num_modes=1
+	    else:
+                num_modes=2
         # default 0 if excluding TT EE
         else:
             num_modes=0
@@ -1549,6 +1552,13 @@ class Likelihood_mock_cmb(Likelihood):
                     [cl['tt'][l]+self.noise_T[l], cl['te'][l], 0.*math.sqrt(l*(l+1.))*cl['tp'][l]],
                     [cl['te'][l], cl['ee'][l]+self.noise_P[l], 0],
                     [cltd, 0, cldd+self.Nldd[l]]])
+	  
+	    # case with TT only (Added by Siavash Yasini)
+            elif self.OnlyTT:
+                Cov_obs = np.array([[self.Cl_fid[0, l]])
+                    
+                Cov_the = np.array([[cl['tt'][l]+self.noise_T[l]]])
+                    
 
             # case without B modes nor lensing:
             else:
