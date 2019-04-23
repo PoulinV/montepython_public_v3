@@ -72,6 +72,7 @@ class bao_lya(Likelihood):
         return lkl
 
 #Class to read alpha_t by alpha_p chi2 scans e.g. from BOSS and interpolate.
+from scipy.interpolate import RectBivariateSpline
 class chi2_interpolators():
     def __init__(self,scan_locations,DA_over_rd_fid,c_over_Hrd_fid):
         """
