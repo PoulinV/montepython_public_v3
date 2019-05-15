@@ -357,7 +357,9 @@ def run(cosmo, data, command_line):
         data.update_cosmo_arguments()
 
         # Compute likelihood
-        logl = sampler.compute_lkl(cosmo, data)[0,0]
+        #logl = sampler.compute_lkl(cosmo, data)[0,0]
+        # FK: index to scalar variable error...
+        logl = sampler.compute_lkl(cosmo, data)
 
         # Compute derived parameters and pass them back
         phi = [0.0] * nDerived
