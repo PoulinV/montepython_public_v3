@@ -31,22 +31,27 @@ class chi2_interpolators():
         for corr_type in scan_locations:
             scan = np.loadtxt(scan_locations[corr_type])
 
-            ap = np.array(sorted(set(scan[:,0])))
-            at = np.array(sorted(set(scan[:,1])))
+            #Column numbers in scan for data points.
+            ap_index = 0
+            at_index = 1
+            chi2_index = 2
 
-            N_at = at.shape[0]
+            #Get the alphas and make the scan grid.
+            ap = np.array(sorted(set(scan[:,ap_index])))
+            at = np.array(sorted(set(scan[:,at_index])))
             N_ap = ap.shape[0]
+            N_at = at.shape[0]
             grid = np.zeros((N_at,N_ap))
 
             for i in range(N_ap):
                 #Filter the data to only those corresponding to the ap value.
-                indices = (scan[:,0]==ap[i])
+                indices = (scan[:,ap_index]==ap[i])
                 scan_chunk = scan[indices,:]
                 #Ensure that they're sorted by at value.
-                scan_chunk = scan_chunk[scan_chunk[:,0].argsort()]
+                scan_chunk = scan_chunk[scan_chunk[:,at_index].argsort()]
                 #Add the chi2 column to the grid.
                 #Note that the grid is of shape (N_at,N_ap)
-                grid[:,i] = scan_chunk[:,2]
+                grid[:,i] = scan_chunk[:,chi2_index]
 
             #Make the interpolator (x refers to at, y refers to ap).
             interpolators[corr_type] = RectBivariateSpline(at,ap,grid,kx=1,ky=1)

@@ -1,6 +1,6 @@
 import os
-import io_mp
 import numpy as np
+from montepython import io_mp
 from montepython.likelihood_class import Likelihood
 import scipy.constants as const
 import BOSS_scan_util as util
