@@ -132,6 +132,8 @@ def initialise(cosmo, data, command_line):
     # Use chain name as a base name for MultiNest files
     chain_name = [a for a in command_line.folder.split(os.path.sep) if a][-1]
     base_name = os.path.join(NS_folder, chain_name)
+    #FK: add base_name to NS_arguments for later reference
+    data.NS_arguments['base_dir'] = base_name
 
     # Prepare arguments for PyMultiNest
     # -- Automatic arguments
@@ -277,11 +279,17 @@ def run(cosmo, data, command_line):
     # Assuming this worked, i.e. if output is `None`,
     # state it and suggest the user to analyse the output.
     if output is None:
-        warnings.warn('The sampling with MultiNest is done.\n' +
-                      'You can now analyse the output calling Monte Python ' +
-                      ' with the -info flag in the chain_name/NS subfolder,' +
-                      'or, if you used multimodal sampling, in the ' +
-                      'chain_name/mode_# subfolders.')
+        # FK: write out the warning message below also as a file in the NS-subfolder
+        # so that there's a clear indication for convergence instead of just looking at
+        # the STDOUT-log!
+        text = 'The sampling with MultiNest is done.\n' + \
+               'You can now analyse the output calling Monte Python ' + \
+               'with the -info flag in the chain_name/NS subfolder,' + \
+               'or, if you used multimodal sampling, in the ' + \
+               'chain_name/mode_# subfolders.'
+        fname = os.path.join(data.NS_arguments['base_dir'], 'convergence.txt')
+        with open(fname, 'w') as afile:
+            afile.write(text)
 
 
 def from_NS_output_to_chains(folder):
