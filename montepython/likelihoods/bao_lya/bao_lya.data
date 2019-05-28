@@ -1,9 +1,0 @@
-# BAO data - data.path['data']
-bao_lya.data_directory      = data.path['data']
-bao_lya.file                = 'BOSS_DR11_scans/BOSS_DR11_scan_aux.txt'
-bao_lya.cf_scan             = 'BOSS_DR11_scans/BOSSDR11LyaF_k.scan'
-bao_lya.xcf_scan            = 'BOSS_DR11_scans/BOSSDR11QSOLyaF.scan'
-bao_lya.rd_rescale          = 1.0
-
-bao_lya.boss_da_over_rd_fid = 11.59
-bao_lya.boss_c_over_Hrd_fid = 8.708
