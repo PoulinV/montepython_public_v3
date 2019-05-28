@@ -19,12 +19,12 @@ class eBOSS_DR14_Lya_combined(Likelihood):
         self.types = []
 
         scan_locations = {}
-        scan_locations['cf'] = self.data_directory + '/' + self.cf_scan
+        scan_locations['comb'] = self.data_directory + '/' + self.cf_scan
 
         # read redshifts and data points
         for line in open(os.path.join(
                 self.data_directory, self.file), 'r'):
-            if (line.strip().find('#') == -1) and (len(line.strip())>0) and (line.split()[0] == 'cf'):
+            if (line.strip().find('#') == -1) and (len(line.strip())>0) and (line.split()[0] == 'comb'):
                 self.corr_types += [line.split()[0]]
                 self.z = np.append(self.z, float(line.split()[1]))
                 self.types += [set([int(line.split()[2]),int(line.split()[3])])]
