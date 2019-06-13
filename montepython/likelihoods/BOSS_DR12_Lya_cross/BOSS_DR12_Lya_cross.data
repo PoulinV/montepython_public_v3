@@ -1,4 +1,5 @@
 # BAO data - data.path['data']
+# Ref: du Mas des Bourboux et al. (2017)
 BOSS_DR12_Lya_cross.data_directory      = data.path['data']
 BOSS_DR12_Lya_cross.file                = 'BOSS_DR12_scans/BOSS_DR12_scan_aux.txt'
 BOSS_DR12_Lya_cross.xcf_scan            = 'BOSS_DR12_scans/BOSS_DR12_Lya_cross_scan.dat'
