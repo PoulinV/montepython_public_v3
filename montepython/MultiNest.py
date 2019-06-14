@@ -132,8 +132,8 @@ def initialise(cosmo, data, command_line):
     # Use chain name as a base name for MultiNest files
     chain_name = [a for a in command_line.folder.split(os.path.sep) if a][-1]
     base_name = os.path.join(NS_folder, chain_name)
-    #FK: add base_name to NS_arguments for later reference
-    data.NS_arguments['base_dir'] = base_name
+    #FK: add base folder name to NS_arguments for later reference
+    data.NS_arguments['base_dir'] = NS_folder
 
     # Prepare arguments for PyMultiNest
     # -- Automatic arguments
@@ -272,6 +272,11 @@ def run(cosmo, data, command_line):
         for i, name in enumerate(derived_param_names):
             cube[ndim+i] = data.mcmc_parameters[name]['current']
         return lkl
+    
+    #FK: recover name of base folder and remove entry from dict before passing it
+    # on to MN:
+    base_dir = data.NS_arguments['base_dir']
+    del data.NS_arguments['base_dir']
 
     # Launch MultiNest, and recover the output code
     output = nested_run(loglike, prior, **data.NS_arguments)
@@ -285,9 +290,9 @@ def run(cosmo, data, command_line):
         text = 'The sampling with MultiNest is done.\n' + \
                'You can now analyse the output calling Monte Python ' + \
                'with the -info flag in the chain_name/NS subfolder,' + \
-               'or, if you used multimodal sampling, in the ' + \
+               ' or, if you used multimodal sampling, in the ' + \
                'chain_name/mode_# subfolders.'
-        fname = os.path.join(data.NS_arguments['base_dir'], 'convergence.txt')
+        fname = os.path.join(base_dir, 'convergence.txt')
         with open(fname, 'w') as afile:
             afile.write(text)
 
