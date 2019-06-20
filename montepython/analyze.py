@@ -475,7 +475,8 @@ def compute_posterior(information_instances):
     else:
         legend_names = conf.legendnames
     if conf.plot_2d and not conf.plot_diag:
-        legends[info.id]=plt.Rectangle((0,0),1,1,fc =info.MP_color_cycle[info.id][1],alpha = info.alphas[info.id],linewidth=0)
+        for info in information_instances:
+            legends[info.id]=plt.Rectangle((0,0),1,1,fc =info.MP_color_cycle[info.id][1],alpha = info.alphas[info.id],linewidth=0)
     print '-----------------------------------------------'
 
     for index, name in enumerate(plotted_parameters):
