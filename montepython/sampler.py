@@ -607,6 +607,14 @@ def get_fisher_matrix(cosmo, data, command_line, inv_fisher_matrix, minimum=0):
                 inv_fisher_matrix, parameter_names,
                 os.path.join(command_line.folder, 'inv_fisher.mat'))
 
+            # FK: also write-out gradient:
+            fname = os.path.join(command_line.folder, 'fisher_gradient.vec')
+            header = ''
+            for param in parameter_names:
+                header += '{:}, '.format(param)
+            header = header[:-2]
+            np.savetxt(fname, gradient, header=header)
+
     return inv_fisher_matrix
 
 
