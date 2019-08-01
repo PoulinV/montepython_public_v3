@@ -3,7 +3,7 @@ import numpy as np
 from montepython import io_mp
 from montepython.likelihood_class import Likelihood
 import scipy.constants as const
-import BOSS_scan_util as util
+import scan_util as util
 
 class BOSS_DR12_Lya_auto(Likelihood):
 
