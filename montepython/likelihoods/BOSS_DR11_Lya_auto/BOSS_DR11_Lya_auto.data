@@ -1,5 +1,7 @@
-# BAO data - data.path['data']
-# Ref: Delubac et al. (2014)
+# This likelihood is from Cuceu, Farr, Lemos & Font-Ribera 2019 (1906.11628) and
+# is based on data from Delubac et al. 2014 (1404.1801).
+# Written by James Farr (June 2019).
+
 BOSS_DR11_Lya_auto.data_directory      = data.path['data']
 BOSS_DR11_Lya_auto.file                = 'BOSS_DR11_scans/BOSS_DR11_scan_aux.txt'
 BOSS_DR11_Lya_auto.cf_scan             = 'BOSS_DR11_scans/BOSS_DR11_Lya_auto_scan.dat'
