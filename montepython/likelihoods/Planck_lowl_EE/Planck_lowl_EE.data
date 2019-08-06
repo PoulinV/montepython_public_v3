@@ -1,6 +1,7 @@
 # Grab the clik version of the lowl lieklihood
 
-Planck_lowl_TT.path_clik = os.path.join(data.path['clik'], '../../../baseline/plc_3.0/low_l/commander/commander_dx12_v3_2_29.clik')
+Planck_lowl_EE.path_clik = os.path.join(data.path['clik'], '../../../baseline/plc_3.0/low_l/simall/simall_100x143_offlike5_EE_Aplanck_B.clik')
+
 
 # note concerning the Planck 2018 likelihood:
 # This likelihood has a nuisance parameter A_planck that should be declared in
