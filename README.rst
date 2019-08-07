@@ -150,7 +150,9 @@ perform this part again for the new `CLASS`.
 The Planck likelihood part
 ---------------------------
 
-The Planck 2018 data can be found on the `Planck Legacy Archive<http://pla.esac.esa.int/pla/#home>`_.
+*Written by Deanna C. Hooper* <hooper@physik.rwth-aachen.de>
+
+The Planck 2018 data can be found on the `Planck Legacy Archive <http://pla.esac.esa.int/pla/#home>`_.
 The Planck Likelihood Code (**plc**) is based on a library called `clik`. It will be extracted,
 alongside several `.clik` folders that contain the likelihoods. The code uses an auto installer device,
 called `waf`. Here we detail the full installation.

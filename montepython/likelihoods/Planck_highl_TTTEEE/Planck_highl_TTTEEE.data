@@ -1,4 +1,11 @@
+# This likelihood corresponds to the Planck 2018 high_l TTTEEE data (high l temperature and polarisation)
+
+# Grab the clik version of the Planck high_l_TTTEEE likelihood:
 Planck_highl_TTTEEE.path_clik = os.path.join(data.path['clik'], '../../../baseline/plc_3.0/hi_l/plik/plik_rd12_HM_v22b_TTTEEE.clik')
+
+# List of nuisance parameters needed for high_l_TTTEEE
+# Some complex models may require additional polarisation parameters (commented out in most cases)
+# See the path/to/planck/baseline/plc_3.0/hi_l/plik/plik_recommended_priors.txt for more details
 Planck_highl_TTTEEE.A_planck_prior_center            = 1
 Planck_highl_TTTEEE.A_planck_prior_variance          = 0.0025
 Planck_highl_TTTEEE.calib_100T_prior_center          = 1.0002

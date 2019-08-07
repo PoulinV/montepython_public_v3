@@ -1,5 +1,6 @@
-# Grab the clik version of the lowl lieklihood
+# This likelihood corresponds to the Planck 2018 low_l EEBB simall data (EE and BB mode polarisation)
 
+# Grab the clik version of the lowl_EEBB likelihood
 Planck_lowl_EEBB.path_clik = os.path.join(data.path['clik'], '../../../baseline/plc_3.0/low_l/simall/simall_100x143_offlike5_EEBB_Aplanck_B.clik')
 
 # note concerning the Planck 2018 likelihood:
