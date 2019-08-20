@@ -1,0 +1,222 @@
+#####################################################################
+# Data and precision parameters for the KiDS+VIKING-450 correlation #
+# function likelihood to be used with data from Hildebrandt et al.  #
+# 2018 (arXiv:1812.06076) available from:                           #
+#                                                                   #
+# http://kids.strw.leidenuniv.nl/sciencedata.php                    #
+#                                                                   #
+# ATTENTION:                                                        #
+# This likelihood only produces valid results for \Omega_k = 0,     #
+# i.e. flat cosmologies!                                            #
+#####################################################################
+
+### GENERAL SETTINGS ###
+
+## DATA LOCATION ##
+
+# Set the path to the folder 'KV450_COSMIC_SHEAR_DATA_RELEASE' from the
+# uncompressed tarball downloaded from:
+# http://kids.strw.leidenuniv.nl/sciencedata.php
+kv450_cf_likelihood_public.data_directory = data.path['data'] +'/KV450_COSMIC_SHEAR_DATA_RELEASE/'
+
+## BINNING OF THEORY VECTOR ##
+
+# set this flag if you want to bin the theoretical xi_p/m functions with a weight function
+# for fiducial KV450 analysis: True
+kv450_cf_likelihood_public.use_theory_binning = True
+
+# for new theta-binning supply the smallest and highest bin border values in arcmin:
+# for fiducial KV450 analysis: 0.5
+kv450_cf_likelihood_public.theta_bin_min_val = 0.5
+# for fiducial KV450 analysis: 300.
+kv450_cf_likelihood_public.theta_bin_max_val = 300.
+
+# if you want to read in (and interpolate) a weight function (expected as theta, weight):
+# for fiducial KV450 analysis: False
+kv450_cf_likelihood_public.read_weight_func_for_binning = False
+
+# supply path to weight-function file (ignored if flag above is False):
+# for fiducial KV450 analysis: 'none'
+kv450_cf_likelihood_public.theory_weight_function_file = 'none'
+
+# supply constant for weight = theta * const.
+# for fiducial KV450 analysis: 1.
+kv450_cf_likelihood_public.theory_binning_const = 1.
+
+# set here a number of theta nodes over which we integrate per theta_bin
+# for fiducial KV450 analysis: 100
+kv450_cf_likelihood_public.theta_nodes_theory = 100
+
+## SAVE THEORY VECTOR ##
+
+# write out the xi_p/m theory vector (including all calibrations) in list format
+kv450_cf_likelihood_public.write_out_theory = False
+# the file will be saved to 'data_directory/FOR_MONTE_PYTHON/' and the likelihood
+# will terminate after writing out the vector. Hence, for an MCMC run this flag
+# needs to be set to False!
+
+## REDSHIFT DISTRIBUTIONS ##
+
+# choose the calibration method for the redshift distributions from
+# ['DIR', 'CCfit', 'sDIR', 'DIR_woCOSMOS', 'DIR_woCOSMOS-VVDS', 'DIR_woVVDS',
+#  'DIR_woDEEP2', 'DIR_C15'], refer to the tarball's README for details!
+# for fiducial KV450 analysis: 'DIR'
+kv450_cf_likelihood_public.nz_method = 'DIR'
+
+# number of discrete z-values used for all integrations, can be set to arbitrary numbers now
+# for fiducial KV450 analysis: 120
+kv450_cf_likelihood_public.nzmax = 120
+
+# you can choose here any of the scipy.interpolate.interp1d types of interpolation
+# (i.e. 'linear', 'nearest', 'zero', 'slinear', 'quadratic', 'cubic', 'previous',
+# 'next' in SciPy v1.1.0) for the n(z) interpolation ('linear' is recommended)
+# for fiducial KV450 analysis: 'linear'
+kv450_cf_likelihood_public.type_redshift_interp = 'linear'
+
+## MASKING ##
+
+# use masks to cut angular scales per tomographic bin
+# for fiducial KV450 analysis: True
+# (since we load the data vector and covariance matrix for all measured scales)
+kv450_cf_likelihood_public.use_cut_theta = True
+
+# if True, select a cut scheme from the folder
+# 'data_directory/SUPPLEMENTARY_FILES/CUT_VALUES/':
+# for fiducial KV450 analysis: 'cut_values_5zbins.txt'
+kv450_cf_likelihood_public.cutvalues_file = 'cut_values_5zbins.txt'
+
+## PRECISION SETTINGS ##
+
+# these settings set the precision of the Cl integration
+# maximum l for C_l
+# for fiducial KV450 analysis: 60000
+kv450_cf_likelihood_public.lmax = 60000
+
+# logarithmic l step for C_l
+# for fiducial KV450 analysis: 0.2
+kv450_cf_likelihood_public.dlnl = 0.2
+
+# Method for integrating from Cl to xi_p/m, options:
+# 1) 'cut_off' (method inherited from CFHTLenS likelihood, might be to coarse on large theta-scales)
+# 2) 'brute_force' (also based on above method, but with adjusted cut-off scales and precision settings)
+# 3) 'fftlog' (requires pycl2xi-package from "https://github.com/tilmantroester/pycl2xi")
+# for fiducial KV450 analysis: 'brute_force'
+kv450_cf_likelihood_public.integrate_Bessel_with = 'brute_force'
+
+# Only relevant if you chose 1) or 2) from above:
+# parameters controlling the precision of the integral
+# for the correlation function (int l C_l J(x))
+# through the stepsize of x == l * theta
+# (this also controls the speed of the likelihood,
+# since this integral is the bottleneck)
+# ATTENTION those might have to be adjusted for large scales!
+# for fiducial KV450 analysis: 50.
+kv450_cf_likelihood_public.xmax = 50.
+# for fiducial KV450 analysis: 0.05
+kv450_cf_likelihood_public.dx_below_threshold = 0.05
+# for fiducial KV450 analysis: 0.15
+kv450_cf_likelihood_public.dx_above_threshold = 0.15
+# for fiducial KV450 analysis: 0.4
+kv450_cf_likelihood_public.dx_threshold = 0.4
+# for fiducial KV450 analysis: 0.25
+kv450_cf_likelihood_public.dlntheta = 0.25
+
+## METHOD FOR NON-LINEAR CORRECTIONS ##
+
+# choose the method for calculation of non-linear corrections, any CLASS keyword
+# is possible, but the default choices are
+# 1) 'halofit' (including Takahashi's update) and
+# 2) 'hmcode' (Mead et al. 2015, 2016)
+# the choice between the two affects also the choice of the baryon feedback
+# modelling further below!
+# for fiducial KV450 analysis: 'hmcode'
+kv450_cf_likelihood_public.method_non_linear_Pk = 'hmcode'
+
+# scale k_max (in h/Mpc) up to which the non-linear corrections (of the matter
+# power spectrum) are used/trusted (set to zero for k > k_max):
+# for fiducial KV450 analysis: 100.
+kv450_cf_likelihood_public.k_max_h_by_Mpc = 100.
+
+
+### NUISANCE PARAMETERS ###
+
+## BARYON FEEDBACK ##
+
+# 1) HALOFIT:
+# the options below are only valid if 'method_non_linear_Pk' = 'halofit'!
+# choose a baryonic feedback model (from OWLS): 'REF', 'AGN', 'DBLIM'
+#kv450_cf_likelihood_public.baryon_model = 'AGN'
+# this allows to marginalize over a free baryon feedback amplitude A_bary:
+# (i.e. it is simply modifying the amplitude set by the chosen model)
+#kv450_cf_likelihood_public.use_nuisance = ['A_bary']
+
+# 2) HMCode:
+# the options below are only valid if 'method_non_linear_Pk' = 'hmcode'!
+# in order to marginalize over the baryon feedback parameters in HMcode define:
+# 1) either 'c_min' only or 'eta_0' only as 'cosmo' parameter in your param-file
+#    (the other value will be inferred and fixed)
+# 2) or 'c_min' and 'eta_0' as 'cosmo' parameter in your param-file
+# DON'T include 'c_min' and 'eta_0' in 'use_nuisance'!
+
+## INTRINSIC ALIGNMENTS (IA) ##
+
+# this allows to include IA:
+# if only 'A_IA' is passed, 'exp_IA' = 0 (i.e. redshift-scaling is turned off!)
+#kv450_cf_likelihood_public.use_nuisance = ['A_IA', 'exp_IA']
+#kv450_cf_likelihood_public.use_nuisance = ['A_IA']
+# if this flag is set to True, the linear matter power spectrum will be used for
+# the II term in the intrinsic alignment model and for the GI term the geometric
+# mean of the linear and non-linear matter power spectre will be used
+# if set to False, the non-linear matter power spectrum will be used for both
+# the II and GI term instead
+# for fiducial KV450 analysis: False
+kv450_cf_likelihood_public.use_linear_pk_for_IA = False
+
+## C-CORRECTION ##
+
+# this allows to include nuisance parameters for the c-correction (per redshift
+# bin):
+# flag for using a theta-dependent c-term function:
+# for fiducial KV450 analysis: True
+kv450_cf_likelihood_public.use_cterm_function = True
+
+# 1) free amplitudes for theta-dependent signal:
+# kv450_cf_likelihood_public.use_nuisance = ['Ac']
+# which currently enter like:
+# xi^theo_p = xi^cosmo_p + Ac^2 * c_term_func(theta)
+# 2) a constant offset:
+# kv450_cf_likelihood_public.use_nuisance = ['dc']
+# which currently enters like (dc_zi's centred on 0!)
+# xi^theo_p = xi^cosmo_p + dc^2
+
+## SHIFTS OF N(Z) ##
+
+# nuisance parameters for marginalizing over a constant shift of any of the n(z):
+#kv450_cf_likelihood_public.use_nuisance = ['D_z1', 'D_z2', 'D_z3', 'D_z4', 'D_z5']
+
+## FULL LIST OF ALL NUISANCES ##
+
+# combine all nuisance parameters in one list for marginalization:
+# for fiducial KV450 analysis: ['A_IA', 'dc', 'Ac', 'D_z1', 'D_z2','D_z3', 'D_z4','D_z5']
+kv450_cf_likelihood_public.use_nuisance = ['A_IA', 'dc', 'Ac', 'D_z1', 'D_z2','D_z3', 'D_z4','D_z5']
+
+
+### GAUSSIAN PRIORS (FOR NUISANCES) ###
+
+# if you want to enforce Gaussian priors on some/all NUISANCE parameters, set flag to True
+# if set to False lists below are ignored!
+# for fiducial KV450 analysis: True
+kv450_cf_likelihood_public.use_gaussian_prior_for_nuisance = True
+
+# add here all NUISANCE parameters for which you would like to define Gaussian priors:
+# names must match exactly to the nusiances defined above!
+# for fiducial KV450 analysis: ['dc', 'Ac', 'D_z1', 'D_z2','D_z3', 'D_z4','D_z5']
+kv450_cf_likelihood_public.gaussian_prior_name = ['dc', 'Ac', 'D_z1', 'D_z2','D_z3', 'D_z4','D_z5']
+
+# supply here the central values of the Gaussians (keep the order! no double checks!!!)
+# for fiducial KV450 analysis: [0., 1.01, 0., 0., 0., 0., 0.]
+kv450_cf_likelihood_public.gaussian_prior_center = [0., 1.01, 0., 0., 0., 0., 0.]
+
+# supply here the std wrt. the center (again keep the order!)
+# for fiducial KV450 analysis: [0.0002, 0.13,  0.039, 0.023, 0.026, 0.012, 0.011]
+kv450_cf_likelihood_public.gaussian_prior_sigma = [0.0002, 0.13,  0.039, 0.023, 0.026, 0.012, 0.011]

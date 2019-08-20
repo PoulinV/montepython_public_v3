@@ -195,8 +195,11 @@ class Likelihood(object):
         for key in dictkeys(cl):
             # All quantities need to be multiplied by this factor, except the
             # phi-phi term, that is already dimensionless
-            if key not in ['pp', 'ell']:
+            # phi cross-terms should only be multiplied with this factor once
+            if key not in ['pp', 'ell', 'tp', 'ep']:
                 cl[key] *= (T*1.e6)**2
+            elif key in ['tp', 'ep']:
+                cl[key] *= (T*1.e6)
 
         return cl
 
@@ -214,8 +217,11 @@ class Likelihood(object):
         for key in dictkeys(cl):
             # All quantities need to be multiplied by this factor, except the
             # phi-phi term, that is already dimensionless
-            if key not in ['pp', 'ell']:
+            # phi cross-terms should only be multiplied with this factor once
+            if key not in ['pp', 'ell', 'tp', 'ep']:
                 cl[key] *= (T*1.e6)**2
+            elif key in ['tp', 'ep']:
+                cl[key] *= (T*1.e6)
 
         return cl
 
@@ -1097,7 +1103,7 @@ class Likelihood_mock_cmb(Likelihood):
                         # until we are at the correct l. Otherwise raise error
                         while l > ll:
                             try:
-                                line = fid_file.readline()
+                                line = noise.readline()
                                 ll = int(float(line.split()[0]))
                             except:
                                 raise io_mp.LikelihoodError("Mismatch between required values of l in the code and in the noise file")
@@ -1237,7 +1243,7 @@ class Likelihood_mock_cmb(Likelihood):
                         # until we are at the correct l. Otherwise raise error
                         while l > ll:
                             try:
-                                line = fid_file.readline()
+                                line = delensing_file.readline()
                                 ll = int(float(line.split()[0]))
                             except:
                                 raise io_mp.LikelihoodError("Mismatch between required values of l in the code and in the delensing file")
@@ -1793,7 +1799,7 @@ class Likelihood_mpk(Likelihood):
             self.zerowindowfxnsubtractdatnorm = float(line.split()[0])
             for i in range(self.n_size):
                 line = datafile.readline()
-            self.zerowindowfxnsubtractdat[i] = float(line.split()[0])
+                self.zerowindowfxnsubtractdat[i] = float(line.split()[0])
             datafile.close()
 
         # initialize array of values for the nuisance parameters a1,a2
