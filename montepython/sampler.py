@@ -375,7 +375,8 @@ def get_minimum(cosmo, data, command_line, covmat):
                  {'type': 'ineq', 'fun': lambda x: bounds[index,1] - x[index]},)
         print 'bounds on ',elem,' : ',bounds[index,0],bounds[index,1]
 
-    print 'parameters: ',parameters
+    #FK: use list-comprehension so that the parameter values are distinguishable from step to step
+    print 'parameters: ',[param for param in parameters]
     print 'stepsizes: ',stepsizes[0]
     print 'bounds: ',bounds
 
@@ -438,7 +439,8 @@ def get_minimum(cosmo, data, command_line, covmat):
     for index,elem in enumerate(parameter_names):
         print elem, 'new:', result.x[index], ', old:', parameters[index]
 
-    return result.x
+    #FK: return also min chi^2:
+    return result.x, result.fun
 
 def chi2_eff(params, cosmo, data, bounds=False):
     parameter_names = data.get_mcmc_parameters(['varying'])
@@ -454,7 +456,8 @@ def chi2_eff(params, cosmo, data, bounds=False):
     data.update_cosmo_arguments()
     # Compute loglike value for the new parameters
     chi2 = -2.*compute_lkl(cosmo, data)
-    print 'In minimization: ',chi2,' at ',params
+    #FK: use list-comprehension so that the parameter values are distinguishable from step to step
+    print 'In minimization: ',chi2,' at ',[param for param in params]
     return chi2
 
 def gradient_chi2_eff(params, cosmo, data, bounds=False):
@@ -603,6 +606,14 @@ def get_fisher_matrix(cosmo, data, command_line, inv_fisher_matrix, minimum=0):
             io_mp.write_covariance_matrix(
                 inv_fisher_matrix, parameter_names,
                 os.path.join(command_line.folder, 'inv_fisher.mat'))
+
+            # FK: also write-out gradient:
+            fname = os.path.join(command_line.folder, 'fisher_gradient.vec')
+            header = ''
+            for param in parameter_names:
+                header += '{:}, '.format(param)
+            header = header[:-2]
+            np.savetxt(fname, gradient, header=header)
 
     return inv_fisher_matrix
 
