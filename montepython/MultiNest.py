@@ -18,6 +18,7 @@ from pymultinest import run as nested_run
 import numpy as np
 import os
 from copy import copy
+from __future__ import print_function
 import warnings
 import io_mp
 import sampler

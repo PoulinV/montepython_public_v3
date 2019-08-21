@@ -43,6 +43,7 @@ import scipy.special
 import numpy.linalg as la
 import sys
 from io_mp import dictitems,dictvalues,dictkeys
+from __future__ import print_function
 
 # Defined to remove the burnin for all the points that were produced before the
 # first time where -log-likelihood <= min-minus-log-likelihood+LOG_LKL_CUTOFF

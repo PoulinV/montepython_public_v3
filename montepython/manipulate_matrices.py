@@ -11,6 +11,7 @@ try:
     from builtins import raw_input as py_input
 except NameError:
     from builtins import input as py_input
+from __future__ import print_function
 
 def merge_matrices(path1, path2):
 

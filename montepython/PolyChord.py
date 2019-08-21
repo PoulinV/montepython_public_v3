@@ -24,6 +24,7 @@ from copy import copy
 import warnings
 import io_mp
 import sampler
+from __future__ import print_function
 
 # Data on file names and PolyChord options, that may be called by other modules
 

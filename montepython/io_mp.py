@@ -24,6 +24,7 @@ import fcntl
 import textwrap  # used to format the error messages
 import sys
 import io
+from __future__ import print_function
 
 # Ascii art for error display
 START_LINE = {}

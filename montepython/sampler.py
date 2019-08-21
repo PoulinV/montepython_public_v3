@@ -27,6 +27,7 @@ from io_mp import dictitems,dictvalues,dictkeys
 import os
 import scipy.linalg as la
 import scipy.optimize as op
+from __future__ import print_function
 
 def run(cosmo, data, command_line):
     """

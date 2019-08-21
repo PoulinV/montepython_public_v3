@@ -27,6 +27,7 @@ from cosmoHammer.likelihood.chain.LikelihoodComputationChain import (
     LikelihoodComputationChain)
 from cosmoHammer.sampler.CosmoHammerSampler import CosmoHammerSampler
 from cosmoHammer.util.SampleFileUtil import SampleFileUtil
+from __future__ import print_function
 
 # Cosmo Hammer subfolder and name separator
 CH_subfolder = 'CH'

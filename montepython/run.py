@@ -11,6 +11,7 @@ import sys
 import warnings
 import os
 import re
+from __future__ import print_function
 
 
 def run(custom_command=''):

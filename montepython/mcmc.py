@@ -38,6 +38,7 @@ import numpy as np
 import warnings
 import scipy.linalg as la
 from pprint import pprint
+from __future__ import print_function
 
 import io_mp
 import sampler

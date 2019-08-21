@@ -17,6 +17,7 @@ from data import Data
 from data import Parameter
 from classy import CosmoComputationError
 from io_mp import dictitems,dictvalues,dictkeys
+from __future__ import print_function
 
 def run(cosmo, data, command_line):
     """

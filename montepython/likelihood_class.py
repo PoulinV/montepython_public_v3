@@ -21,6 +21,7 @@ import scipy.misc
 
 import io_mp
 from io_mp import dictitems,dictvalues,dictkeys
+from __future__ import print_function
 
 
 class Likelihood(object):

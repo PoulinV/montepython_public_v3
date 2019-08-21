@@ -17,6 +17,7 @@ import io_mp  # Needs to talk to io_mp.py file for the logging
 from io_mp import dictitems,dictvalues,dictkeys
 import prior
 from scipy.optimize import fsolve
+from __future__ import print_function
 
 # A modified version of Python dictionary in order to keep track of the order
 # in it (much the same as in an array). In case an older version of Python is

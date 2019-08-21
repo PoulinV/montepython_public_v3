@@ -10,6 +10,7 @@ from data import Data
 import sys
 import os
 from io_mp import dictitems,dictvalues,dictkeys
+from __future__ import print_function
 
 def initialise(custom_command=''):
     """
