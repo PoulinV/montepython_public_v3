@@ -17,11 +17,11 @@ Recent changelog
 ----------------
 
 v3.2.0, Aug 21, 2019
-+ Added Planck 2018 likelihoods and example param files (Deanna Hooper)
-+ Added BOSS DR12 and eBOSS DR14 Lya and QSO BAO likelihoods from 1906.11628 (James Farr)
-+ Added KiDS+VIKING-450 likelihood from 1812.06076 (KiDS collaboration)
-+ Added KiDS-450 correlation function likelihood from 1809.01406 (Fabian Köhlinger)
-+ Various bugfixes
+* Added Planck 2018 likelihoods and example param files (Deanna Hooper)
+* Added BOSS DR12 and eBOSS DR14 Lya and QSO BAO likelihoods from 1906.11628 (James Farr)
+* Added KiDS+VIKING-450 likelihood from 1812.06076 (KiDS collaboration)
+* Added KiDS-450 correlation function likelihood from 1809.01406 (Fabian Köhlinger)
+* Various bugfixes
 
 Details and Examples
 --------------------
