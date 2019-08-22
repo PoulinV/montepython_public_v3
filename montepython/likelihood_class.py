@@ -1215,6 +1215,14 @@ class Likelihood_mock_cmb(Likelihood):
         except:
             self.ExcludeTTTEEE = False
 
+	#added by Siavash Yasini
+        try:
+            self.OnlyTT
+            if self.OnlyTT and self.ExcludeTTTEEE: 
+                raise io_mp.LikelihoodError("OnlyTT and ExcludeTTTEEE cannot be used simultaneously.")
+        except:
+            self.OnlyTT = False
+
         ##############################################
         # Delensing noise: implemented by  S. Clesse #
         ##############################################
@@ -1385,6 +1393,10 @@ class Likelihood_mock_cmb(Likelihood):
             print "  ExcludeTTTEEE is True"
         else:
             print "  ExcludeTTTEEE is False"
+        if self.OnlyTT:
+            print "  OnlyTT is True"
+        else:
+            print "  OnlyTT is False"
         print ""
 
         # end of initialisation
@@ -1466,7 +1478,10 @@ class Likelihood_mock_cmb(Likelihood):
         # spectra = TT,EE,TE,[BB],[DD,TD]
         # default:
         if not self.ExcludeTTTEEE:
-            num_modes=2
+	    if self.OnlyTT:
+	        num_modes=1
+	    else:
+                num_modes=2
         # default 0 if excluding TT EE
         else:
             num_modes=0
@@ -1537,6 +1552,13 @@ class Likelihood_mock_cmb(Likelihood):
                     [cl['tt'][l]+self.noise_T[l], cl['te'][l], 0.*math.sqrt(l*(l+1.))*cl['tp'][l]],
                     [cl['te'][l], cl['ee'][l]+self.noise_P[l], 0],
                     [cltd, 0, cldd+self.Nldd[l]]])
+	  
+	    # case with TT only (Added by Siavash Yasini)
+            elif self.OnlyTT:
+                Cov_obs = np.array([[self.Cl_fid[0, l]]])
+                    
+                Cov_the = np.array([[cl['tt'][l]+self.noise_T[l]]])
+                    
 
             # case without B modes nor lensing:
             else:

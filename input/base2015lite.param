@@ -1,6 +1,6 @@
 #------Experiments to test (separated with commas)-----
 
-data.experiments=['Planck_highl_lite','Planck_lowl','Planck_lensing']
+data.experiments=['Planck15_highl_lite','Planck15_lowl','Planck15_lensing']
 
 #------ Settings for the over-sampling.
 # The first element will always be set to 1, for it is the sampling of the
@@ -15,7 +15,7 @@ data.experiments=['Planck_highl_lite','Planck_lowl','Planck_lensing']
 # also have LSS experiments).
 # If you have experiments without nuisance, you do not need to specify an
 # additional entry in the over_sampling list (notice for instance that, out of
-# the three Planck likelihoods used, only Planck_highl requires nuisance
+# the three Planck likelihoods used, only Planck15_highl requires nuisance
 # parameters, therefore over_sampling has a length of two (cosmology, plus one
 # set of nuisance).
 data.over_sampling=[1, 4]
@@ -38,7 +38,7 @@ data.parameters['omega_cdm']    = [0.11919,   None, None, 0.0027,    1, 'cosmo']
 data.parameters['100*theta_s']  = [ 1.0418,   None, None,   3e-4,    1, 'cosmo']
 data.parameters['ln10^{10}A_s'] = [ 3.0753,   None, None, 0.0029,    1, 'cosmo']
 data.parameters['n_s']          = [0.96229,   None, None, 0.0074,    1, 'cosmo']
-data.parameters['tau_reio']     = [0.09463,   0.04, None,  0.013,    1, 'cosmo']
+data.parameters['tau_reio']     = [0.09463,   0.004, None,  0.013,    1, 'cosmo']
 
 # Nuisance parameter list, same call, except the name does not have to be a class name
 

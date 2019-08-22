@@ -406,9 +406,14 @@ def compute_posterior(information_instances):
             3*num_columns,
             3*num_lines), dpi=80)
     if conf.plot_2d:
-        fig2d = plt.figure(num=2, figsize=(
-            3*len(plotted_parameters),
-            3*len(plotted_parameters)), dpi=80)
+        if conf.plot_diag:
+            fig2d = plt.figure(num=2, figsize=(
+                3*len(plotted_parameters),
+                3*len(plotted_parameters)), dpi=80)
+        else:
+            fig2d = plt.figure(num=2, figsize=(
+                3*(len(plotted_parameters)-1),
+                3*(len(plotted_parameters)-1)), dpi=80)
 
     # Create the name of the files, concatenating the basenames with
     # underscores.
@@ -469,12 +474,16 @@ def compute_posterior(information_instances):
                         for info in information_instances]
     else:
         legend_names = conf.legendnames
+    if conf.plot_2d and not conf.plot_diag:
+        for info in information_instances:
+            legends[info.id]=plt.Rectangle((0,0),1,1,fc =info.MP_color_cycle[info.id][1],alpha = info.alphas[info.id],linewidth=0)
     print '-----------------------------------------------'
+
     for index, name in enumerate(plotted_parameters):
 
         # Adding the subplots to the respective figures, this will correspond
         # to the diagonal on the triangle plot.
-        if conf.plot_2d:
+        if conf.plot_2d and conf.plot_diag:
             ax2d = fig2d.add_subplot(
                 len(plotted_parameters),
                 len(plotted_parameters),
@@ -562,7 +571,7 @@ def compute_posterior(information_instances):
                 # re-normalised
                 #smoothed_interp_hist = smoothed_interp_hist/smoothed_interp_hist.max()
 
-                if conf.plot_2d:
+                if conf.plot_2d and conf.plot_diag:
 
                     ##################################################
                     # plot 1D posterior in diagonal of triangle plot #
@@ -714,7 +723,7 @@ def compute_posterior(information_instances):
                         ########################################################
                         # plot 1D mean likelihood in diagonal of triangle plot #
                         ########################################################
-                        if conf.plot_2d:
+                        if conf.plot_2d and conf.plot_diag:
                             # raw mean likelihoods:
                             #ax2d.plot(info.bincenter, lkl_mean,
                             #          ls='--', lw=conf.line_width,
@@ -754,7 +763,7 @@ def compute_posterior(information_instances):
                         print info.ref_parameters[info.native_index]
 
         if conf.subplot is True:
-            if conf.plot_2d:
+            if conf.plot_2d and conf.plot_diag:
                 extent2d = ax2d.get_window_extent().transformed(
                     fig2d.dpi_scale_trans.inverted())
                 fig2d.savefig(os.path.join(
@@ -793,10 +802,16 @@ def compute_posterior(information_instances):
                     else:
                         info.has_second_param = False
 
-                ax2dsub = fig2d.add_subplot(
-                    len(plotted_parameters),
-                    len(plotted_parameters),
-                    (index)*len(plotted_parameters)+second_index+1)
+                if conf.plot_diag:
+                    ax2dsub = fig2d.add_subplot(
+                        len(plotted_parameters),
+                        len(plotted_parameters),
+                        (index)*len(plotted_parameters)+second_index+1)
+                else:
+                    ax2dsub = fig2d.add_subplot(
+                        len(plotted_parameters)-1,
+                        len(plotted_parameters)-1,
+                        (index-1)*(len(plotted_parameters)-1)+second_index+1)
 
                 for info in information_instances:
                     if info.has_second_param:
@@ -1011,11 +1026,16 @@ def compute_posterior(information_instances):
             if ((conf.plot_legend_2d == None) and (len(legends) > 1)) or (conf.plot_legend_2d == True):
                 # Create a virtual subplot in the top right corner,
                 # just to be able to anchor the legend nicely
-                ax2d = fig2d.add_subplot(
-                    len(plotted_parameters),
-                    len(plotted_parameters),
-                    len(plotted_parameters),
-                    )
+                if conf.plot_diag:
+                    ax2d = fig2d.add_subplot(
+                        len(plotted_parameters),
+                        len(plotted_parameters),
+                        len(plotted_parameters))
+                else:
+                    ax2d = fig2d.add_subplot(
+                        len(plotted_parameters)-1,
+                        len(plotted_parameters)-1,
+                        len(plotted_parameters)-1)
                 ax2d.axis('off')
                 try:
                     ax2d.legend(legends, legend_names,

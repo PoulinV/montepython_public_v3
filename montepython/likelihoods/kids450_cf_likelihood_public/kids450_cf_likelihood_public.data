@@ -1,0 +1,145 @@
+#####################################################################
+# Data and precision parameters for the KiDS-450 correlation        #
+# function likelihood to be used with data from Hildebrandt et al.  #
+# 2017 (MNRAS, 465, 1454).                                          #
+#                                                                   #
+# Data available from:                                              #
+#                                                                   #
+# http://kids.strw.leidenuniv.nl/sciencedata.php                    #
+#                                                                   #
+# ATTENTION:                                                        #
+# 1) This is NOT the likelihood used in their original analysis     #
+# and the major difference being the usage of HMcode (in the        #
+# original analysis) vs. a fitting formula for baryon feedback (as  #
+# used in this likelihood). However, the difference was found to be #
+# negligible in the analysis of Koehlinger et al. 2019 (MNRAS, 484, #
+# 3126).                                                            #
+# 2) This likelihood only produces valid results for \Omega_k = 0,  #
+# i.e. flat cosmologies!                                            #
+#                                                                   #
+#####################################################################
+
+### GENERAL SETTINGS ###
+
+## DATA LOCATION ##
+
+# Set the path to the folder 'KiDS-450_COSMIC_SHEAR_DATA_RELEASE' from the uncompressed tarball
+# downloaded from http://kids.strw.leidenuniv.nl/sciencedata.php
+kids450_cf_likelihood_public.data_directory = '/your/path/to/KiDS-450_COSMIC_SHEAR_DATA_RELEASE/'
+
+## REDSHIFT DISTRIBUTIONS ##
+
+# choose the calibration method for the redshift distributions from
+# ['DIR', 'CC'], refer to the tarball's README for details!
+default: 'DIR'
+kids450_cf_likelihood_public.nz_method = 'DIR'
+
+# number of discrete z-values used for all integrations, can be set to arbitrary numbers now
+# default ( = resolution of histogram): 70
+kids450_cf_likelihood_public.nzmax = 70
+
+# set flag to marginalize over bootstrap errors of n(z) (only possible for 'DIR'):
+# default: True
+kids450_cf_likelihood_public.bootstrap_photoz_errors = True
+# if above flag is set to True, then specify lowest and highest index of bootstrap realizations
+# full range: ..._low = 1 and ..._high = 1000
+kids450_cf_likelihood_public.index_bootstrap_low = 1
+kids450_cf_likelihood_public.index_bootstrap_high = 1000
+
+## SHEAR CALIBRATION UNCERTAINTY ##
+
+# set to "True" if you want to marginalize over the uncertainty of the
+# multiplicative shear calibration:
+# default: True
+kids450_cf_likelihood_public.marginalize_over_multiplicative_bias_uncertainty = True
+
+# supply error for m-correction:
+# default: 0.01
+kids450_cf_likelihood_public.err_multiplicative_bias = 0.01
+
+## MASKING ##
+
+# use masks to cut angular scales per tomographic bin
+# default: True
+# (since we load the data vector and covariance matrix for all measured scales)
+kids450_cf_likelihood_public.use_cut_theta = True
+# if True, select a cut scheme from the folder
+# 'data_directory/CUT_VALUES/'(ATTENTION: you must copy that folder manually to
+# 'data_directory/'!):
+# default: 'cut_values_fiducial.txt'
+kids450_cf_likelihood_public.cutvalues_file1 = 'cut_values_fiducial.txt'
+# default: 'cut_values_fiducial.txt'
+kids450_cf_likelihood_public.cutvalues_file2 = 'cut_values_fiducial.txt'
+
+# set this flag if mask2 is supposed to be subtracted from mask1
+# e.g.:
+# mask1 = cut_values_fiducial.dat
+# mask2 = cut_values_zbin3.dat
+# --> modified mask1 contains all other z-bin combos and mask2 all with z-bin3
+# default: False
+kids450_cf_likelihood_public.subtract_mask2_from_mask1 = False
+
+## PRECISION SETTINGS ##
+
+# these settings set the precision of the Cl integration
+# maximum l for C_l
+# default: 60000
+kids450_cf_likelihood_public.lmax = 60000
+
+# logarithmic l step for C_l
+# default: 0.4
+kids450_cf_likelihood_public.dlnl = 0.4
+
+# parameters controlling the precision of the integral
+# for the correlation function (int l C_l J(x))
+# through the stepsize of x == l * theta
+# (this also controls the speed of the likelihood,
+# since this integral is the bottleneck)
+# default: 50.
+kids450_cf_likelihood_public.xmax = 50.
+# default: 0.05
+kids450_cf_likelihood_public.dx_below_threshold = 0.05
+# default: 0.15
+kids450_cf_likelihood_public.dx_above_threshold = 0.15
+# default: 0.4
+kids450_cf_likelihood_public.dx_threshold = 0.4
+# default: 0.25
+kids450_cf_likelihood_public.dlntheta = 0.25
+
+## METHOD FOR NON-LINEAR CORRECTIONS ##
+
+# choose the method for calculation of non-linear corrections, any CLASS keyword
+# is possible, but the default choice is: 'halofit'
+kids450_cf_likelihood_public.method_non_linear_Pk = 'halofit'
+
+# scale k_max (in h/Mpc) up to which the non-linear corrections (of the matter
+# power spectrum) are used/trusted (set to zero for k > k_max):
+# default: 100.
+kids450_cf_likelihood_public.k_max_h_by_Mpc = 100.
+
+
+### NUISANCE PARAMETERS ###
+
+## BARYON FEEDBACK ##
+
+# choose a baryonic feedback model (from OWLS): 'REF', 'AGN', 'DBLIM'
+# default: 'AGN'
+kids450_cf_likelihood_public.baryon_model = 'AGN'
+# this allows to marginalize over a free baryon feedback amplitude A_bary:
+# (i.e. it is simply modifying the amplitude set by the chosen model)
+# default: ['A_bary']
+#kids450_cf_likelihood_public.use_nuisance = ['A_bary']
+
+## INTRINSIC ALIGNMENTS (IA) ###
+
+# this allows to include IA:
+# if only 'amp_IA' is passed, 'exp_IA' = 0 (i.e. redshift-scaling is turned off!)
+# default: only use ['A_IA']
+#kids450_cf_likelihood_public.use_nuisance = ['A_IA', 'exp_IA']
+#kids450_cf_likelihood_public.use_nuisance = ['A_IA']
+
+## FULL LIST OF ALL NUISANCES ##
+
+# combine all nuisance parameters in one list for marginalization:
+# default: ['A_bary', 'A_IA']
+kids450_cf_likelihood_public.use_nuisance = ['A_bary', 'A_IA']
