@@ -1,3 +1,9 @@
+v3.2.0  + Added Planck 2018 likelihoods and example param files (Deanna Hooper)
+        + Added BOSS DR12 and eBOSS DR14 Lya and QSO BAO likelihoods from 1906.11628 (James Farr)
+        + Added KiDS+VIKING-450 likelihood from 1812.06076 (KiDS collaboration)
+        + Added KiDS-450 correlation function likelihood from 1809.01406 (Fabian Köhlinger)
+        + Various bugfixes
+---------------------------------------------------------------------
 v3.1.0  + Added PolyChord sampler (Handley, Hobson, Lasenby 1502.01856)
 	  thanks to Will Handley and Deanna C. Hooper (for usage, see
 	  the description of option "-m PC" in "run --help", the
