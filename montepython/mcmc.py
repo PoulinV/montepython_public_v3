@@ -529,7 +529,7 @@ def chain(cosmo, data, command_line):
 
         # If the number of steps reaches the number set in the update method,
         # then the proposal distribution should be adapted.
-	if command_line.update:
+        if command_line.update:
             # Start of update routine
             # By M. Ballardini and T. Brinckmann
             # Also used by superupdate and adaptive
@@ -679,7 +679,7 @@ def chain(cosmo, data, command_line):
                                 if not command_line.silent:
                                     print 'After %d accepted steps: update proposal with max(R-1) = %f and jumping factor = %f \n' % (int(acc), max(R_minus_one), data.jumping_factor)
                                 try:
-                                    if stop-after-update:
+                                    if stop_after_update:
                                         k = command_line.N
                                         print 'Covariance matrix updated - stopping run'
                                 except:

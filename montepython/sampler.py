@@ -97,10 +97,23 @@ def read_args_from_chain(data, chain):
     chain_file = io_mp.File(chain, 'r')
     parameter_names = data.get_mcmc_parameters(['varying'])
 
+    commented_line = 0
+    success = 0
+    # Test if last chain entry contains a step or a commented line
+    while not success:
+        if chain_file.tail(1)[0].split('\t')[0] == '#':
+            commented_line += 1
+        else:
+            success += 1
+        if commented_line == 1000:
+            raise ConfigurationError('Error loading chains files. '
+                                     'Last 1000 entries of a chain are commented')
     i = 1
     for elem in parameter_names:
+        #data.mcmc_parameters[elem]['last_accepted'] = float(
+        #    chain_file.tail(1)[0].split('\t')[i])
         data.mcmc_parameters[elem]['last_accepted'] = float(
-            chain_file.tail(1)[0].split('\t')[i])
+            chain_file.tail(commented_line+1)[commented_line].split('\t')[i])
         i += 1
 
 
