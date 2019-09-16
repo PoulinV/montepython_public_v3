@@ -1027,7 +1027,7 @@ def compute_posterior(information_instances):
                                  loc='upper right',
                                  borderaxespad=0.,
                                  prop={'fontsize': info.legendsize})
-            fig2d.subplots_adjust(wspace=0, hspace=0)
+            fig2d.subplots_adjust(wspace=0.05, hspace=0.05)
             fig2d.savefig(
                 os.path.join(
                     conf.folder, 'plots', '{0}_triangle.{1}'.format(

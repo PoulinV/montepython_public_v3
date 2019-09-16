@@ -1,0 +1,28 @@
+# VG created this file, 04/11/18
+# Here, S4 is modelled as in the white paper, simplest version:
+#
+
+# where to read/write fiducial model:
+
+fake_S4.data_directory     = data.path['data']
+fake_S4.fiducial_file      = 'fake_S4.dat'
+
+# experimental sensitivity:
+
+fake_S4.l_min              = 30
+fake_S4.l_max              = 3000
+fake_S4.f_sky              = 0.4
+fake_S4.num_channels       = 1
+
+# angular resolution
+# theta_fwhm must be in in arcmin
+
+fake_S4.theta_fwhm = [1.0]
+
+# resolution for Temperature and Polarisation
+# sigma's must be in muK.arcmin
+# (with respect to Table 1.1 in bluebook, obtained by mutiplying
+# angular resolution * DT/T * 2.726 )
+
+fake_S4.sigma_T = [1.0]
+fake_S4.sigma_P = [1.4]

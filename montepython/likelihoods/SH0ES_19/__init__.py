@@ -2,7 +2,7 @@ import os
 from montepython.likelihood_class import Likelihood_prior
 
 
-class SH0ES_new(Likelihood_prior):
+class SH0ES_19(Likelihood_prior):
 
     # initialisation of the class is done within the parent Likelihood_prior. For
     # this case, it does not differ, actually, from the __init__ method in

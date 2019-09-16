@@ -1,9 +1,0 @@
-# Values for Hubble Space Telescope
-# Updated to Riess et al. 2016 (arXiv:1604.01424)
-#SH0ES_new.h      = 0.7324
-#SH0ES_new.sigma  = 0.0174
-
-
-#1804.10655
-SH0ES_new.h      = 0.7403
-SH0ES_new.sigma  = 0.0142

@@ -45,7 +45,7 @@ data.parameters['tau_reio']     = [0.078,  0.02,0.12, 0.0044,1,   'cosmo']
 
 data.parameters['log_epsilon_dmeff']	= [-6,	-3,	0,	0.5,	1, 'cosmo']
 #data.parameters['log_epsilon_dmeff']	= [-6,	-6,	0,	0.5,	1, 'cosmo']
-data.parameters['log_ratio_dmeff2cdm'] 	= [-2,	-4,	-1.5,	1,	1, 'cosmo']
+data.parameters['log_ratio_dmeff2cdm'] 	= [-2,	-4,	0,	0.5,	1, 'cosmo']
 
 
 ####data.parameters['log10sigma_dmeff'] = [-33.5, -33.5, -31.5, 0.5, 1, 'cosmo']

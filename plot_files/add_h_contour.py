@@ -5,9 +5,10 @@ if (name == 'H_0') or (second_name == 'H_0'):
 
     #center=73.24
     #sigma=1.74
-    center = 73.52
-    sigma = 1.62	    
-
+    #center = 73.52
+    #sigma = 1.62	    
+    center = 74.03	
+    sigma = 1.42
     contour_color = info.MP_color['Grey']
     contour_alpha = 0.5
 

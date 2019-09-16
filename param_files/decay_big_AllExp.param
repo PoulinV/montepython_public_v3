@@ -1,6 +1,6 @@
 #------Experiments to test (separated with commas)-----
 
-data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','bao_boss','bao_boss_aniso','WiggleZ','CFHTLens','hst_riess_2016','Planck_SZ']
+data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18']
 
 #------ Settings for the over-sampling.
 # The first element will always be set to 1, for it is the sampling of the
@@ -36,7 +36,7 @@ data.over_sampling=[1, 4]
 data.parameters['omega_b']      = [ 2.2253,   None, None,  0.028, 0.01, 'cosmo']
 #data.parameters['omega_cdm']    = [0.11919,   None, None, 0.0027,    1, 'cosmo']
 data.parameters['omega_totcdm']    = [0.11919,   None, None, 0.0027,    1, 'cosmo']
-data.parameters['f_dcdm'] = [0.3,0.1,1.,0.3,1,'cosmo']
+data.parameters['f_dcdm'] = [0.1,0.001,1.,0.3,1,'cosmo']
 data.parameters['Gamma_dcdm'] = [1.04872,0.0001,500,50,1,'cosmo']
 data.parameters['100*theta_s']  = [ 1.0418,   None, None,   3e-4,    1, 'cosmo']
 data.parameters['ln10^{10}A_s'] = [ 3.0753,   None, None, 0.0029,    1, 'cosmo']

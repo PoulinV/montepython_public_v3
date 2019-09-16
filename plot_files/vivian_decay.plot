@@ -2,9 +2,14 @@ import matplotlib.pyplot as plt
 #info.redefine = {'log10decay':'10**(log10decay)'}
 #info.redefine = {'decay':'1e-26*decay'}
 #info.to_change = {'log10decay':'Decay'}
-info.to_change = {'decay':r'$\Gamma_{\mathrm{eff}}$','100*theta_s':r'$100~\theta_s$','lambda_duspis_et_al':r'$\lambda$','z_reio':r'$z_{\rm reio}$'}
+#info.to_change = {'decay':r'$\Gamma_{\mathrm{eff}}$','100*theta_s':r'$100~\theta_s$','lambda_duspis_et_al':r'$\lambda$','z_reio':r'$z_{\rm reio}$'}
 #info.to_change = {'M_tot':r'$\sum m_\nu$'}
-info.to_plot = ['tau_reio',r'$\Gamma_{\mathrm{eff}}$',r'$z_{\rm reio}$',r'$\lambda$']
+#info.to_plot = ['tau_reio',r'$\Gamma_{\mathrm{eff}}$',r'$z_{\rm reio}$',r'$\lambda$']
+#info.redefine = {'omega_ini_dcdm':'omega_ini_dcdm/(omega_ini_dcdm+omega_cdm)','omega_cdm':'omega_ini_dcdm+omega_cdm'}
+#info.to_change = {'omega_ini_dcdm':r'$f_{\rm dcdm}$','log10_Gamma_dcdm2bar':r'${\rm log}_{10}\Gamma_{\rm dcdm}$','omega_cdm':r'$\omega_{\rm dmtot}$'}
+info.to_change = {'log10_Gamma_dcdm2bar':r'${\rm log}_{10}\Gamma_{\rm dcdm}$'}
+#info.to_plot = ['log10_Gamma_dcdm2bar','omega_ini_dcdm','omega_cdm','H0']
+info.to_plot = [r'${\rm log}_{10}\Gamma_{\rm dcdm}$',r'$f_{\rm dcdm}$',r'$\omega_{\rm dmtot}$','H0','omega_b','n_s','A_s','tau_reio','omega_ini_dcdm','omega_cdm']
 #info.to_plot = ['omega_b','omega_cdm',r'$100~\theta_s$', 'ln10^{10}A_s','n_s','tau_reio',r'$\Gamma_{\mathrm{eff}}$','z_reio','tau_dcdm',r'$\lambda$','log10decay','sigma8','H0',r'$z_{\rm reio}$']
 #info.to_plot = ['omega_b','omega_dcdmdr', 'f_dcdm', 'Gamma_dcdm', '100*theta_s', 'ln10^{10}A_s','n_s','tau_reio','sigma8','H0','T_cmb']
 #info.to_plot = [r'$\sum m_\nu$','tau_reio']
@@ -15,7 +20,8 @@ info.to_plot = ['tau_reio',r'$\Gamma_{\mathrm{eff}}$',r'$z_{\rm reio}$',r'$\lamb
 info.legendsize=20
 #info.to_plot = ['omega_totcdm', 'f_dcdm', 'Gamma_dcdm']
 #info.legendnames = ['LiteCORE80','CORE-M5','CORE+']
-info.legendnames = ['Planck','CORE-M5']
+info.legendnames = ['LCDM','DCDM']
+#info.legendnames = ['Planck','CORE-M5']
 #info.legendnames = ['1e12s','1e14s','1e16s','1e20s']
 #info.legendnames = ['Low-P','simlow']
 

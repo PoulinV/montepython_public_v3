@@ -901,6 +901,12 @@ class Data(object):
             elif elem == 'w0wa':
                 self.cosmo_arguments['wa_fld'] = self.cosmo_arguments[elem] - self.cosmo_arguments['w0_fld']
                 del self.cosmo_arguments[elem]
+	    elif elem == 'log10_Gamma_dcdm':
+                self.cosmo_arguments['Gamma_dcdm'] = 10**(self.cosmo_arguments[elem])
+                del self.cosmo_arguments[elem]
+	    elif elem == 'log10_Gamma_dcdm2bar':
+                self.cosmo_arguments['Gamma_dcdm2bar'] = 10**(self.cosmo_arguments[elem])
+                del self.cosmo_arguments[elem]
             elif elem == 'log10_a_c':
                 self.cosmo_arguments['a_c'] = 10**(self.cosmo_arguments[elem])
                 del self.cosmo_arguments[elem]

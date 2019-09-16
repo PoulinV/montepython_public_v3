@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 #info.to_change = {'log10decay':'Decay'}
 info.to_change = {'annihilation':r'$10^{7}p_{\mathrm{ann}}$'}
 #info.to_change = {'M_tot':r'$\sum m_\nu$'}
-info.to_plot = ['omega_b','omega_cdm','100*theta_s', 'ln10^{10}A_s','n_s','tau_reio',r'$10^{7}p_{\mathrm{ann}}$','sigma8','H0']
+info.to_plot = ['omega_b','omega_cdm', 'ln10^{10}A_s','n_s','tau_reio',r'$10^{7}p_{\mathrm{ann}}$','H0']
 #info.to_plot = ['omega_b','omega_dcdmdr', 'f_dcdm', 'Gamma_dcdm', '100*theta_s', 'ln10^{10}A_s','n_s','tau_reio','sigma8','H0','T_cmb']
 #info.to_plot = [r'$\sum m_\nu$','tau_reio']
 #info.legendnames = ['Planck TT+TE+EE+lowl+lensing, recfast','Core+ recfast','Core+ Hyrec']
@@ -13,11 +13,11 @@ info.to_plot = ['omega_b','omega_cdm','100*theta_s', 'ln10^{10}A_s','n_s','tau_r
 #info.legendnames = ['LCDM recfast','LCDM hyrec']
 #info.legendsize=20
 #info.to_plot = ['omega_totcdm', 'f_dcdm', 'Gamma_dcdm']
-info.ticknumber = 5
-info.ticksize = 8
+info.ticknumber = 4
+info.ticksize = 13
 info.line_width = 2
 #info.to_plot = ['f_dcdm', 'Gamma_dcdm']
-info.bins=20
+info.bins=12
 #info.cm = [
 	#(0.30235, 0.15039, 0.74804, 1.),
 #        (0.05,0.05,1.,1.),

@@ -111,13 +111,23 @@ data.cosmo_arguments['recombination'] = 'recfast_old'
 data.cosmo_arguments['tight_coupling_trigger_tau_c_over_tau_h']=0
 data.cosmo_arguments['tight_coupling_trigger_tau_c_over_tau_k']=0
 
-data.cosmo_arguments['do_dmeff_photons'] = 0
-data.cosmo_arguments['do_dmeff_annihilation'] = 0
+data.cosmo_arguments['do_dmeff_photons'] = 1
+data.cosmo_arguments['do_dmeff_annihilation'] = 1
 data.cosmo_arguments['do_dmeff_baryons'] = 1
 data.cosmo_arguments['do_dmeff_dg'] = 0
 data.cosmo_arguments['has_perfect_dg'] = 0
 
 data.cosmo_arguments['background_verbose'] = 0
+
+# #######################Parameters for energy injection and recombinaison########################
+data.cosmo_arguments['on the spot'] = 'no'
+data.cosmo_arguments['energy_deposition_function'] = 'DarkAges'
+data.cosmo_arguments['DarkAges_mode'] = 'built_in'
+data.cosmo_arguments['energy_repartition_coefficient'] = 'no_factorization'
+data.cosmo_arguments['recombination'] = 'recfast'
+data.cosmo_arguments['reio_stars_and_dark_matter'] = 'yes'
+data.cosmo_arguments['print_energy_deposition_function'] = 'no'
+
 
 #------ Mcmc parameters ----
 

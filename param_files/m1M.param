@@ -119,6 +119,16 @@ data.cosmo_arguments['has_perfect_dg'] = 0
 
 data.cosmo_arguments['background_verbose'] = 0
 
+# #######################Parameters for energy injection and recombinaison########################
+data.cosmo_arguments['on the spot'] = 'no'
+data.cosmo_arguments['energy_deposition_function'] = 'DarkAges'
+data.cosmo_arguments['DarkAges_mode'] = 'built_in'
+data.cosmo_arguments['energy_repartition_coefficient'] = 'no_factorization'
+data.cosmo_arguments['recombination'] = 'recfast'
+data.cosmo_arguments['reio_stars_and_dark_matter'] = 'yes'
+data.cosmo_arguments['print_energy_deposition_function'] = 'no'
+
+
 #------ Mcmc parameters ----
 
 data.N=20
