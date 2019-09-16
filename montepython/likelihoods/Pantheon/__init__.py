@@ -32,9 +32,11 @@ except ImportError:
         "(sudo) pip install numexpr --user")
 from montepython.likelihood_class import Likelihood_sn
 
+
 class Pantheon(Likelihood_sn):
 
     def __init__(self, path, data, command_line):
+
         # Unusual construction, since the data files are not distributed
         # alongside Pantheon (size problems)
         try:
@@ -46,9 +48,11 @@ class Pantheon(Likelihood_sn):
                 "\n-> pantheon.dataset"
                 "\n-> lcparam_full_long.txt"
                 "\n-> sys_full_long.dat")
+
         # Load matrices from text files, whose names were read in the
         # configuration file
         self.C00 = self.read_matrix(self.mag_covmat_file)
+        
         # Reading light-curve parameters from self.data_file (lcparam_full_long.txt)
         self.light_curve_params = self.read_light_curve_parameters()
 
@@ -67,6 +71,7 @@ class Pantheon(Likelihood_sn):
             z_cmb = row['zcmb']
             moduli[index] = cosmo.luminosity_distance(z_cmb)
         moduli = 5 * np.log10(moduli) + 25
+
         # Convenience variables: store the nuisance parameters in short named
         # variables
         M = (data.mcmc_parameters['M']['current'] *
@@ -81,6 +86,7 @@ class Pantheon(Likelihood_sn):
         # pointer assignment)
         C00 = self.C00
         cov = ne.evaluate("C00")
+
         # Compute the residuals (estimate of distance moduli - exact moduli)
         residuals = np.empty((size,))
         sn = self.light_curve_params
@@ -89,6 +95,7 @@ class Pantheon(Likelihood_sn):
         residuals = sn.mb - M
         # Remove from the approximate moduli the one computed from CLASS
         residuals -= moduli
+
         # Update the diagonal terms of the covariance matrix with the
         # statistical error
         cov += np.diag(sn.dmb**2)

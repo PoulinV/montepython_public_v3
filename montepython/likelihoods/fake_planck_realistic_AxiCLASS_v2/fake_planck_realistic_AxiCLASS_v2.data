@@ -19,8 +19,8 @@ fake_planck_realistic_AxiCLASS_v2.l_max              = 2500
 fake_planck_realistic_AxiCLASS_v2.f_sky              = 0.57
 
 # do you want to include Bmodes (Gaussian approximation)?
-core_m5.Bmodes = False
-core_m5.delensing = False
+fake_planck_realistic_AxiCLASS_v2.Bmodes = False
+fake_planck_realistic_AxiCLASS_v2.delensing = False
 
 # do you want to use noise from file?
 fake_planck_realistic_AxiCLASS_v2.noise_from_file = True

@@ -5,7 +5,7 @@
 .. moduleauthor:: Surhudm More <>
 
 This module defines one key function, :func:`run`, that distributes the work to
-the desired actual sampler (Metropolis Hastings, or Nested Sampling so far).
+the desired actual sampler (Metropolis Hastings, MultiNest, or PolyChord so far).
 
 It also defines a serie of helper functions, that aim to be generically used by
 all different sampler methods:
@@ -32,7 +32,7 @@ def run(cosmo, data, command_line):
     Depending on the choice of sampler, dispatch the appropriate information
 
     The :mod:`mcmc` module is used as previously, except the call to
-    :func:`mcmc.chain`, or :func:`nested_sampling.run` is now within
+    :func:`mcmc.chain`, or :func:`MultiNest.run` is now within
     this function, instead of from within :mod:`MontePython`.
 
     In the long term, this function should contain any potential hybrid scheme.
@@ -44,8 +44,11 @@ def run(cosmo, data, command_line):
         mcmc.chain(cosmo, data, command_line)
         data.out.close()
     elif command_line.method == 'NS':
-        import nested_sampling as ns
-        ns.run(cosmo, data, command_line)
+        import MultiNest as mn
+        mn.run(cosmo, data, command_line)
+    elif command_line.method == 'PC':
+        import PolyChord as pc
+        pc.run(cosmo, data, command_line)
     elif command_line.method == 'CH':
         import cosmo_hammer as hammer
         hammer.run(cosmo, data, command_line)
@@ -94,10 +97,23 @@ def read_args_from_chain(data, chain):
     chain_file = io_mp.File(chain, 'r')
     parameter_names = data.get_mcmc_parameters(['varying'])
 
+    commented_line = 0
+    success = 0
+    # Test if last chain entry contains a step or a commented line
+    while not success:
+        if chain_file.tail(1)[0].split('\t')[0] == '#':
+            commented_line += 1
+        else:
+            success += 1
+        if commented_line == 1000:
+            raise ConfigurationError('Error loading chains files. '
+                                     'Last 1000 entries of a chain are commented')
     i = 1
     for elem in parameter_names:
+        #data.mcmc_parameters[elem]['last_accepted'] = float(
+        #    chain_file.tail(1)[0].split('\t')[i])
         data.mcmc_parameters[elem]['last_accepted'] = float(
-            chain_file.tail(1)[0].split('\t')[i])
+            chain_file.tail(commented_line+1)[commented_line].split('\t')[i])
         i += 1
 
 
@@ -372,7 +388,8 @@ def get_minimum(cosmo, data, command_line, covmat):
                  {'type': 'ineq', 'fun': lambda x: bounds[index,1] - x[index]},)
         print 'bounds on ',elem,' : ',bounds[index,0],bounds[index,1]
 
-    print 'parameters: ',parameters
+    #FK: use list-comprehension so that the parameter values are distinguishable from step to step
+    print 'parameters: ',[param for param in parameters]
     print 'stepsizes: ',stepsizes[0]
     print 'bounds: ',bounds
 
@@ -435,7 +452,8 @@ def get_minimum(cosmo, data, command_line, covmat):
     for index,elem in enumerate(parameter_names):
         print elem, 'new:', result.x[index], ', old:', parameters[index]
 
-    return result.x
+    #FK: return also min chi^2:
+    return result.x, result.fun
 
 def chi2_eff(params, cosmo, data, bounds=False):
     parameter_names = data.get_mcmc_parameters(['varying'])
@@ -451,7 +469,8 @@ def chi2_eff(params, cosmo, data, bounds=False):
     data.update_cosmo_arguments()
     # Compute loglike value for the new parameters
     chi2 = -2.*compute_lkl(cosmo, data)
-    print 'In minimization: ',chi2,' at ',params
+    #FK: use list-comprehension so that the parameter values are distinguishable from step to step
+    print 'In minimization: ',chi2,' at ',[param for param in params]
     return chi2
 
 def gradient_chi2_eff(params, cosmo, data, bounds=False):
@@ -601,6 +620,14 @@ def get_fisher_matrix(cosmo, data, command_line, inv_fisher_matrix, minimum=0):
                 inv_fisher_matrix, parameter_names,
                 os.path.join(command_line.folder, 'inv_fisher.mat'))
 
+            # FK: also write-out gradient:
+            fname = os.path.join(command_line.folder, 'fisher_gradient.vec')
+            header = ''
+            for param in parameter_names:
+                header += '{:}, '.format(param)
+            header = header[:-2]
+            np.savetxt(fname, gradient, header=header)
+
     return inv_fisher_matrix
 
 
@@ -622,7 +649,7 @@ def check_flat_bound_priors(parameters, names):
     """
     Ensure that all varying parameters are bound and flat
 
-    It is a necessary condition to use the code with Nested Sampling or the
+    It is a necessary condition to use the code with MultiNest, PolyChord or the
     Cosmo Hammer.
     """
     is_flat = all(parameters[name]['prior'].prior_type == 'flat'
@@ -1032,7 +1059,7 @@ def compute_fisher_step(data, command_line, cosmo, center, step_matrix, loglike_
             # Assume symmetric likelihood and use opposite step if so.
             # I.e. both steps (+/-) will be the same and will return the same -loglkl.
             if diff_1[2]:
-                step_array[index] = diff_1[2]/norm**0.5
+                step_array[index] = diff_1[2]
             # If symmetric step is required use diff_1[0] to determine size of step.
             # Only step_index_1=0 goes through the iteration cycle in this case.
             # If diff_1[2] is defined, will instead use that value.
