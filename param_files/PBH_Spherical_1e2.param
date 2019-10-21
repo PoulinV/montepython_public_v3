@@ -191,11 +191,13 @@ data.cosmo_arguments['on the spot']= 'no'
 data.cosmo_arguments['PBH_with_wimp_halo'] = 'yes'
 data.cosmo_arguments['PBH_accreting_mass'] = 1e2 
 data.cosmo_arguments['PBH_relative_velocities'] = -11
-data.cosmo_arguments['effective_bondi_radius_file'] = '/datadec/users/users/vpoulin/class_directories/class_perso/effective_bondi_radii/effective_bondi_radius_m1e2.dat'
+data.cosmo_arguments['effective_bondi_radius_file'] = '/datadec/users/users/vpoulin/class_directories/class_perso/effective_bondi_radii/cs2/effective_bondi_radius_m1e2_cs2.dat'
 data.cosmo_arguments['PBH_accretion_recipe'] ='spherical_accretion'
 data.cosmo_arguments['energy_repartition_coefficient'] = 'no_factorization'
 data.cosmo_arguments['energy_deposition_function'] = 'DarkAges'
 data.cosmo_arguments['DarkAges_mode'] = 'built_in'
+
+data.cosmo_arguments['switch_off_injection_at_z'] = 100
 # These two are required to get sigma8 as a derived parameter
 # (class must compute the P(k) until sufficient k)
 data.cosmo_arguments['output'] = 'mPk'

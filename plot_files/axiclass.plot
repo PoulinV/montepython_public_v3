@@ -23,7 +23,7 @@ info.to_change={'Omega_many_fld':r'$\Omega_{\rm EDE}$','Omega_axion_ac':r'$f_{\r
 #info.legendnames = ['with switch','without switch']
 #info.legendnames = ['w/o Alens','w/ Alens']
 #info.legendnames = ['TT','TTTEEE']
-#info.legendnames = ['LCDM','Neff','EDE']
+info.legendnames = ['LCDM','EDE']
 #info.legendnames = [r'$\Lambda$CDM',r'$n=2$',r'$n=3$',r'$n=\infty$']
 #info.legendnames = [r'$\Lambda$CDM',r'ULA, $n=2$',r'ULA, $n=\infty$']
 #info.legendnames = [r'$\Lambda$CDM',r'$n=2$',r'$n=3$',r'$n=\infty$']
@@ -42,7 +42,8 @@ info.line_width = 2
 #info.to_plot = ['H_0',r'$f_{\rm axion}(a_c)$',r'${\rm Log}_{10}a_c$',r'$\mu$',r'$\alpha$',r'$\theta_{\rm ini}$','scf_parameters__1','Omega0_axion',r'$\theta_i$']
 #info.to_plot = ['H_0','f_ede','scf_parameters__1','log10_z_c',r'$\theta_i$','omega_cdm',r'${\rm Log}_{10}a_c$','f_axion_ac']
 
-info.to_plot = ['H_0',r'$\theta_i$','r_s',r'${\rm Log}_{10}a_c$',r'$f_{\rm EDE}(a_c)$',r'$S_8$','omega_cdm','n_s','A_s','tau_reio','omega_b','n_axion','rs_rec',r'$100~\theta_s$','A_lens','A_lens_TTTEEE',r'$\Delta N_{\rm eff}$']
+#info.to_plot = ['H_0',r'$\theta_i$','r_s',r'${\rm Log}_{10}a_c$',r'$f_{\rm EDE}(a_c)$',r'$S_8$','omega_cdm','n_s','A_s','tau_reio','omega_b','n_axion','rs_rec',r'$100~\theta_s$','A_lens','A_lens_TTTEEE',r'$\Delta N_{\rm eff}$']
+info.to_plot = ['H_0',r'${\rm Log}_{10}a_c$',r'$f_{\rm EDE}(a_c)$','A_lens']
 #info.to_plot = [r'${\rm Log}_{10}a_c$',r'$f_{\rm EDE}(a_c)$','Omega_m','H_0']
 
 #info.to_plot = ['H_0','f_ede','scf_parameters__1','log10_z_c',r'$\theta_i$','omega_cdm','log10_f_axion','log10_m_axion']

@@ -1,0 +1,3 @@
+# Values for tau (following Astro-ph/1605.02985)
+tau_prior_21cm.tau    = 0.055
+tau_prior_21cm.sigma  = 0.001
