@@ -4,7 +4,8 @@
 #data.experiments=['fake_planck_realistic_M018','euclid_pk_M018','euclid_lensing_M018']
 #data.experiments=['fake_planck_realistic_M012','euclid_pk_M012','euclid_lensing_M012']
 #data.experiments=['fake_planck_realistic_M006','euclid_pk_M006','euclid_lensing_M006']
-data.experiments=['fake_planck_realistic_M030','euclid_pk_M030','euclid_lensing_M030']
+#data.experiments=['fake_planck_realistic_M030','euclid_pk_M030','euclid_lensing_M030']
+data.experiments=['fake_planck_realistic_massless','euclid_pk_massless','euclid_lensing_massless']
 #------ Settings for the over-sampling.
 # The first element will always be set to 1, for it is the sampling of the
 # cosmological parameters. The other numbers describe the over sampling of the

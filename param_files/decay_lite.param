@@ -1,8 +1,8 @@
 #------Experiments to test (separated with commas)-----
 
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing']
-data.experiments=['Planck_highl_TTTEEE_lite','Planck_lowl','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18']
-
+#data.experiments=['Planck_highl_TTTEEE_lite','Planck_lowl','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18']
+data.experiments=['Planck_2018_lite','Planck_2018_lowEE','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_19']
 #------ Settings for the over-sampling.
 # The first element will always be set to 1, for it is the sampling of the
 # cosmological parameters. The other numbers describe the over sampling of the
@@ -40,6 +40,7 @@ data.parameters['n_s']          = [0.9652,  0.9,1.1, 0.004, 1,   'cosmo']
 data.parameters['A_s']          = [2.1985,   1.8,3, 0.038, 1e-9,'cosmo']
 data.parameters['tau_reio']     = [0.078,  0.02,0.12, 0.0044,1,   'cosmo']
 
+data.parameters['N_ur'] = [2.0328,1,4,0.5,1,'cosmo']
 data.parameters['omega_ini_dcdm'] = [0.01,0.001,0.03,0.01,1,'cosmo']
 data.parameters['log10_Gamma_dcdm']   = [  8, 7.5, 8.9,	   0.5,    1, 'cosmo']
 
@@ -67,7 +68,7 @@ data.cosmo_arguments['k_pivot'] = 0.05
 # and one massive neutrino with m=0.06eV.
 # The settings below ensures that Neff=3.046
 # and m/omega = 93.14 eV
-data.cosmo_arguments['N_ur'] = 2.0328
+#data.cosmo_arguments['N_ur'] = 2.0328
 data.cosmo_arguments['N_ncdm'] = 1
 data.cosmo_arguments['m_ncdm'] = 0.06
 data.cosmo_arguments['T_ncdm'] = 0.71611

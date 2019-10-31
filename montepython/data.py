@@ -848,7 +848,7 @@ class Data(object):
                         "Failed to estimate m1 resulting in sum(m_i) > M_tot."
                         " Exiting run.")
                 self.cosmo_arguments['m_ncdm'] = r'%g, %g, %g' % (m1,m2,m3)
-                del self.cosmo_arguments[elem]
+		del self.cosmo_arguments[elem]
             elif elem == 'M_tot_IH'or elem == '{\sum}m_nu_IH':
                 # By T. Brinckmann
                 # Inverted hierarchy massive neutrinos. Calculates the individual
@@ -934,8 +934,12 @@ class Data(object):
                 self.cosmo_arguments['m_dmeff'] = 10**(self.cosmo_arguments[elem])
                 del self.cosmo_arguments[elem]
 	    elif elem == 'log10_Gamma_neutrinos':
-                self.cosmo_arguments['Gamma_neutrinos'] = 10**(self.cosmo_arguments[elem])
-                del self.cosmo_arguments[elem]
+                if self.cosmo_arguments['N_ncdm'] == 3:
+			Gamma = 10**(self.cosmo_arguments[elem])
+			self.cosmo_arguments['Gamma_neutrinos'] =  r'%g, %g, %g' % (Gamma,Gamma,Gamma)
+		else:
+			self.cosmo_arguments['Gamma_neutrinos'] = 10**(self.cosmo_arguments[elem])
+        	del self.cosmo_arguments[elem]
 	    elif elem == 'f_axion_ac':
 		self.cosmo_arguments['log10_fraction_axion_ac'] = math.log10(self.cosmo_arguments[elem])
 		del self.cosmo_arguments[elem]
