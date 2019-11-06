@@ -13,6 +13,20 @@ in a scientific publication you are also required to cite the v3.0 release paper
 paper ``Conservative Constraints on Early Cosmology`` (see the tail of this document
 for the bibtex entries).
 
+Recent changelog
+----------------
+
+v3.2.0, Aug 21, 2019
+
+* Added Planck 2018 likelihoods and example param files (Deanna Hooper)
+
+* Added BOSS DR12 and eBOSS DR14 Lya and QSO BAO likelihoods from 1906.11628 (James Farr)
+
+* Added KiDS+VIKING-450 likelihood from 1812.06076 (KiDS collaboration)
+
+* Added KiDS-450 correlation function likelihood from 1809.01406 (Fabian Köhlinger)
+
+* Various bugfixes
 
 Details and Examples
 --------------------
@@ -46,7 +60,7 @@ and the `hi_class website <http://miguelzuma.github.io/hi_class_public>`_ contai
 
 
 Want to contribute?
-------------------
+-------------------
 
 *Monte Python* is developed and maintained by volunteer workers and we are always
 happy for new people to contribute. Do not hesitate to contact us if you believe
@@ -186,6 +200,7 @@ Move into the code directory
 
 Configure the code. Note that you are **strongly advised** to configure clik with the Intel mkl library, and not with lapack.
 There is a massive gain in execution time: without it, the code is dominated by the execution of the low-l polarisation data.
+Before the next step make sure you do NOT have any old Planck likelihoods sourced!
 
 .. code::
 
@@ -216,13 +231,13 @@ If you are running in a z-shell, you will first need to create a .zsh version of
 You need to add 'source /path/to/planck/code/plc_3.0/plc-3.01/bin/clik_profile.sh' to your .bashrc (or the .zsh to your
 .zshrc on a z-shell), and you should put it in your scripts for cluster computing.
 
-In your |MP| configuration file, you will need to add
+In your *Monte Python* configuration file, you will need to add
 
 .. code::
 
    path['clik'] = '/path/to/planck/code/plc_3.0/plc-3.01'
 
-There are nine Planck 2018 likelihoods defined in |MP|: `Planck_highl_TT`, `Planck_highl_TT_lite`,
+There are nine Planck 2018 likelihoods defined in *Monte Python*: `Planck_highl_TT`, `Planck_highl_TT_lite`,
 `Planck_highl_TTTEEE`, `Planck_highl_TTTEEE_lite`, `Planck_lensing`, `Planck_lowl_TT`, `Planck_lowl_EE`,
 `Planck_lowl_EEBB`, `Planck_lowl_BB`, as well as five sets of parameter files, bestfit files, and covmats.
 
