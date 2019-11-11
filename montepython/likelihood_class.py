@@ -9,6 +9,7 @@ basic functions, as well as more specific likelihood classes that may be reused
 to implement new ones.
 
 """
+from __future__ import print_function
 import os
 import numpy as np
 import math
@@ -21,7 +22,6 @@ import scipy.misc
 
 import io_mp
 from io_mp import dictitems,dictvalues,dictkeys
-from __future__ import print_function
 
 
 class Likelihood(object):

@@ -4,13 +4,13 @@
 .. moduleauthor:: Benjamin Audren <benjamin.audren@epfl.ch>
 
 """
+from __future__ import print_function
 import io_mp
 import parser_mp   # parsing the input command line
 from data import Data
 import sys
 import os
 from io_mp import dictitems,dictvalues,dictkeys
-from __future__ import print_function
 
 def initialise(custom_command=''):
     """

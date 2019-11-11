@@ -4,6 +4,7 @@
 
 .. moduleauthor:: Benjamin Audren <benjamin.audren@epfl.ch>
 """
+from __future__ import print_function
 try:
     from collections import OrderedDict as od
 except ImportError:
@@ -17,7 +18,6 @@ from data import Data
 from data import Parameter
 from classy import CosmoComputationError
 from io_mp import dictitems,dictvalues,dictkeys
-from __future__ import print_function
 
 def run(cosmo, data, command_line):
     """

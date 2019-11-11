@@ -17,6 +17,7 @@ Finally, the way the error messages are displayed is set there, along with
 ascii-art for the exclamation mark sign.
 """
 
+from __future__ import print_function
 import os
 import re  # Module to handle regular expressions
 from datetime import date
@@ -24,7 +25,6 @@ import fcntl
 import textwrap  # used to format the error messages
 import sys
 import io
-from __future__ import print_function
 
 # Ascii art for error display
 START_LINE = {}

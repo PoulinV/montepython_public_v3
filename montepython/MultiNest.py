@@ -14,11 +14,11 @@ internally two functions, :func:`prior() <MultiNest.prior>` and
 .. moduleauthor:: Jesus Torrado <torradocacho@lorentz.leidenuniv.nl>
 .. moduleauthor:: Benjamin Audren <benjamin.audren@epfl.ch>
 """
+from __future__ import print_function
 from pymultinest import run as nested_run
 import numpy as np
 import os
 from copy import copy
-from __future__ import print_function
 import warnings
 import io_mp
 import sampler

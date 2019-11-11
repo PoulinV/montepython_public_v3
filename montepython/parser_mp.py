@@ -12,13 +12,13 @@ The fancy short/long help formatting, as well as the automatic help creation
 from docstrings is entirely due to Francesco Montesano.
 
 """
+from __future__ import print_function
 import os
 import sys
 import textwrap as tw
 import re
 import argparse as ap  # Python module to handle command line arguments
 import warnings
-from __future__ import print_function
 import io_mp
 
 

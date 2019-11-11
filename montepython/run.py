@@ -4,6 +4,7 @@
 .. moduleauthor:: Benjamin Audren <benjamin.audren@epfl.ch>
 
 """
+from __future__ import print_function
 from initialise import initialise
 from data import Data
 import io_mp
@@ -11,7 +12,6 @@ import sys
 import warnings
 import os
 import re
-from __future__ import print_function
 
 
 def run(custom_command=''):

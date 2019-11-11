@@ -30,6 +30,7 @@ They are both initialized instances of respectively :class:`data` and the
 cosmological class. They will thus not be described for every function.
 """
 
+from __future__ import print_function
 import os
 import sys
 import math
@@ -38,7 +39,6 @@ import numpy as np
 import warnings
 import scipy.linalg as la
 from pprint import pprint
-from __future__ import print_function
 
 import io_mp
 import sampler
@@ -318,7 +318,7 @@ def chain(cosmo, data, command_line):
                     else:
                         f.write('%.6e\t' % bf_value)
                 f.write('\n')
-            print 'Results of minimizer saved to: \n', fname
+            print('Results of minimizer saved to: \n', fname)
 
         # if we want to compute Fisher matrix and then stop
         if command_line.fisher:

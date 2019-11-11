@@ -16,6 +16,7 @@ internally two functions, :func:`prior() <PolyChord.prior>` and
 
 .. moduleauthor:: Will Handley <wh260@cam.ac.uk>
 """
+from __future__ import print_function
 from pypolychord import run_polychord as polychord_run
 from pypolychord.settings import PolyChordSettings as PC_Settings
 import numpy as np
@@ -24,7 +25,6 @@ from copy import copy
 import warnings
 import io_mp
 import sampler
-from __future__ import print_function
 
 # Data on file names and PolyChord options, that may be called by other modules
 
