@@ -1481,9 +1481,9 @@ class Likelihood_mock_cmb(Likelihood):
         # spectra = TT,EE,TE,[BB],[DD,TD]
         # default:
         if not self.ExcludeTTTEEE:
-	    if self.OnlyTT:
-	        num_modes=1
-	    else:
+            if self.OnlyTT:
+                num_modes=1
+            else:
                 num_modes=2
         # default 0 if excluding TT EE
         else:
