@@ -325,13 +325,16 @@ def from_NS_output_to_chains(folder):
         for line in afile:
             arg   = line.split('=')[0].strip()
             value = line.split('=')[1].strip()
-            arg_type = (NS_user_arguments[arg]['type']
-                        if arg in NS_user_arguments else
-                        NS_auto_arguments[arg]['type'])
-            value = arg_type(value)
-            if arg == 'clustering_params':
-                value = [a.strip() for a in value.split()]
-            NS_arguments[arg] = value
+            # FK: we need to take care of newly introduced 'base_dir'
+            # variable here (by just skipping it):
+            if not arg == 'base_dir':
+                arg_type = (NS_user_arguments[arg]['type']
+                            if arg in NS_user_arguments else
+                            NS_auto_arguments[arg]['type'])
+                value = arg_type(value)
+                if arg == 'clustering_params':
+                    value = [a.strip() for a in value.split()]
+                NS_arguments[arg] = value
     multimodal = NS_arguments.get('multimodal')
     # Read parameters order
     NS_param_names = np.loadtxt(base_name+name_paramnames, dtype='str').tolist()
