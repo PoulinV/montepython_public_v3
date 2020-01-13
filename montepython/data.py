@@ -307,8 +307,10 @@ class Data(object):
 
         else:
             raise io_mp.CosmologicalModuleError(
-                "If you want to check for another cosmological module version"
-                " please add an elif clause to this part")
+                "Could not find any of the registered cosmological modules, such as {CLASS}."
+                " The code tried to search for "+self.path['cosmo']+'/main/class.c'+" but the file did not exist."
+                " If you want to check for another cosmological module version"
+                " please add an elif clause to this part of the code.")
 
         # End of initialisation with the parameter file
         self.param_file.close()
