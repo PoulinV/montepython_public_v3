@@ -39,6 +39,11 @@ import os
 import numpy as np
 import math
 
+try:
+    xrange
+except NameError:
+    xrange = range
+
 class kids450_cf_likelihood_public(Likelihood):
 
     def __init__(self, path, data, command_line):

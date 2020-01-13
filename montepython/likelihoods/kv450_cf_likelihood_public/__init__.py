@@ -35,6 +35,11 @@ import numpy as np
 import math
 #from timeit import default_timer as timer
 
+try:
+    xrange
+except NameError:
+    xrange = range
+
 class kv450_cf_likelihood_public(Likelihood):
 
     def __init__(self, path, data, command_line):
