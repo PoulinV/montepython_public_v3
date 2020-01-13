@@ -1053,6 +1053,39 @@ class Likelihood_clik(Likelihood):
         # add prior on nuisance parameters
         lkl = self.add_nuisance_prior(lkl, data)
 
+        # Option added by D.C. Hooper to deal with the joint prior on ksz_norm (A_ksz in Planck notation)
+        # and A_sz (A_tsz in Planck notation), of the form ksz_norm + 1.6 * A_sz (according to eq. 23 of 1907.12875).
+        # Behaviour (True/False), centre, and variance set in the .data files (default = True).
+
+        # Check if the joint prior has been requested
+        if getattr(self, 'joint_sz_prior', False):
+
+            # Check that the joint_sz prior is only requested when A_sz and ksz_norm are present
+            if not ('A_sz' in self.clik.get_extra_parameter_names() and 'ksz_norm' in self.clik.get_extra_parameter_names()):
+                 raise io_mp.LikelihoodError(
+                    "You requested a gaussian prior on ksz_norm + 1.6 * A_sz," +
+                    "however A_sz or ksz_norm are not present in your param file.")
+
+            # Recover the current values of the two sz nuisance parameters
+            A_sz =  data.mcmc_parameters['A_sz']['current'] * data.mcmc_parameters['A_sz']['scale']
+            ksz_norm = data.mcmc_parameters['ksz_norm']['current'] * data.mcmc_parameters['ksz_norm']['scale']
+
+            # Combine the two into one new nuisance-like variable
+            joint_sz = ksz_norm + 1.6 * A_sz
+
+            # Check if the user has passed the prior center and variance on sz, otherwise abort
+            if not (hasattr(self, 'joint_sz_prior_center') and hasattr(self, 'joint_sz_prior_variance')):
+                raise io_mp.LikelihoodError(
+                    " You requested a gaussian prior on ksz_norm + 1.6 * A_sz," +
+                    " however you did not pass the center and variance." +
+                    " You can pass this in the .data file.")
+
+            # add prior on joint_sz parameter
+            if not self.joint_sz_prior_variance == 0:
+                lkl += -0.5*((joint_sz-self.joint_sz_prior_center)/self.joint_sz_prior_variance)**2
+
+            # End of block for joint sz prior.
+
         return lkl
 
 
@@ -1221,7 +1254,7 @@ class Likelihood_mock_cmb(Likelihood):
 	#added by Siavash Yasini
         try:
             self.OnlyTT
-            if self.OnlyTT and self.ExcludeTTTEEE: 
+            if self.OnlyTT and self.ExcludeTTTEEE:
                 raise io_mp.LikelihoodError("OnlyTT and ExcludeTTTEEE cannot be used simultaneously.")
         except:
             self.OnlyTT = False
@@ -1555,13 +1588,13 @@ class Likelihood_mock_cmb(Likelihood):
                     [cl['tt'][l]+self.noise_T[l], cl['te'][l], 0.*math.sqrt(l*(l+1.))*cl['tp'][l]],
                     [cl['te'][l], cl['ee'][l]+self.noise_P[l], 0],
                     [cltd, 0, cldd+self.Nldd[l]]])
-	  
+
 	    # case with TT only (Added by Siavash Yasini)
             elif self.OnlyTT:
                 Cov_obs = np.array([[self.Cl_fid[0, l]]])
-                    
+
                 Cov_the = np.array([[cl['tt'][l]+self.noise_T[l]]])
-                    
+
 
             # case without B modes nor lensing:
             else:

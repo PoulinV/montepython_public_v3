@@ -18,3 +18,8 @@ Planck_highl_TT.gal545_A_143_217_prior_center    = 23.5
 Planck_highl_TT.gal545_A_143_217_prior_variance  = 8.5
 Planck_highl_TT.gal545_A_217_prior_center        = 91.9
 Planck_highl_TT.gal545_A_217_prior_variance      = 20
+
+# Add joint sz prior according to eq. 23 of 1907.12875
+Planck_highl_TT.joint_sz_prior                   = True
+Planck_highl_TT.joint_sz_prior_center            = 9.5
+Planck_highl_TT.joint_sz_prior_variance          = 3.0
