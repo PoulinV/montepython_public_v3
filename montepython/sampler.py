@@ -643,7 +643,9 @@ def accept_step(data):
     for elem in data.get_mcmc_parameters(['derived']):
         data.mcmc_parameters[elem]['last_accepted'] = \
             data.mcmc_parameters[elem]['current']
-
+    for elem in data.get_mcmc_parameters(['derived_lkl']):
+        data.mcmc_parameters[elem]['last_accepted'] = \
+            data.mcmc_parameters[elem]['current']
 
 def check_flat_bound_priors(parameters, names):
     """
@@ -796,6 +798,15 @@ def compute_lkl(cosmo, data):
         except CosmoSevereError:
             raise io_mp.CosmologicalModuleError(
                 "Could not write the current derived parameters")
+
+    # DCH adding a check to make sure the derived_lkl are passed properly
+    if data.get_mcmc_parameters(['derived_lkl']) != []:
+        try:
+            for name, value in data.derived_lkl.iteritems():
+                data.mcmc_parameters[name]['current'] = value
+        except Exception as e:
+            print 'This likelihood requires a derived_lkl parameter that was missing in your param file:'+str(e)
+
     for elem in data.get_mcmc_parameters(['derived']):
         data.mcmc_parameters[elem]['current'] /= \
             data.mcmc_parameters[elem]['scale']

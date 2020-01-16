@@ -1627,7 +1627,7 @@ def extract_parameter_names(info):
                     # entry in the initial array being non-zero, or a derived
                     # parameter (could be designed as fixed, it does not make
                     # any difference)), then continue the process of analyzing.
-                    if array[3] != 0 or array[5] == 'derived':
+                    if array[3] != 0 or array[5] == 'derived' or array[5] == 'derived_lkl':
                         # The real name is always kept, to have still the class
                         # names in the covmat
                         backup_names.append(original)

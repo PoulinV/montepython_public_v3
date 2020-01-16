@@ -141,6 +141,9 @@ def log_parameter_names(data, command_line):
     param = data.get_mcmc_parameters(['varying'])
     for elem in data.get_mcmc_parameters(['derived']):
         param.append(elem)
+    # New type of parameter, derived_lkl: this is a derived parameter calculated in the likelihood, and not known to CLASS. Added by D. C. Hooper
+    for elem in data.get_mcmc_parameters(['derived_lkl']):
+        param.append(elem)
     for name in param:
         # Use get_tex_name to convert parameter name to tex name
         tex_name = get_tex_name(name, data.mcmc_parameters[name]['scale'])
@@ -167,6 +170,9 @@ def print_parameters(out, data):
     """
     param = data.get_mcmc_parameters(['varying'])
     for elem in data.get_mcmc_parameters(['derived']):
+        param.append(elem)
+    # New type of parameter, derived_lkl: this is a derived parameter calculated in the likelihood, and not known to CLASS. Added by D. C. Hooper
+    for elem in data.get_mcmc_parameters(['derived_lkl']):
         param.append(elem)
     out.write('\n#  -LogLkl\t')
     for i in range(len(param)):
@@ -213,6 +219,9 @@ def print_vector(out, N, loglkl, data):
             out[j].write('%.6e\t' %
                          data.mcmc_parameters[elem]['last_accepted'])
         for elem in data.get_mcmc_parameters(['derived']):
+            out[j].write('%.6e\t' %
+                         data.mcmc_parameters[elem]['last_accepted'])
+        for elem in data.get_mcmc_parameters(['derived_lkl']):
             out[j].write('%.6e\t' %
                          data.mcmc_parameters[elem]['last_accepted'])
         out[j].write('\n')

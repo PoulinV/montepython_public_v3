@@ -42,6 +42,7 @@ data.parameters['tau_reio']     = [  0.0543,  0.004, None,      0.008,    1, 'co
 
 # Nuisance parameter list, same call, except the name does not have to be a class name
 
+# Nuisance paramters for Planck
 data.parameters['A_cib_217']         = [    47.2,     0,   200,     6.2593,     1, 'nuisance']
 data.parameters['cib_index']         = [    -1.3,  -1.3,  -1.3,          0,     1, 'nuisance']
 data.parameters['xi_sz_cib']         = [    0.42,     0,     1,       0.33,     1, 'nuisance']
@@ -90,6 +91,7 @@ data.parameters['A_sbpx_217_217_EE'] = [       1,     1,     1,          0,     
 data.parameters['A_planck']          = [ 1.00061,   0.9,   1.1,     0.0025,     1, 'nuisance']
 data.parameters['A_pol']             = [       1,     1,     1,          0,     1, 'nuisance']
 
+# Nuisance paramters for Lya_abg
 data.parameters['T0a']               = [   0.74,  0.0,  2.0,   0.5,    1, 'nuisance']
 data.parameters['T0s']               = [  -4.38, -5.0,  5.0,    1.,    1, 'nuisance']
 data.parameters['gamma_a']           = [   1.45,  1.0,  1.7,   0.1,    1, 'nuisance']
@@ -108,6 +110,14 @@ data.parameters['YHe']             = [1, None, None, 0,     1,   'derived']
 data.parameters['100*theta_s']     = [0, None, None, 0,     1,   'derived']
 data.parameters['A_s']             = [0, None, None, 0,  1e-9,   'derived']
 data.parameters['sigma8']          = [0, None, None, 0,     1,   'derived']
+
+# Derived parameters calculated within the likelihood.
+# Alpha-beta-gamma are the three parameters of the transfer function.
+# Lya_neff is the tilt of P(k) at a specific scale
+data.parameters['alpha']            = [0, None, None, 0,     1,   'derived_lkl']
+data.parameters['beta']             = [0, None, None, 0,     1,   'derived_lkl']
+data.parameters['gamma']            = [0, None, None, 0,     1,   'derived_lkl']
+data.parameters['lya_neff']         = [0, None, None, 0,     1,   'derived_lkl']
 
 # Other cosmo parameters (fixed parameters, precision parameters, etc.)
 

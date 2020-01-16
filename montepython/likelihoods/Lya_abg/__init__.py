@@ -21,12 +21,18 @@ class Lya_abg(Likelihood):
         self.need_cosmo_arguments(data, {'output': 'mPk'})
         self.need_cosmo_arguments(data, {'P_k_max_h/Mpc': 1.5*self.kmax})
 
-        #lcdm_points = 33        # number of grid points for the lcdm case (i.e. alpha=0, regardless of beta and gamma values), not needed
-        self.params_numbers = 3  # number of non-astro params (i.e. alpha,beta and gamma)
+        # number of grid points for the lcdm case (i.e. alpha=0, regardless of beta and gamma values), not needed
+        #lcdm_points = 33
+        # number of non-astro params (i.e. alpha, beta, and gamma)
+        self.params_numbers = 3
 
         alphas = np.zeros(self.grid_size, 'float64')
         betas = np.zeros(self.grid_size, 'float64')
         gammas = np.zeros(self.grid_size, 'float64')
+
+        # Derived_lkl is a new type of derived parameter calculated in the likelihood, and not known to class.
+        # This first initialising avoids problems in the case of an error in the first point of the MCMC
+        data.derived_lkl = {'alpha': 0, 'beta': 0, 'gamma': 0, 'lya_neff':0}
 
         self.bin_file_path = os.path.join(command_line.folder,self.bin_file_name)
         if not os.path.exists(self.bin_file_path):
@@ -46,10 +52,6 @@ class Lya_abg(Likelihood):
         if 'z_reio' not in data.get_mcmc_parameters(['derived']) or 'sigma8' not in data.get_mcmc_parameters(['derived']):
            raise io_mp.ConfigurationError('Error: Lya likelihood need z_reio and sigma8 as derived parameters')
            exit()
-
-        # Derived_lkl is a new type of derived parameter calculated in the likelihood, and not known to class.
-        # This first initialising avoids problems in the case of an error in the first point of the MCMC
-        data.derived_lkl = {'alpha': 0, 'beta': 0, 'gamma': 0}
 
         file_path = os.path.join(self.data_directory, self.grid_file)
         if os.path.exists(file_path):
@@ -391,6 +393,9 @@ class Lya_abg(Likelihood):
         sigma8=data.mcmc_parameters['sigma8']['current']
         neff=cosmo.pk_tilt(k_neff*h,self.z)
 
+        # Store neff as a derived_lkl parameter
+        data.derived_lkl['lya_neff'] = neff
+
         # First sanity check, to make sure the cosmological parameters are in the correct range
         if ((sigma8<self.zind_param_min[1] or sigma8>self.zind_param_max[1]) or (neff<self.zind_param_min[2] or neff>self.zind_param_max[2])):
            with open(self.bin_file_path, 'a') as bin_file:
@@ -567,8 +572,8 @@ class Lya_abg(Likelihood):
         best_beta  = result.params['beta'].value
         best_gamma = result.params['gamma'].value
 
-        # Store the corresponding alpha, beta, and gamma
-        data.derived_lkl = {'alpha': best_alpha, 'beta': best_beta, 'gamma': best_gamma, 'lya_neff':neff} # TODO: check that neff is stored accurately
+        # Store the corresponding alpha, beta, and gamma as derived_lkl
+        data.derived_lkl.update({'alpha': best_alpha, 'beta': best_beta, 'gamma': best_gamma})
 
         Tk_abg=np.zeros(len(k_fit),'float64')
         Tk_abg=self.T(k_fit, best_alpha, best_beta, best_gamma)
