@@ -40,7 +40,7 @@ class Lya_abg(Likelihood):
 
         self.bin_file_path = os.path.join(command_line.folder,self.bin_file_name)
         if not os.path.exists(self.bin_file_path):
-           with open(self.bin_file_path, 'w') as bin_file:
+            with open(self.bin_file_path, 'w') as bin_file:
                 bin_file.write('#')
                 for name in data.get_mcmc_parameters(['varying']):
                     name = re.sub('[$*&]', '', name)
@@ -54,12 +54,12 @@ class Lya_abg(Likelihood):
                 bin_file.write('\n')
                 bin_file.close()
         if 'z_reio' not in data.get_mcmc_parameters(['derived']) or 'sigma8' not in data.get_mcmc_parameters(['derived']):
-           raise io_mp.ConfigurationError('Error: Lya likelihood need z_reio and sigma8 as derived parameters')
-           exit()
+            raise io_mp.ConfigurationError('Error: Lya likelihood need z_reio and sigma8 as derived parameters')
+            exit()
 
         file_path = os.path.join(self.data_directory, self.grid_file)
         if os.path.exists(file_path):
-           with open(file_path, 'r') as grid_file:
+            with open(file_path, 'r') as grid_file:
                 line = grid_file.readline()
                 while line.find('#') != -1:
                     line = grid_file.readline()
@@ -72,16 +72,16 @@ class Lya_abg(Likelihood):
                     line = grid_file.readline()
                 grid_file.close()
         else:
-           raise io_mp.ConfigurationError('Error: grid file is missing')
-           exit()
+            raise io_mp.ConfigurationError('Error: grid file is missing')
+            exit()
 
         # Real parameters
         X_real = np.zeros((self.grid_size, self.params_numbers),'float64')
 
         for k in range(self.grid_size):
-           X_real[k][0] = self.khalf(alphas[k], betas[k], gammas[k]) # Here we use k_1/2
-           X_real[k][1] = betas[k]
-           X_real[k][2] = gammas[k]
+            X_real[k][0] = self.khalf(alphas[k], betas[k], gammas[k]) # Here we use k_1/2
+            X_real[k][1] = betas[k]
+            X_real[k][2] = gammas[k]
 
         # For the normalization
         self.a_min = min(X_real[:,0])
@@ -146,21 +146,21 @@ class Lya_abg(Likelihood):
         # Import the two grids for Kriging
         file_path = os.path.join(self.data_directory, self.astro_spectra_file)
         if os.path.exists(file_path):
-           pkl = open(file_path, 'r')
-           self.input_full_matrix_interpolated_ASTRO = pickle.load(pkl)
-           pkl.close()
+            pkl = open(file_path, 'r')
+            self.input_full_matrix_interpolated_ASTRO = pickle.load(pkl)
+            pkl.close()
         else:
-           raise io_mp.ConfigurationError('Error: astro spectra file is missing')
-           exit()
+            raise io_mp.ConfigurationError('Error: astro spectra file is missing')
+            exit()
 
         file_path = os.path.join(self.data_directory, self.abg_spectra_file)
         if os.path.exists(file_path):
-           pkl = open(file_path, 'r')
-           self.input_full_matrix_interpolated_ABG = pickle.load(pkl)
-           pkl.close()
+            pkl = open(file_path, 'r')
+            self.input_full_matrix_interpolated_ABG = pickle.load(pkl)
+            pkl.close()
         else:
-           raise io_mp.ConfigurationError('Error: abg spectra file is missing')
-           exit()
+            raise io_mp.ConfigurationError('Error: abg spectra file is missing')
+            exit()
 
         ALL_zdep_params = len(flux_ref_old) + len(t0_ref_old) + len(slope_ref_old)
         grid_length_ABG = len(self.input_full_matrix_interpolated_ABG[0,0,:])
@@ -170,22 +170,22 @@ class Lya_abg(Likelihood):
         # Import the ABG GRID (alpha, beta, gamma)
         file_path = os.path.join(self.data_directory, self.abg_grid_file)
         if os.path.exists(file_path):
-           self.X_ABG = np.zeros((grid_length_ABG, self.params_numbers), 'float64')
-           for param_index in range(self.params_numbers):
-               self.X_ABG[:,param_index] = np.genfromtxt(file_path, usecols=[param_index], skip_header=1)
+            self.X_ABG = np.zeros((grid_length_ABG, self.params_numbers), 'float64')
+            for param_index in range(self.params_numbers):
+                self.X_ABG[:,param_index] = np.genfromtxt(file_path, usecols=[param_index], skip_header=1)
         else:
-           raise io_mp.ConfigurationError('Error: abg grid file is missing')
-           exit()
+            raise io_mp.ConfigurationError('Error: abg grid file is missing')
+            exit()
 
         # Import the ASTRO GRID (ordering of params: z_reio, sigma_8, n_eff, f_UV, mean_f(z), t0(z), slope(z))
         file_path = os.path.join(self.data_directory, self.abg_astro_grid_file)
         if os.path.exists(file_path):
-           self.X = np.zeros((grid_length_ASTRO,astroparams_number_KRIG), 'float64')
-           for param_index in range(astroparams_number_KRIG):
-               self.X[:,param_index] = np.genfromtxt(file_path, usecols=[param_index], skip_header=1)
+            self.X = np.zeros((grid_length_ASTRO,astroparams_number_KRIG), 'float64')
+            for param_index in range(astroparams_number_KRIG):
+                self.X[:,param_index] = np.genfromtxt(file_path, usecols=[param_index], skip_header=1)
         else:
-           raise io_mp.ConfigurationError('Error: abg+astro grid file is missing')
-           exit()
+            raise io_mp.ConfigurationError('Error: abg+astro grid file is missing')
+            exit()
 
         # Prepare the interpolation in astro-param space
         self.redshift_list = np.array([3.0, 3.2, 3.4, 3.6, 3.8, 4.0, 4.2, 4.6, 5.0, 5.4])  # This corresponds to the combined dataset (MIKE/HIRES + XQ-100)
@@ -194,52 +194,52 @@ class Lya_abg(Likelihood):
 
         # Load the data
         if not self.DATASET == "mike-hires":
-           raise io_mp.LikelihoodError('Error: for the time being, only the mike - hires dataset is available')
-           exit()
+            raise io_mp.LikelihoodError('Error: for the time being, only the mike - hires dataset is available')
+            exit()
 
         file_path = os.path.join(self.data_directory, self.MIKE_spectra_file)
         if os.path.exists(file_path):
-           pkl = open(file_path, 'r')
-           y_M_reshaped = pickle.load(pkl)
-           pkl.close()
+            pkl = open(file_path, 'r')
+            y_M_reshaped = pickle.load(pkl)
+            pkl.close()
         else:
-           raise io_mp.ConfigurationError('Error: MIKE spectra file is missing')
-           exit()
+            raise io_mp.ConfigurationError('Error: MIKE spectra file is missing')
+            exit()
         file_path = os.path.join(self.data_directory, self.HIRES_spectra_file)
         if os.path.exists(file_path):
-           pkl = open(file_path, 'r')
-           y_H_reshaped = pickle.load(pkl)
-           pkl.close()
+            pkl = open(file_path, 'r')
+            y_H_reshaped = pickle.load(pkl)
+            pkl.close()
         else:
-           raise io_mp.ConfigurationError('Error: HIRES spectra file is missing')
-           exit()
+            raise io_mp.ConfigurationError('Error: HIRES spectra file is missing')
+            exit()
 
         file_path = os.path.join(self.data_directory, self.MIKE_cov_file)
         if os.path.exists(file_path):
-           pkl = open(file_path, 'r')
-           cov_M_inverted = pickle.load(pkl)
-           pkl.close()
+            pkl = open(file_path, 'r')
+            cov_M_inverted = pickle.load(pkl)
+            pkl.close()
         else:
-           raise io_mp.ConfigurationError('Error: MIKE covariance matrix file is missing')
-           exit()
+            raise io_mp.ConfigurationError('Error: MIKE covariance matrix file is missing')
+            exit()
 
         file_path = os.path.join(self.data_directory, self.HIRES_cov_file)
         if os.path.exists(file_path):
-           pkl = open(file_path, 'r')
-           cov_H_inverted = pickle.load(pkl)
-           pkl.close()
+            pkl = open(file_path, 'r')
+            cov_H_inverted = pickle.load(pkl)
+            pkl.close()
         else:
-           raise io_mp.ConfigurationError('Error: HIRES covariance matrix file is missing')
-           exit()
+            raise io_mp.ConfigurationError('Error: HIRES covariance matrix file is missing')
+            exit()
 
         file_path = os.path.join(self.data_directory, self.PF_noPRACE_file)
         if os.path.exists(file_path):
-           pkl = open(file_path, 'r')
-           self.PF_noPRACE = pickle.load(pkl)
-           pkl.close()
+            pkl = open(file_path, 'r')
+            self.PF_noPRACE = pickle.load(pkl)
+            pkl.close()
         else:
-           raise io_mp.ConfigurationError('Error: PF_noPRACE file is missing')
-           exit()
+            raise io_mp.ConfigurationError('Error: PF_noPRACE file is missing')
+            exit()
 
         self.cov_MH_inverted = block_diag(cov_H_inverted,cov_M_inverted)
         self.y_MH_reshaped = np.concatenate((y_H_reshaped, y_M_reshaped))
@@ -317,7 +317,7 @@ class Lya_abg(Likelihood):
 
         # Initialise the bin file
         if not os.path.exists(self.bin_file_path):
-           with open(self.bin_file_path, 'w') as bin_file:
+            with open(self.bin_file_path, 'w') as bin_file:
                 bin_file.write('#')
                 for name in data.get_mcmc_parameters(['varying']):
                     name = re.sub('[$*&]', '', name)
@@ -383,18 +383,17 @@ class Lya_abg(Likelihood):
 
         derived = cosmo.get_current_derived_parameters(data.get_mcmc_parameters(['derived']))
         for (name, value) in derived.items():
-                    data.mcmc_parameters[name]['current'] = value
+            data.mcmc_parameters[name]['current'] = value
         for name in derived:
-                    data.mcmc_parameters[name]['current'] /= \
-                        data.mcmc_parameters[name]['scale']
+            data.mcmc_parameters[name]['current'] /= data.mcmc_parameters[name]['scale']
 
         # Obtain current z_reio, sigma_8, and neff from CLASS
         z_reio=data.mcmc_parameters['z_reio']['current']
         # Check that z_reio is in the correct range
         if z_reio<self.zind_param_min[0]:
-           z_reio = self.zind_param_min[0]
+            z_reio = self.zind_param_min[0]
         if z_reio>self.zind_param_max[0]:
-           z_reio=self.zind_param_max[0]
+            z_reio=self.zind_param_max[0]
         sigma8=data.mcmc_parameters['sigma8']['current']
         neff=cosmo.pk_tilt(k_neff*h,self.z)
 
@@ -403,7 +402,7 @@ class Lya_abg(Likelihood):
 
         # First sanity check, to make sure the cosmological parameters are in the correct range
         if ((sigma8<self.zind_param_min[1] or sigma8>self.zind_param_max[1]) or (neff<self.zind_param_min[2] or neff>self.zind_param_max[2])):
-           with open(self.bin_file_path, 'a') as bin_file:
+            with open(self.bin_file_path, 'a') as bin_file:
                 bin_file.write('#Error_cosmo\t')
                 for elem in data.get_mcmc_parameters(['varying']):
                     bin_file.write(' %.6e\t' % data.mcmc_parameters[elem]['current'])
@@ -413,9 +412,9 @@ class Lya_abg(Likelihood):
                     bin_file.write(' %.6e\t' % data.mcmc_parameters[elem]['current'])
                 bin_file.write('\n')
                 bin_file.close()
-           sys.stderr.write('#Error_cosmo\n')
-           sys.stderr.flush()
-           return data.boundary_loglike
+            sys.stderr.write('#Error_cosmo\n')
+            sys.stderr.flush()
+            return data.boundary_loglike
 
         # Here Neff is the standard N_eff (effective d.o.f.)
         classNeff=cosmo.Neff()
@@ -534,8 +533,8 @@ class Lya_abg(Likelihood):
         for index_k in range(len(k)):
             index_k_fit_max = -1
             if Tk[index_k]<0.1 and der[index_k]>=0.:
-               index_k_fit_max = index_k
-               break
+                index_k_fit_max = index_k
+                break
 
         # Third sanity check, here we check that the DAO do not start before k_neff
         if k[index_k_fit_max]<k_neff:
@@ -586,33 +585,33 @@ class Lya_abg(Likelihood):
 
         # Fourth sanity check, to make sure alpha, beta, and gamma are withing the grid range
         if ((best_alpha<self.alpha_min or best_alpha>self.alpha_max) or (best_beta<self.beta_min or best_beta>self.beta_max) or (best_gamma<self.gamma_min or best_gamma>self.gamma_max)):
-           if(best_alpha<self.alpha_min or best_alpha>self.alpha_max):
-               with open(self.bin_file_path, 'a') as bin_file:
-                bin_file.write('#Error_a\t')
-                for elem in data.get_mcmc_parameters(['varying']):
-                    bin_file.write(' %.6e\t' % data.mcmc_parameters[elem]['current'])
-                for elem in data.get_mcmc_parameters(['derived']):
-                    bin_file.write(' %.6e\t' % data.mcmc_parameters[elem]['current'])
-                for elem in data.get_mcmc_parameters(['derived_lkl']):
-                    bin_file.write(' %.6e\t' % data.mcmc_parameters[elem]['current'])
-                bin_file.write('\n')
-                bin_file.close()
-               sys.stderr.write('#Error_a\n')
-               sys.stderr.flush()
-           else:
-               with open(self.bin_file_path, 'a') as bin_file:
-                bin_file.write('#Error_bg\t')
-                for elem in data.get_mcmc_parameters(['varying']):
-                    bin_file.write(' %.6e\t' % data.mcmc_parameters[elem]['current'])
-                for elem in data.get_mcmc_parameters(['derived']):
-                    bin_file.write(' %.6e\t' % data.mcmc_parameters[elem]['current'])
-                for elem in data.get_mcmc_parameters(['derived_lkl']):
-                    bin_file.write(' %.6e\t' % data.mcmc_parameters[elem]['current'])
-                bin_file.write('\n')
-                bin_file.close()
-               sys.stderr.write('#Error_bg\n')
-               sys.stderr.flush()
-           return data.boundary_loglike
+            if(best_alpha<self.alpha_min or best_alpha>self.alpha_max):
+                with open(self.bin_file_path, 'a') as bin_file:
+                    bin_file.write('#Error_a\t')
+                    for elem in data.get_mcmc_parameters(['varying']):
+                        bin_file.write(' %.6e\t' % data.mcmc_parameters[elem]['current'])
+                    for elem in data.get_mcmc_parameters(['derived']):
+                        bin_file.write(' %.6e\t' % data.mcmc_parameters[elem]['current'])
+                    for elem in data.get_mcmc_parameters(['derived_lkl']):
+                        bin_file.write(' %.6e\t' % data.mcmc_parameters[elem]['current'])
+                    bin_file.write('\n')
+                    bin_file.close()
+                sys.stderr.write('#Error_a\n')
+                sys.stderr.flush()
+            else:
+                with open(self.bin_file_path, 'a') as bin_file:
+                    bin_file.write('#Error_bg\t')
+                    for elem in data.get_mcmc_parameters(['varying']):
+                        bin_file.write(' %.6e\t' % data.mcmc_parameters[elem]['current'])
+                    for elem in data.get_mcmc_parameters(['derived']):
+                        bin_file.write(' %.6e\t' % data.mcmc_parameters[elem]['current'])
+                    for elem in data.get_mcmc_parameters(['derived_lkl']):
+                        bin_file.write(' %.6e\t' % data.mcmc_parameters[elem]['current'])
+                    bin_file.write('\n')
+                    bin_file.close()
+                sys.stderr.write('#Error_bg\n')
+                sys.stderr.flush()
+            return data.boundary_loglike
 
         # Fifth sanity check, to make sure the fit is never off ny more than 10%
         for ik in range(len(k_fit)):
