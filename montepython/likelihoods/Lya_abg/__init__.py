@@ -55,7 +55,6 @@ class Lya_abg(Likelihood):
                 bin_file.close()
         if 'z_reio' not in data.get_mcmc_parameters(['derived']) or 'sigma8' not in data.get_mcmc_parameters(['derived']):
             raise io_mp.ConfigurationError('Error: Lya likelihood need z_reio and sigma8 as derived parameters')
-            exit()
 
         file_path = os.path.join(self.data_directory, self.grid_file)
         if os.path.exists(file_path):
@@ -73,7 +72,6 @@ class Lya_abg(Likelihood):
                 grid_file.close()
         else:
             raise io_mp.ConfigurationError('Error: grid file is missing')
-            exit()
 
         # Real parameters
         X_real = np.zeros((self.grid_size, self.params_numbers),'float64')
@@ -151,7 +149,6 @@ class Lya_abg(Likelihood):
             pkl.close()
         else:
             raise io_mp.ConfigurationError('Error: astro spectra file is missing')
-            exit()
 
         file_path = os.path.join(self.data_directory, self.abg_spectra_file)
         if os.path.exists(file_path):
@@ -160,7 +157,6 @@ class Lya_abg(Likelihood):
             pkl.close()
         else:
             raise io_mp.ConfigurationError('Error: abg spectra file is missing')
-            exit()
 
         ALL_zdep_params = len(flux_ref_old) + len(t0_ref_old) + len(slope_ref_old)
         grid_length_ABG = len(self.input_full_matrix_interpolated_ABG[0,0,:])
@@ -175,7 +171,6 @@ class Lya_abg(Likelihood):
                 self.X_ABG[:,param_index] = np.genfromtxt(file_path, usecols=[param_index], skip_header=1)
         else:
             raise io_mp.ConfigurationError('Error: abg grid file is missing')
-            exit()
 
         # Import the ASTRO GRID (ordering of params: z_reio, sigma_8, n_eff, f_UV, mean_f(z), t0(z), slope(z))
         file_path = os.path.join(self.data_directory, self.abg_astro_grid_file)
@@ -185,7 +180,6 @@ class Lya_abg(Likelihood):
                 self.X[:,param_index] = np.genfromtxt(file_path, usecols=[param_index], skip_header=1)
         else:
             raise io_mp.ConfigurationError('Error: abg+astro grid file is missing')
-            exit()
 
         # Prepare the interpolation in astro-param space
         self.redshift_list = np.array([3.0, 3.2, 3.4, 3.6, 3.8, 4.0, 4.2, 4.6, 5.0, 5.4])  # This corresponds to the combined dataset (MIKE/HIRES + XQ-100)
@@ -195,7 +189,6 @@ class Lya_abg(Likelihood):
         # Load the data
         if not self.DATASET == "mike-hires":
             raise io_mp.LikelihoodError('Error: for the time being, only the mike - hires dataset is available')
-            exit()
 
         file_path = os.path.join(self.data_directory, self.MIKE_spectra_file)
         if os.path.exists(file_path):
@@ -204,7 +197,7 @@ class Lya_abg(Likelihood):
             pkl.close()
         else:
             raise io_mp.ConfigurationError('Error: MIKE spectra file is missing')
-            exit()
+
         file_path = os.path.join(self.data_directory, self.HIRES_spectra_file)
         if os.path.exists(file_path):
             pkl = open(file_path, 'r')
@@ -212,7 +205,6 @@ class Lya_abg(Likelihood):
             pkl.close()
         else:
             raise io_mp.ConfigurationError('Error: HIRES spectra file is missing')
-            exit()
 
         file_path = os.path.join(self.data_directory, self.MIKE_cov_file)
         if os.path.exists(file_path):
@@ -221,7 +213,6 @@ class Lya_abg(Likelihood):
             pkl.close()
         else:
             raise io_mp.ConfigurationError('Error: MIKE covariance matrix file is missing')
-            exit()
 
         file_path = os.path.join(self.data_directory, self.HIRES_cov_file)
         if os.path.exists(file_path):
@@ -230,7 +221,6 @@ class Lya_abg(Likelihood):
             pkl.close()
         else:
             raise io_mp.ConfigurationError('Error: HIRES covariance matrix file is missing')
-            exit()
 
         file_path = os.path.join(self.data_directory, self.PF_noPRACE_file)
         if os.path.exists(file_path):
@@ -239,7 +229,6 @@ class Lya_abg(Likelihood):
             pkl.close()
         else:
             raise io_mp.ConfigurationError('Error: PF_noPRACE file is missing')
-            exit()
 
         self.cov_MH_inverted = block_diag(cov_H_inverted,cov_M_inverted)
         self.y_MH_reshaped = np.concatenate((y_H_reshaped, y_M_reshaped))
@@ -440,7 +429,6 @@ class Lya_abg(Likelihood):
                 data.cosmo_arguments['H0'] *= 1./eta
             if '100*theta_s' in data.cosmo_arguments:
                 raise io_mp.ConfigurationError('Error: run with H0 instead of 100*theta_s')
-                exit()
 
             # Deal with Interacting Dark Matter with Dark Radiation (ETHOS-like models)
             if 'xi_idr' in data.cosmo_arguments:
