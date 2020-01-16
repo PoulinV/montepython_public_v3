@@ -1,3 +1,7 @@
+# This is to insure py2.7 compatibility
+from __future__ import print_function
+from __future__ import division
+
 from montepython.likelihood_class import Likelihood
 import io_mp
 import re  # Module to handle regular expressions
@@ -16,7 +20,7 @@ class Lya_abg(Likelihood):
 
         Likelihood.__init__(self, path, data, command_line)
 
-        print "Initializing Lya likelihood"
+        print("Initializing Lya likelihood")
 
         self.need_cosmo_arguments(data, {'output': 'mPk'})
         self.need_cosmo_arguments(data, {'P_k_max_h/Mpc': 1.5*self.kmax})
@@ -61,7 +65,7 @@ class Lya_abg(Likelihood):
                     line = grid_file.readline()
                 while (line.find('\n') != -1 and len(line) == 3):
                     line = grid_file.readline()
-                for index in xrange(self.grid_size):
+                for index in range(self.grid_size):
                     alphas[index] = float(line.split()[0])
                     betas[index] = float(line.split()[1])
                     gammas[index] = float(line.split()[2])
@@ -120,7 +124,7 @@ class Lya_abg(Likelihood):
         # Which snapshots we use (first 7 for first dataset, last 4 for second one)
         self.redshift = [3.0, 3.2, 3.4, 3.6, 3.8, 4.0, 4.2, 4.2, 4.6, 5.0, 5.4]
 
-        #T0 and slope values
+        #T 0 and slope values
         t0_ref_old = np.array([11251.5, 11293.6, 11229.0, 10944.6, 10421.8, 9934.49, 9227.31, 8270.68, 7890.68, 7959.4])
         slope_ref_old = np.array([1.53919, 1.52894, 1.51756, 1.50382, 1.48922, 1.47706, 1.46909, 1.48025, 1.50814, 1.52578])
 
@@ -240,7 +244,7 @@ class Lya_abg(Likelihood):
         self.cov_MH_inverted = block_diag(cov_H_inverted,cov_M_inverted)
         self.y_MH_reshaped = np.concatenate((y_H_reshaped, y_M_reshaped))
 
-        print "Initialization of Lya likelihood done"
+        print("Initialization of Lya likelihood done")
 
     # The following functions are used elsewhere in the code
 
@@ -301,8 +305,9 @@ class Lya_abg(Likelihood):
         for i in range(self.zeta_full_length):
             for j in range(self.kappa_full_length):
                 full_matrix_interpolated_ABG[i,j,:] = ABG_matrix_new[:,i,j]
-        return np.sum(np.multiply(self.ordkrig_lambda_3D((self.khalf(p21[0],p21[1],p21[2]))/(self.a_max-self.a_min), p21[1]/(self.b_max-self.b_min), p21[2]/(self.g_max-self.g_min), \
-                                                         self.X_ABG[:,0], self.X_ABG[:,1], self.X_ABG[:,2]), full_matrix_interpolated_ABG[:,:,:]),axis=2)
+        return np.sum(np.multiply(self.ordkrig_lambda_3D((self.khalf(p21[0],p21[1],p21[2]))/(self.a_max-self.a_min), p21[1]/(self.b_max-self.b_min), \
+                                                         p21[2]/(self.g_max-self.g_min), self.X_ABG[:,0], self.X_ABG[:,1], self.X_ABG[:,2]), \
+                                  full_matrix_interpolated_ABG[:,:,:]),axis=2)
 
 
     # Start of the actual likelihood computation function
@@ -377,9 +382,9 @@ class Lya_abg(Likelihood):
         k_neff=self.k_s_over_km*100./(1.+self.z)*(((1.+self.z)**3*Om+OL)**(1./2.))
 
         derived = cosmo.get_current_derived_parameters(data.get_mcmc_parameters(['derived']))
-        for name, value in derived.iteritems():
+        for (name, value) in derived.items():
                     data.mcmc_parameters[name]['current'] = value
-        for name in derived.iterkeys():
+        for name in derived:
                     data.mcmc_parameters[name]['current'] /= \
                         data.mcmc_parameters[name]['scale']
 
@@ -412,6 +417,7 @@ class Lya_abg(Likelihood):
            sys.stderr.flush()
            return data.boundary_loglike
 
+        # Here Neff is the standard N_eff (effective d.o.f.)
         classNeff=cosmo.Neff()
 
         # Store the current CLASS values for later
