@@ -808,8 +808,9 @@ def compute_lkl(cosmo, data):
         try:
             for name, value in data.derived_lkl.iteritems():
                 data.mcmc_parameters[name]['current'] = value
-        except Exception as e:
-            print 'This likelihood requires a derived_lkl parameter that was missing in your param file:'+str(e)
+        except Exception as missing:
+            raise io_mp.CosmologicalModuleError(
+                "You requested derived_lkl parameters, but you are missing the following ones in your param file:" + str(missing))
 
     for elem in data.get_mcmc_parameters(['derived']):
         data.mcmc_parameters[elem]['current'] /= \
