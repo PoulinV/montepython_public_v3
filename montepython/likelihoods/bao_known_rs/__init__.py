@@ -32,19 +32,19 @@ class bao_known_rs(Likelihood):
 
         for i in range(self.num_points):
             if self.type[i] == 3:
-                #print 'before modification'
-                #print 'data: %g, error: %g' % (self.data[i], self.error[i])
-                #print 'relative error: %g' % (self.error[i]/self.data[i])
-                #print 'known_rs: %g, rs_error: %g' % (
-                    #self.known_rs, self.rs_error)
-                #print 'relative error: %g' % (self.rs_error/self.known_rs)
+                #print('before modification')
+                #print('data: %g, error: %g' % (self.data[i], self.error[i]))
+                #print('relative error: %g' % (self.error[i]/self.data[i]))
+                #print('known_rs: %g, rs_error: %g' % (
+                    #self.known_rs, self.rs_error))
+                #print('relative error: %g' % (self.rs_error/self.known_rs))
                 self.data[i] = self.data[i] * self.known_rs * self.rs_rescale
                 self.error[i] = self.data[i] * sqrt(
                     (self.error[i]*self.known_rs*self.rs_rescale / self.data[i]) ** 2 + (self.rs_error / self.known_rs) ** 2)
-                #print 'after modification'
-                #print 'data: %g, error: %g' % (self.data[i], self.error[i])
-                #print 'relative error: %g' % (self.error[i]/self.data[i])
-                #print
+                #print('after modification')
+                #print('data: %g, error: %g' % (self.data[i], self.error[i]))
+                #print('relative error: %g' % (self.error[i]/self.data[i]))
+                #print()
                 self.type[i] = 4
 
         # end of initialization

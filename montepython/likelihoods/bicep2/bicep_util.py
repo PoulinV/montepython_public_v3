@@ -16,6 +16,7 @@
 
 # IMPORTANT NOTE: This version was modified by Benjamin Audren, in order to be
 # flexible enough to work with a slightly different configuration.
+from __future__ import print_function
 import os
 import numpy as np
 from numpy import linalg as LA
@@ -30,18 +31,18 @@ def get_bpwf(exp='bicep1', root=''):
     if exp == 'bicep1':
         # Load up BICEP1 bandpower window functions
         file_in = os.path.join("windows", "B1_3yr_bpwf_bin?_20131003.txt")
-        print "### Reading the BICEP1 BPWF from  file: %s" % file_in
+        print("### Reading the BICEP1 BPWF from  file: %s" % file_in)
         ncol = 580
     elif exp == 'bicep2':
         # Load up BICEP2 bandpower window functions
         file_in = os.path.join("windows", "B2_3yr_bpwf_bin?_20140314.txt")
-        print "### Reading the BICEP2 BPWF from  file: %s" % file_in
+        print("### Reading the BICEP2 BPWF from  file: %s" % file_in)
         ncol = 599
     else:
-        print 'exp must be "bicep1" or "bicep2" to load the proper window functions'
-        print 'window functions must be in the root_directory/windows/'
-        print 'bicep2 window functions available at http://bicepkeck.org/bicep2_2014_release'
-        print 'bicep1 window functions available at bicep.rc.fas.harvard.edu/bicep1_3yr'
+        print('exp must be "bicep1" or "bicep2" to load the proper window functions')
+        print('window functions must be in the root_directory/windows/')
+        print('bicep2 window functions available at http://bicepkeck.org/bicep2_2014_release')
+        print('bicep1 window functions available at bicep.rc.fas.harvard.edu/bicep1_3yr')
         raise IOError()
 
     # Initialize array so it's just like our Matlab version
@@ -54,8 +55,8 @@ def get_bpwf(exp='bicep1', root=''):
             data = np.loadtxt(
                 os.path.join(root, window_file))
         except IOError:
-            print ("Error reading  %s." % window_file +
-                   "Make sure it is in root directory")
+            print("Error reading  %s." % window_file +
+                  "Make sure it is in root directory")
             raise IOError()
         bpwf_Cs_l[:, i, 0] = data[:, 1]   # TT -> TT
         bpwf_Cs_l[:, i, 1] = data[:, 2]   # TE -> TE
@@ -75,12 +76,12 @@ def load_cmbfast(file_in):
     # that standard CAMB output is TT EE BB TE...
     # TB, EB, BT, BE are already zero.
 
-    print "### Loading input spectra from file: %s" % file_in
+    print("### Loading input spectra from file: %s" % file_in)
 
     try:
         data = np.loadtxt(file_in)
     except:
-        print "Error reading %s. Make sure it is in working directory" %file_in
+        print("Error reading %s. Make sure it is in working directory" %file_in)
     ell = data[:, 0]
 
     # Initialize the Cs_l array
@@ -156,16 +157,15 @@ def read_data_products_bandpowers(exp='bicep1', root=""):
     elif exp == 'bicep2':
         file_in="B2_3yr_likelihood_bandpowers_20140314.txt"
     else:
-        print 'exp must be "bicep1" or "bicep2" to load the proper files'
+        print('exp must be "bicep1" or "bicep2" to load the proper files')
 
-    print "### Reading fiducial, real, and noise bias bandpowers from file: %s"\
-        %file_in
+    print("### Reading fiducial, real, and noise bias bandpowers from file: %s"%file_in)
 
     values = list()
     try:
         fin = file(os.path.join(root, file_in), 'r')
     except IOerror:
-        print "Error reading %s. Make sure it is in root directory" %file_in
+        print("Error reading %s. Make sure it is in root directory" %file_in)
     for line in fin:
         if "#" not in line:
             lst = line.split(' ')
@@ -197,14 +197,14 @@ def read_M(exp='bicep1', root=""):
     elif exp == 'bicep2':
         file_in = "B2_3yr_bpcm_no-sysuncer_20140314.txt"
     else:
-        print 'exp must be bicep1 or bicep2 to load the proper files'
+        print('exp must be bicep1 or bicep2 to load the proper files')
 
-    print "### Reading covariance matrix (M_cc) from file: %s" %file_in
+    print("### Reading covariance matrix (M_cc) from file: %s" %file_in)
 
     try:
         data = np.loadtxt(os.path.join(root, file_in))
     except IOError:
-        print "Error reading %s. Make sure it is in working directory" %file_in
+        print("Error reading %s. Make sure it is in working directory" %file_in)
 
     # HACK because file_in = "B2_3yr_bpcm_no-sysuncer_20140226.txt"  has different format
     if exp == 'bicep2':
@@ -272,7 +272,7 @@ def evaluateLikelihood(C_l,C_l_hat,C_fl,M_inv):
     for l in range(0,9):
         X = calc_vecp(l,C_l_hat,C_fl,C_l)
         for lp in range(0,9):
-            #print l, lp, r
+            #print(l, lp, r)
             Xp = calc_vecp(lp,C_l_hat,C_fl,C_l)
             M_inv_pp = M_inv[l,lp,:,:]
             # calculate loglikelihood (Eq 7)
@@ -291,7 +291,7 @@ def evaluateLikelihood(C_l,C_l_hat,C_fl,M_inv):
 def saveLikelihoodToText(rlist, logLike, field, exp='bicep1'):
 
     if exp == 'bicep1':
-        print "### Saving Likelihood to file: B1_logLike.txt..."
+        print("### Saving Likelihood to file: B1_logLike.txt...")
         f = open("B1_logLike.txt", "w")
         f.write('# BICEP1 likelihood for r \n')
         f.write('# Based on data from:  Barkats et al, Degree Scale CMB Polarization Measurements from Three Years of BICEP1 Data \n')
@@ -303,7 +303,7 @@ def saveLikelihoodToText(rlist, logLike, field, exp='bicep1'):
         f.write('# \n')
         f.write('# Columns:  r, logLiklelihood(r) \n')
     elif exp == 'bicep2':
-        print "### Saving Likelihood to file: B2_logLike.txt..."
+        print("### Saving Likelihood to file: B2_logLike.txt...")
         f = open("B2_logLike.txt", "w")
         f.write('# BICEP2 likelihood\n')
         f.write('# Based on data from: DETECTION OF B-mode POLARIZATION AT DEGREE SCALES USING BICEP2 \n')

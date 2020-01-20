@@ -4,6 +4,7 @@
 .. moduleauthor:: Benjamin Audren <benjamin.audren@epfl.ch>
 
 """
+from __future__ import print_function
 from initialise import initialise
 from data import Data
 import io_mp
@@ -192,7 +193,7 @@ def safe_initialisation(custom_command="", comm=None, nprocs=1):
         if comm:
             for index in range(1, nprocs):
                 comm.send('failed', dest=index, tag=1)
-        print str(message)
+        print(str(message))
         raise io_mp.ConfigurationError(
             "The initialisation was not successful, resulting in a "
             "potentially half created `log.param`. Please see the "
@@ -207,7 +208,7 @@ def safe_initialisation(custom_command="", comm=None, nprocs=1):
             "a non-successful initialisation (wrong parameter name, "
             "wrong likelihood, etc...). If you have solved the issue, you "
             "should remove completely the output folder, and try again." +
-            " Alternatively, there could be a problem with "+e.message)
+            " Alternatively, there could be a problem with "+str(e))
     return cosmo, data, command_line, success
 
 

@@ -25,6 +25,7 @@
 # 2) This likelihood only produces valid results for \Omega_k = 0,
 # i.e. flat cosmologies!
 ##############################################################
+from __future__ import print_function
 
 from montepython.likelihood_class import Likelihood
 import io_mp
@@ -37,6 +38,11 @@ from scipy.linalg import cholesky, solve_triangular
 import os
 import numpy as np
 import math
+
+try:
+    xrange
+except NameError:
+    xrange = range
 
 class kids450_cf_likelihood_public(Likelihood):
 
@@ -75,9 +81,9 @@ class kids450_cf_likelihood_public(Likelihood):
         # Compute non-linear power spectrum if requested:
         if self.method_non_linear_Pk in ['halofit', 'HALOFIT', 'Halofit', 'hmcode', 'Hmcode', 'HMcode', 'HMCODE']:
             self.need_cosmo_arguments(data, {'non linear': self.method_non_linear_Pk})
-            print 'Using {:} to obtain the non-linear P(k, z)!'.format(self.method_non_linear_Pk)
+            print('Using {:} to obtain the non-linear P(k, z)!'.format(self.method_non_linear_Pk))
         else:
-            print 'Only using the linear P(k, z) for ALL calculations \n (check keywords for "method_non_linear_Pk").'
+            print('Only using the linear P(k, z) for ALL calculations \n (check keywords for "method_non_linear_Pk").')
 
         # Define array of l values, and initialize them
         # It is a logspace
@@ -184,7 +190,7 @@ class kids450_cf_likelihood_public(Likelihood):
                 zpcheck = zptemp
                 if np.sum((zptemp - zpcheck)**2) > 1e-6:
                     raise io_mp.LikelihoodError('The redshift values for the window files at different bins do not match.')
-            print 'Loaded n(zbin{:}) from: \n'.format(zbin + 1), window_file_path
+            print('Loaded n(zbin{:}) from: \n'.format(zbin + 1), window_file_path)
             # we assume that the histograms loaded are given as left-border histograms
             # and that the z-spacing is the same for each histogram
             shift_to_midpoint = np.diff(zptemp)[0] / 2.
@@ -343,7 +349,7 @@ class kids450_cf_likelihood_public(Likelihood):
             matrix = np.loadtxt(fname)
 
         except:
-            print '\n Creating covariance matrix for all scales for first time. \n This might take some minutes, but only once...'
+            print('\n Creating covariance matrix for all scales for first time. \n This might take some minutes, but only once...')
             fname = os.path.join(self.data_directory, 'COV_MAT/Cov_mat_all_scales.txt')
             tmp_raw = np.loadtxt(fname)
 
@@ -383,10 +389,10 @@ class kids450_cf_likelihood_public(Likelihood):
                                     for ipm2 in xrange(2):
                                         for ith2 in xrange(self.ntheta):
                                             for index_lin in xrange(len(tmp_raw)):
-                                                #print index1, index2
-                                                #print iz1, iz2, ipm, ith, iz3, iz4, ipm2
+                                                #print(index1, index2)
+                                                #print(iz1, iz2, ipm, ith, iz3, iz4, ipm2)
                                                 if iz1 + 1 == indices[index_lin, 0] and iz2 + 1 == indices[index_lin, 1] and ipm == indices[index_lin, 2] and iz3 + 1 == indices[index_lin, 3]  and iz4 + 1 == indices[index_lin, 4] and ipm2 == indices[index_lin, 5] and ith == thetas_raw_plus[index_lin] and ith2 == thetas_raw_minus[index_lin]:
-                                                    #print 'hit'
+                                                    #print('hit')
                                                     matrix[index1, index2] = values[index_lin]
                                                     matrix[index2, index1] = matrix[index1, index2]
                                             index2 += 1
@@ -395,7 +401,7 @@ class kids450_cf_likelihood_public(Likelihood):
             fname = fname = os.path.join(self.data_directory, 'COV_MAT/Cov_mat_all_scales_use_with_kids450_cf_likelihood_public.dat')
             if not os.path.isfile(fname):
                 np.savetxt(fname, matrix)
-                print 'Saved covariance matrix structured as needed for this likelihood to: \n', fname
+                print('Saved covariance matrix structured as needed for this likelihood to: \n', fname)
 
         return matrix
 
@@ -470,8 +476,8 @@ class kids450_cf_likelihood_public(Likelihood):
         E_z = constant[self.baryon_model]['E2']*a_sqr+constant[self.baryon_model]['E1']*a+constant[self.baryon_model]['E0']
 
         # only for debugging; tested and works!
-        #print 'AGN: A2=-0.11900, B2= 0.1300, C2= 0.6000, D2= 0.002110, E2=-2.0600'
-        #print self.baryon_model+': A2={:.5f}, B2={:.5f}, C2={:.5f}, D2={:.5f}, E2={:.5f}'.format(constant[self.baryon_model]['A2'], constant[self.baryon_model]['B2'], constant[self.baryon_model]['C2'],constant[self.baryon_model]['D2'], constant[self.baryon_model]['E2'])
+        #print('AGN: A2=-0.11900, B2= 0.1300, C2= 0.6000, D2= 0.002110, E2=-2.0600')
+        #print(self.baryon_model+': A2={:.5f}, B2={:.5f}, C2={:.5f}, D2={:.5f}, E2={:.5f}'.format(constant[self.baryon_model]['A2'], constant[self.baryon_model]['B2'], constant[self.baryon_model]['C2'],constant[self.baryon_model]['D2'], constant[self.baryon_model]['E2']))
 
         # original formula:
         #bias_sqr = 1.-A_z*np.exp((B_z-C_z)**3)+D_z*x*np.exp(E_z*x)
@@ -486,8 +492,8 @@ class kids450_cf_likelihood_public(Likelihood):
 
         # arbitrary convention
         z0 = 0.3
-        #print utils.growth_factor(z, self.Omega_m)
-        #print self.rho_crit
+        #print(utils.growth_factor(z, self.Omega_m))
+        #print(self.rho_crit)
         factor = -1. * amplitude * const * self.rho_crit * self.Omega_m / linear_growth_rate * ((1. + z) / (1. + z0))**exponent
 
         return factor
@@ -544,7 +550,7 @@ class kids450_cf_likelihood_public(Likelihood):
         if self.bootstrap_photoz_errors:
             # draw a random bootstrap n(z); borders are inclusive!
             random_index_bootstrap = np.random.randint(int(self.index_bootstrap_low), int(self.index_bootstrap_high) + 1)
-            #print 'Bootstrap index:', random_index_bootstrap
+            #print('Bootstrap index:', random_index_bootstrap)
             pz = np.zeros((self.nzmax, self.nzbins), 'float64')
             pz_norm = np.zeros(self.nzbins, 'float64')
 
@@ -572,7 +578,7 @@ class kids450_cf_likelihood_public(Likelihood):
             self.rho_crit = self.get_critical_density()
             # derive the linear growth factor D(z)
             linear_growth_rate = np.zeros_like(self.z_p)
-            #print self.redshifts
+            #print(self.redshifts)
             for index_z, z in enumerate(self.z_p):
                 try:
                     # for CLASS ver >= 2.6:
@@ -597,7 +603,7 @@ class kids450_cf_likelihood_public(Likelihood):
                 fun = self.pr[nr:, Bin] * (self.r[nr:] - self.r[nr]) / self.r[nr:]
                 self.g[nr, Bin] = np.sum(0.5 * (fun[1:] + fun[:-1]) * (self.r[nr + 1:] - self.r[nr:-1]))
                 self.g[nr, Bin] *= 2. * self.r[nr] * (1. + self.z_p[nr])
-        #print 'g(r) \n', self.g
+        #print('g(r) \n', self.g)
 
         # Get power spectrum P(k=l/r,z(r)) from cosmological module
         #self.pk_dm = np.zeros_like(self.pk)
@@ -667,10 +673,10 @@ class kids450_cf_likelihood_public(Likelihood):
             for Bin1 in xrange(self.nzbins):
                 for Bin2 in xrange(Bin1, self.nzbins):
                     Cl_GG_integrand[:, self.one_dim_index(Bin1,Bin2)] = self.g[:, Bin1] * self.g[:, Bin2] / self.r**2 * self.pk[il, :]
-                    #print self.Cl_integrand
+                    #print(self.Cl_integrand)
                     if intrinsic_alignment:
                         factor_IA = self.get_IA_factor(self.z_p, linear_growth_rate, amp_IA, exp_IA)
-                        #print self.eta_r[1:, zbin1].shape
+                        #print(self.eta_r[1:, zbin1].shape)
                         Cl_II_integrand[:, self.one_dim_index(Bin1,Bin2)] = self.pr[:, Bin1] * self.pr[:, Bin2] * factor_IA**2 / self.r**2 * self.pk[il, :]
                         Cl_GI_integrand[:, self.one_dim_index(Bin1,Bin2)] = (self.g[:, Bin1] * self.pr[:, Bin2] + self.g[:, Bin2] * self.pr[:, Bin1]) * factor_IA / self.r**2 * self.pk[il, :]
 
@@ -713,8 +719,8 @@ class kids450_cf_likelihood_public(Likelihood):
             self.Cl = Cl_GG + Cl_GI + Cl_II
         else:
             self.Cl = Cl_GG
-            #print Cl_GG
-            #print self.Cl
+            #print(Cl_GG)
+            #print(self.Cl)
 
         # Spline Cl[il,Bin1,Bin2] along l
         for Bin in xrange(self.nzcorrs):
@@ -770,8 +776,8 @@ class kids450_cf_likelihood_public(Likelihood):
 
         # final chi2
         vec = self.xi[self.mask_indices] - self.xi_obs[self.mask_indices]
-        #print self.xi_obs[self.mask_indices], len(self.xi_obs[self.mask_indices])
-        #print self.xi[self.mask_indices], len(self.xi[self.mask_indices])
+        #print(self.xi_obs[self.mask_indices], len(self.xi_obs[self.mask_indices]))
+        #print(self.xi[self.mask_indices], len(self.xi[self.mask_indices]))
 
         # this is for running smoothly with MultiNest
         # (in initial checking of prior space, there might occur weird solutions)

@@ -67,7 +67,7 @@ class BK14(Likelihood_sn):
         self.flat_to_diag = np.tril_indices(nmaps)
         self.diag_to_flat = np.zeros((nmaps,nmaps),dtype='int')
         # It is now easy to generate an array with the corresponding flattened indices. (We only fill the lower triangular part.)
-        self.diag_to_flat[self.flat_to_diag] = range(ncrossmaps)
+        self.diag_to_flat[self.flat_to_diag] = list(range(ncrossmaps))
         
         # Read in bandpasses
         self.ReadBandpasses()
@@ -83,7 +83,7 @@ class BK14(Likelihood_sn):
             tmp = tmp[:,mask]
             # Permute columns and store this bin
             self.window_data[k][:,indices] = tmp
-        # print 'window_data',self.window_data.shape
+        # print('window_data',self.window_data.shape)
 
         #Read covmat fiducial
         # Retrieve mask and index permutation for a single bin.
@@ -99,7 +99,7 @@ class BK14(Likelihood_sn):
         tmp = pd.read_table(os.path.join(self.data_directory, self.covmat_fiducial),comment='#',sep=' ',header=None,skipinitialspace=True).as_matrix()
         # Apply mask:
         tmp = tmp[:,supermask][supermask,:]
-        print 'Covmat read with shape',tmp.shape
+        print('Covmat read with shape',tmp.shape)
         # Store covmat in correct order
         self.covmat = np.zeros((nbins*ncrossmaps,nbins*ncrossmaps))
         for index_tmp, index_covmat in enumerate(superindices):
@@ -107,8 +107,8 @@ class BK14(Likelihood_sn):
 
         #Compute inverse and store
         self.covmat_inverse = la.inv(self.covmat)
-        # print 'covmat',self.covmat.shape
-        # print self.covmat_inverse
+        # print('covmat',self.covmat.shape)
+        # print(self.covmat_inverse)
 
         nbins = int(self.nbins)
         # Read noise:
@@ -150,7 +150,7 @@ class BK14(Likelihood_sn):
         # Loop over bins:
         for k in range(int(self.nbins)): 
             M = np.zeros((nmaps,nmaps))
-            Mflat = np.zeros((nmaps*(nmaps+1)/2))
+            Mflat = np.zeros(((nmaps*(nmaps+1))//2))
             Mflat[indices] = A[k,:]
             M[self.flat_to_diag] = Mflat
             # Symmetrise M and append to list:
@@ -181,9 +181,9 @@ class BK14(Likelihood_sn):
                 #     flatindex.append((index2-index1)*(2*nmaps+1-index2+index1)/2+index1)
                 # This calculates the flat index in the standard numpy.tril_indices() way:
                 if index1 > index2:
-                    flatindex.append(index1*(index1+1)/2+index2)
+                    flatindex.append((index1*(index1+1))//2+index2)
                 else:
-                    flatindex.append(index2*(index2+1)/2+index1)
+                    flatindex.append((index2*(index2+1))//2+index1)
                 mask[i] = True
         return flatindex, mask
             
@@ -200,7 +200,7 @@ class BK14(Likelihood_sn):
         for key in map_names_used:
             self.bandpasses[key] = {'field':map_fields[map_names.index(key)],'filename':getattr(self, 'bandpass['+key+']')}
         
-        for key, valdict in self.bandpasses.iteritems():
+        for key, valdict in io_mp.dictitems(self.bandpasses):
             tmp = np.loadtxt(os.path.join(self.data_directory, valdict['filename']))
             #Frequency nu, response resp:
             valdict['nu'] = tmp[:,0]
@@ -217,7 +217,7 @@ class BK14(Likelihood_sn):
             nu0=23.
             th0 = nu0**4*np.exp(Ghz_Kelvin*nu0/T_CMB) / (np.exp(Ghz_Kelvin*nu0/T_CMB) - 1.)**2
             valdict['th023'] = th_int / th0
-            #print 'th353:', valdict['th353'], 'th023:', valdict['th023']
+            #print('th353:', valdict['th353'], 'th023:', valdict['th023'])
     
 
     def loglkl(self, cosmo, data):
@@ -331,7 +331,7 @@ class BK14(Likelihood_sn):
         # Convenience variables: store the nuisance parameters in short named variables
         # for parname in self.use_nuisance:
         #     evalstring = parname+" = data.mcmc_parameters['"+parname+"']['current']*data.mcmc_parameters['"+parname+"']['scale']"
-        #     print evalstring
+        #     print(evalstring)
         BBdust = data.mcmc_parameters['BBdust']['current']*data.mcmc_parameters['BBdust']['scale']
         BBsync = data.mcmc_parameters['BBsync']['current']*data.mcmc_parameters['BBsync']['scale']
         BBalphadust = data.mcmc_parameters['BBalphadust']['current']*data.mcmc_parameters['BBalphadust']['scale']
@@ -348,7 +348,7 @@ class BK14(Likelihood_sn):
         # Compute fdust and fsync for each bandpass
         self.fdust = {}
         self.fsync = {}
-        for key, bandpass in self.bandpasses.iteritems():
+        for key, bandpass in io_mp.dictitems(self.bandpasses):
             self.fdust[key] = DustScaling(BBbetadust, BBTdust, bandpass)
             self.fsync[key] = SyncScaling(BBbetasync, bandpass)
 

@@ -20,6 +20,7 @@
 # This likelihood only produces valid results for \Omega_k = 0,
 # i.e. flat cosmologies!
 ##############################################################
+from __future__ import print_function
 
 from montepython.likelihood_class import Likelihood
 import io_mp
@@ -33,6 +34,11 @@ import os
 import numpy as np
 import math
 #from timeit import default_timer as timer
+
+try:
+    xrange
+except NameError:
+    xrange = range
 
 class kv450_cf_likelihood_public(Likelihood):
 
@@ -57,7 +63,7 @@ class kv450_cf_likelihood_public(Likelihood):
         folder_name = os.path.join(self.data_directory, 'FOR_MONTE_PYTHON')
         if not os.path.isdir(folder_name):
             os.makedirs(folder_name)
-            print 'Created folder for Monte Python related data files: \n', folder_name, '\n'
+            print('Created folder for Monte Python related data files: \n', folder_name, '\n')
 
         # for loading of Nz-files:
         self.z_bins_min = [0.1, 0.3, 0.5, 0.7, 0.9]
@@ -83,9 +89,9 @@ class kv450_cf_likelihood_public(Likelihood):
         # it seems like HMcode needs the full argument to work...
         if self.method_non_linear_Pk in ['halofit', 'HALOFIT', 'Halofit', 'hmcode', 'Hmcode', 'HMcode', 'HMCODE']:
             self.need_cosmo_arguments(data, {'non linear': self.method_non_linear_Pk})
-            print 'Using {:} to obtain the non-linear corrections for the matter power spectrum, P(k, z)! \n'.format(self.method_non_linear_Pk)
+            print('Using {:} to obtain the non-linear corrections for the matter power spectrum, P(k, z)! \n'.format(self.method_non_linear_Pk))
         else:
-            print 'Only using the linear P(k, z) for ALL calculations \n (check keywords for "method_non_linear_Pk"). \n'
+            print('Only using the linear P(k, z) for ALL calculations \n (check keywords for "method_non_linear_Pk"). \n')
 
         # TODO: move min_kmax_hmc to data-file?!
         # might not be really necessary; I didn't see a difference in the P(k, z) ratios between
@@ -95,7 +101,7 @@ class kv450_cf_likelihood_public(Likelihood):
             min_kmax_hmc = 170.
             if self.k_max_h_by_Mpc < min_kmax_hmc:
                 self.need_cosmo_arguments(data, {'P_k_max_h/Mpc': min_kmax_hmc})
-                #print "Your choice of k_max_h_by_Mpc is too small for HMcode. \n Requested P_k_max_h/Mpc now up to k = {:.2f} h/Mpc \n This does NOT influence the scale above".format(min_kmax_hmc)
+                #print("Your choice of k_max_h_by_Mpc is too small for HMcode. \n Requested P_k_max_h/Mpc now up to k = {:.2f} h/Mpc \n This does NOT influence the scale above".format(min_kmax_hmc))
 
         # This is for Cl-integration only!
         # Define array of l values, and initialize them
@@ -106,7 +112,7 @@ class kv450_cf_likelihood_public(Likelihood):
         self.dlnl = np.log(self.lmax) / (self.nlmax - 1)
         self.l = np.exp(self.dlnl * np.arange(self.nlmax))
 
-        #print self.l.min(), self.l.max(), self.l.shape
+        #print(self.l.min(), self.l.max(), self.l.shape)
 
         self.nzbins = len(self.z_bins_min)
         self.nzcorrs = self.nzbins * (self.nzbins + 1) / 2
@@ -164,7 +170,7 @@ class kv450_cf_likelihood_public(Likelihood):
         idx2, idx1 = np.meshgrid(range(covmat.shape[0]), range(covmat.shape[0]))
         header = ' i       j    Cov(i,j) including m uncertainty'
         np.savetxt(fname, np.column_stack((idx1.flatten() + 1, idx2.flatten() + 1, covmat.flatten())), header=header, delimiter='\t', fmt=['%4i', '%4i', '%.15e'])
-        print 'Saved covariance matrix (incl. shear calibration uncertainty) cut down to scales as specified in {:} to: \n'.format(self.cutvalues_file), fname, '\n'
+        print('Saved covariance matrix (incl. shear calibration uncertainty) cut down to scales as specified in {:} to: \n'.format(self.cutvalues_file), fname, '\n')
 
         # precompute Cholesky transform for chi^2 calculation:
         self.cholesky_transform = cholesky(covmat, lower=True)
@@ -176,8 +182,8 @@ class kv450_cf_likelihood_public(Likelihood):
             fname = os.path.join(self.data_directory, 'SUPPLEMENTARY_FILES/KV450_xi_pm_c_term.dat')
             # function is measured over same theta scales as xip, xim
             self.xip_c_per_zbin, self.xim_c_per_zbin = np.loadtxt(fname, usecols=(3, 4), unpack=True)
-            print 'Loaded (angular) scale-dependent c-term function from: \n', fname, '\n'
-            #print self.xip_c_per_zbin.shape
+            print('Loaded (angular) scale-dependent c-term function from: \n', fname, '\n')
+            #print(self.xip_c_per_zbin.shape)
 
         # Check if any of the n(z) needs to be shifted in loglkl by D_z{1...n}:
         self.shift_n_z_by_D_z = np.zeros(self.nzbins, 'bool')
@@ -201,21 +207,21 @@ class kv450_cf_likelihood_public(Likelihood):
                     zpcheck = zptemp
                     if np.sum((zptemp - zpcheck)**2) > 1e-6:
                         raise io_mp.LikelihoodError('The redshift values for the window files at different bins do not match.')
-                #print 'Loaded n(zbin{:}) from: \n'.format(zbin + 1), window_file_path
+                #print('Loaded n(zbin{:}) from: \n'.format(zbin + 1), window_file_path)
                 # we add a zero as first element because we want to integrate down to z = 0!
                 z_samples += [np.concatenate((np.zeros(1), zptemp + shift_to_midpoint))]
                 hist_samples += [np.concatenate((np.zeros(1), hist_pz))]
             else:
                 raise io_mp.LikelihoodError("File not found:\n %s"%window_file_path)
-        print 'Loaded redshift distributions from: \n', os.path.join(
-                self.data_directory, 'REDSHIFT_DISTRIBUTIONS/Nz_{0:}/Nz_{0:}_Mean/'.format(self.nz_method)), '\n'
+        print('Loaded redshift distributions from: \n', os.path.join(
+                self.data_directory, 'REDSHIFT_DISTRIBUTIONS/Nz_{0:}/Nz_{0:}_Mean/'.format(self.nz_method)), '\n')
 
         z_samples = np.asarray(z_samples)
         hist_samples = np.asarray(hist_samples)
 
         # prevent undersampling of histograms!
         if self.nzmax < len(zptemp):
-            print "You are trying to integrate at lower resolution than supplied by the n(z) histograms. \n Increase nzmax! Aborting run now... \n"
+            print("You are trying to integrate at lower resolution than supplied by the n(z) histograms. \n Increase nzmax! Aborting run now... \n")
             exit()
         # if that's the case, we want to integrate at histogram resolution and need to account for
         # the extra zero entry added
@@ -223,12 +229,12 @@ class kv450_cf_likelihood_public(Likelihood):
             self.nzmax = z_samples.shape[1]
             # requires that z-spacing is always the same for all bins...
             self.z_p = z_samples[0, :]
-            print 'Redshift integrations performed at resolution of redshift distribution histograms! \n'
+            print('Redshift integrations performed at resolution of redshift distribution histograms! \n')
         # if we interpolate anyway at arbitrary resolution the extra 0 doesn't matter
         else:
             self.nzmax += 1
             self.z_p = np.linspace(z_samples.min(), z_samples.max(), self.nzmax)
-            print 'Redshift integrations performed at set "nzmax" resolution! \n'
+            print('Redshift integrations performed at set "nzmax" resolution! \n')
 
         self.pz = np.zeros((self.nzmax, self.nzbins))
         self.pz_norm = np.zeros(self.nzbins, 'float64')
@@ -285,7 +291,7 @@ class kv450_cf_likelihood_public(Likelihood):
                 import pycl2xi.fftlog as fftlog
 
             except:
-                print 'FFTLog was requested as integration method for the Bessel functions but is not installed. \n Download it from "https://github.com/tilmantroester/pycl2xi" and follow the installation instructions there (also requires the fftw3 library). \n Aborting run now... \n'
+                print('FFTLog was requested as integration method for the Bessel functions but is not installed. \n Download it from "https://github.com/tilmantroester/pycl2xi" and follow the installation instructions there (also requires the fftw3 library). \n Aborting run now... \n')
                 exit()
 
             # this has to be declared a self, otherwise fftlog won't be available
@@ -369,7 +375,7 @@ class kv450_cf_likelihood_public(Likelihood):
             #self.lll = np.arange(1., self.lmax + 1., 1)
             self.nl = self.lll.size
 
-        #print self.lll.min(), self.lll.max(), self.lll.shape
+        #print(self.lll.min(), self.lll.max(), self.lll.shape)
         #exit()
 
         # here we set up arrays and some integrations necessary for the theory binning:
@@ -465,7 +471,7 @@ class kv450_cf_likelihood_public(Likelihood):
 
         data = np.concatenate((data_xip, data_xim))
 
-        print 'Loaded data vectors from: \n', os.path.join(self.data_directory, 'DATA_VECTOR/KV450_xi_pm_files/'), '\n'
+        print('Loaded data vectors from: \n', os.path.join(self.data_directory, 'DATA_VECTOR/KV450_xi_pm_files/'), '\n')
 
         return data
 
@@ -511,14 +517,14 @@ class kv450_cf_likelihood_public(Likelihood):
         try:
             fname = os.path.join(self.data_directory, 'FOR_MONTE_PYTHON/Cov_mat_all_scales_inc_m_use_with_kv450_cf_likelihood_public.dat')
             matrix = np.loadtxt(fname)
-            print 'Loaded covariance matrix (incl. shear calibration uncertainty) in a format usable with this likelihood from: \n', fname, '\n'
+            print('Loaded covariance matrix (incl. shear calibration uncertainty) in a format usable with this likelihood from: \n', fname, '\n')
 
         except:
             fname = os.path.join(self.data_directory, 'COV_MAT/Cov_mat_all_scales.txt')
             tmp_raw = np.loadtxt(fname)
 
-            print 'Loaded covariance matrix in list format from: \n', fname
-            print 'Now we construct the covariance matrix in a format usable with this likelihood for the first time. \n This might take a few minutes, but only once! \n'
+            print('Loaded covariance matrix in list format from: \n', fname)
+            print('Now we construct the covariance matrix in a format usable with this likelihood for the first time. \n This might take a few minutes, but only once! \n')
 
             thetas_plus = self.theta_bins[:self.ntheta]
             thetas_minus = self.theta_bins[self.ntheta:]
@@ -556,10 +562,10 @@ class kv450_cf_likelihood_public(Likelihood):
                                     for ipm2 in xrange(2):
                                         for ith2 in xrange(self.ntheta):
                                             for index_lin in xrange(len(tmp_raw)):
-                                                #print index1, index2
-                                                #print iz1, iz2, ipm, ith, iz3, iz4, ipm2
+                                                #print(index1, index2)
+                                                #print(iz1, iz2, ipm, ith, iz3, iz4, ipm2)
                                                 if iz1 + 1 == indices[index_lin, 0] and iz2 + 1 == indices[index_lin, 1] and ipm == indices[index_lin, 2] and iz3 + 1 == indices[index_lin, 3]  and iz4 + 1 == indices[index_lin, 4] and ipm2 == indices[index_lin, 5] and ith == thetas_raw_plus[index_lin] and ith2 == thetas_raw_minus[index_lin]:
-                                                    #print 'hit'
+                                                    #print('hit')
                                                     matrix[index1, index2] = values[index_lin]
                                                     matrix[index2, index1] = matrix[index1, index2]
                                             index2 += 1
@@ -577,7 +583,7 @@ class kv450_cf_likelihood_public(Likelihood):
             fname = fname = os.path.join(self.data_directory, 'FOR_MONTE_PYTHON/Cov_mat_all_scales_inc_m_use_with_kv450_cf_likelihood_public.dat')
             if not os.path.isfile(fname):
                 np.savetxt(fname, matrix)
-                print 'Saved covariance matrix (incl. shear calibration uncertainty) in format usable with this likelihood to: \n', fname, '\n'
+                print('Saved covariance matrix (incl. shear calibration uncertainty) in format usable with this likelihood to: \n', fname, '\n')
 
         return matrix
 
@@ -615,7 +621,7 @@ class kv450_cf_likelihood_public(Likelihood):
         header = ' i    theta(i)\'        xi_p/m(i)  (p=1, m=2)  itomo   jtomo'
         fname = os.path.join(self.data_directory , 'FOR_MONTE_PYTHON/{:}_cut_to_{:}.dat'.format(fname_prefix, self.mask_suffix))
         np.savetxt(fname, savedata, header=header, delimiter='\t', fmt=['%4i', '%.5e', '%12.5e', '%i', '%i', '%i'])
-        print 'Saved vector in list format cut down to scales as specified in {:}: \n'.format(self.cutvalues_file), fname, '\n'
+        print('Saved vector in list format cut down to scales as specified in {:}: \n'.format(self.cutvalues_file), fname, '\n')
 
         return
 
@@ -682,7 +688,7 @@ class kv450_cf_likelihood_public(Likelihood):
                 #for index_theta in xrange(ntheta):
                 index_low = 2 * self.ntheta * index_corr
                 index_high = 2 * self.ntheta * index_corr + 2 * self.ntheta
-                #print index_low, index_high
+                #print(index_low, index_high)
                 tmp[:, index_zbin1, index_zbin2] = vec_old[index_low:index_high]
                 vec1_new[:, index_zbin1, index_zbin2] = tmp[:self.ntheta, index_zbin1, index_zbin2]
                 vec2_new[:, index_zbin1, index_zbin2] = tmp[self.ntheta:, index_zbin1, index_zbin2]
@@ -697,7 +703,7 @@ class kv450_cf_likelihood_public(Likelihood):
         for index_corr in xrange(self.nzcorrs):
             index_low = 2 * self.ntheta * index_corr
             index_high = 2 * self.ntheta * index_corr + 2 * self.ntheta
-            #print index_low, index_high
+            #print(index_low, index_high)
             tmp[:, index_corr] = vec_old[index_low:index_high]
             vec1_new[:, index_corr] = tmp[:self.ntheta, index_corr]
             vec2_new[:, index_corr] = tmp[self.ntheta:, index_corr]
@@ -734,8 +740,8 @@ class kv450_cf_likelihood_public(Likelihood):
         E_z = constant[self.baryon_model]['E2']*a_sqr+constant[self.baryon_model]['E1']*a+constant[self.baryon_model]['E0']
 
         # only for debugging; tested and works!
-        #print 'AGN: A2=-0.11900, B2= 0.1300, C2= 0.6000, D2= 0.002110, E2=-2.0600'
-        #print self.baryon_model+': A2={:.5f}, B2={:.5f}, C2={:.5f}, D2={:.5f}, E2={:.5f}'.format(constant[self.baryon_model]['A2'], constant[self.baryon_model]['B2'], constant[self.baryon_model]['C2'],constant[self.baryon_model]['D2'], constant[self.baryon_model]['E2'])
+        #print('AGN: A2=-0.11900, B2= 0.1300, C2= 0.6000, D2= 0.002110, E2=-2.0600')
+        #print(self.baryon_model+': A2={:.5f}, B2={:.5f}, C2={:.5f}, D2={:.5f}, E2={:.5f}'.format(constant[self.baryon_model]['A2'], constant[self.baryon_model]['B2'], constant[self.baryon_model]['C2'],constant[self.baryon_model]['D2'], constant[self.baryon_model]['E2']))
 
         # original formula:
         #bias_sqr = 1.-A_z*np.exp((B_z-C_z)**3)+D_z*x*np.exp(E_z*x)
@@ -750,8 +756,8 @@ class kv450_cf_likelihood_public(Likelihood):
 
         # arbitrary convention
         z0 = 0.3
-        #print utils.growth_factor(z, self.Omega_m)
-        #print self.rho_crit
+        #print(utils.growth_factor(z, self.Omega_m))
+        #print(self.rho_crit)
         factor = -1. * amplitude * const * self.rho_crit * self.Omega_m / linear_growth_rate * ((1. + z) / (1. + z0))**exponent
 
         return factor
@@ -810,7 +816,7 @@ class kv450_cf_likelihood_public(Likelihood):
         if self.bootstrap_photoz_errors:
             # draw a random bootstrap n(z); borders are inclusive!
             random_index_bootstrap = np.random.randint(int(self.index_bootstrap_low), int(self.index_bootstrap_high) + 1)
-            #print 'Bootstrap index:', random_index_bootstrap
+            #print('Bootstrap index:', random_index_bootstrap)
             pz = np.zeros((self.nzmax, self.nzbins), 'float64')
             pz_norm = np.zeros(self.nzbins, 'float64')
 
@@ -964,7 +970,7 @@ class kv450_cf_likelihood_public(Likelihood):
             self.rho_crit = self.get_critical_density()
             # derive the linear growth factor D(z)
             linear_growth_rate = np.zeros_like(self.z_p)
-            #print self.redshifts
+            #print(self.redshifts)
             for index_z, z in enumerate(self.z_p):
                 try:
                     # for CLASS ver >= 2.6:
@@ -989,7 +995,7 @@ class kv450_cf_likelihood_public(Likelihood):
                 fun = self.pr[nr:, Bin] * (self.r[nr:] - self.r[nr]) / self.r[nr:]
                 self.g[nr, Bin] = np.sum(0.5 * (fun[1:] + fun[:-1]) * (self.r[nr + 1:] - self.r[nr:-1]))
                 self.g[nr, Bin] *= 2. * self.r[nr] * (1. + self.z_p[nr])
-        #print 'g(r) \n', self.g
+        #print('g(r) \n', self.g)
 
         # Get power spectrum P(k=l/r,z(r)) from cosmological module
         #self.pk_dm = np.zeros_like(self.pk)
@@ -1019,7 +1025,7 @@ class kv450_cf_likelihood_public(Likelihood):
         # Save out P(k, z)
         #fname = os.path.join(self.data_directory, 'pk.dat')
         #np.savetxt(fname, np.column_stack((k_save, self.pk)))
-        #print 'Saved P(k, z) to: \n', fname
+        #print('Saved P(k, z) to: \n', fname)
 
         '''
         # Recover the non_linear scale computed by halofit. If no scale was
@@ -1071,10 +1077,10 @@ class kv450_cf_likelihood_public(Likelihood):
             for Bin1 in xrange(self.nzbins):
                 for Bin2 in xrange(Bin1, self.nzbins):
                     Cl_GG_integrand[1:, self.one_dim_index(Bin1,Bin2)] = self.g[1:, Bin1] * self.g[1:, Bin2] / self.r[1:]**2 * self.pk[il, 1:]
-                    #print self.Cl_integrand
+                    #print(self.Cl_integrand)
                     if intrinsic_alignment:
                         factor_IA = self.get_IA_factor(self.z_p, linear_growth_rate, amp_IA, exp_IA)
-                        #print self.eta_r[1:, zbin1].shape
+                        #print(self.eta_r[1:, zbin1].shape)
 
                         if self.use_linear_pk_for_IA:
                             # this term (II) uses the linear matter power spectrum P_lin(k, z)
@@ -1124,8 +1130,8 @@ class kv450_cf_likelihood_public(Likelihood):
             self.Cl = Cl_GG + Cl_GI + Cl_II
         else:
             self.Cl = Cl_GG
-            #print Cl_GG
-            #print self.Cl
+            #print(Cl_GG)
+            #print(self.Cl)
 
         # Spline Cl[il,Bin1,Bin2] along l
         for Bin in xrange(self.nzcorrs):
@@ -1156,8 +1162,8 @@ class kv450_cf_likelihood_public(Likelihood):
                 self.xi1[it, :] = np.sum(self.ldl[:] * self.Cll[:, :] * self.BBessel0[:], axis=1)
                 self.xi2[it, :] = np.sum(self.ldl[:] * self.Cll[:, :] * self.BBessel4[:], axis=1)
             #dt = timer() - t0
-            #print 'dt = {:.6f}'.format(dt)
-            #print self.lll.min(), self.lll.max(), self.lll.shape
+            #print('dt = {:.6f}'.format(dt))
+            #print(self.lll.min(), self.lll.max(), self.lll.shape)
             #exit()
             # normalize xis
             self.xi1 = self.xi1 / (2. * math.pi)
@@ -1172,8 +1178,8 @@ class kv450_cf_likelihood_public(Likelihood):
                 self.xi1[:, zcorr] = self.Cl2xi(self.Cll[zcorr, :], self.lll[:], self.theta[:] / 60., bessel_order=0) #, ell_min_fftlog=self.lll.min(), ell_max_fftlog=self.lll.max() + 1e4)
                 self.xi2[:, zcorr] = self.Cl2xi(self.Cll[zcorr, :], self.lll[:], self.theta[:] / 60., bessel_order=4) #, ell_min_fftlog=self.lll.min(), ell_max_fftlog=self.lll.max() + 1e4)
             #dt = timer() - t0
-            #print 'dt = {:.6f}'.format(dt)
-            #print self.lll.min(), self.lll.max(), self.lll.shape
+            #print('dt = {:.6f}'.format(dt))
+            #print(self.lll.min(), self.lll.max(), self.lll.shape)
             #exit()
         else:
             #t0 = timer()
@@ -1193,8 +1199,8 @@ class kv450_cf_likelihood_public(Likelihood):
                 self.xi1[it, :] = np.sum(self.ldl[:ilmax] * self.Cll[:, :ilmax] * self.BBessel0[:ilmax], axis=1)
                 self.xi2[it, :] = np.sum(self.ldl[:ilmax] * self.Cll[:, :ilmax] * self.BBessel4[:ilmax], axis=1)
             #dt = timer() - t0
-            #print 'dt = {:.6f}'.format(dt)
-            #print self.lll.min(), self.lll.max(), self.lll.shape
+            #print('dt = {:.6f}'.format(dt))
+            #print(self.lll.min(), self.lll.max(), self.lll.shape)
             #exit()
             # normalize xis
             self.xi1 = self.xi1 / (2. * math.pi)
@@ -1228,7 +1234,7 @@ class kv450_cf_likelihood_public(Likelihood):
             temp = np.concatenate((xi_p, xi_m))
             self.xi = self.__get_xi_obs(temp)
             #dt = timer() - t0
-            #print dt
+            #print(dt)
 
         else:
             # Get xi's in same column vector format as the data
@@ -1253,27 +1259,27 @@ class kv450_cf_likelihood_public(Likelihood):
         # it's zero if not requested!
         # same goes for constant relative offset of c-correction dc_sqr
         # TODO: in both arrays the xim-component is set to zero for now!!!
-        #print self.xi, self.xi.shape
-        #print xipm_c, xipm_c.shape
-        #print dc_sqr, dc_sqr.shape
+        #print(self.xi, self.xi.shape)
+        #print(xipm_c, xipm_c.shape)
+        #print(dc_sqr, dc_sqr.shape)
 
         # double check for sorting of self.__get_xi_p_and_xi_m:
         #xi_p_test, xi_m_test = self.__get_xi_p_and_xi_m(self.xi)
-        #print np.allclose(xi_p_test - xi_p, 0.)
-        #print np.allclose(xi_m_test - xi_m, 0.)
+        #print(np.allclose(xi_p_test - xi_p, 0.))
+        #print(np.allclose(xi_m_test - xi_m, 0.))
 
         self.xi = self.xi * dm_plus_one_sqr_obs + xipm_c + dc_sqr
 
         if self.write_out_theory:
             # write out masked theory vector in list format:
             self.__write_out_vector_in_list_format(self.xi, fname_prefix='THEORY_xi_pm')
-            print 'Aborting run now... \n Set flag "write_out_theory = False" for likelihood evaluations! \n'
+            print('Aborting run now... \n Set flag "write_out_theory = False" for likelihood evaluations! \n')
             exit()
 
         # final chi2
         vec = self.xi[self.mask_indices] - self.xi_obs[self.mask_indices]
-        #print self.xi_obs[self.mask_indices], len(self.xi_obs[self.mask_indices])
-        #print self.xi[self.mask_indices], len(self.xi[self.mask_indices])
+        #print(self.xi_obs[self.mask_indices], len(self.xi_obs[self.mask_indices]))
+        #print(self.xi[self.mask_indices], len(self.xi[self.mask_indices]))
 
         # this is for running smoothly with MultiNest
         # (in initial checking of prior space, there might occur weird solutions)
@@ -1293,9 +1299,9 @@ class kv450_cf_likelihood_public(Likelihood):
                 scale = data.mcmc_parameters[nuisance_name]['scale']
                 chi2 += (data.mcmc_parameters[nuisance_name]['current'] * scale - self.gaussian_prior_center[idx_nuisance])**2 / self.gaussian_prior_sigma[idx_nuisance]**2
 
-        #print chi2
+        #print(chi2)
         #dt = timer() - t0
-        #print 'Time for one likelihood evaluation: {:.6f}s.'.format(dt)
+        #print('Time for one likelihood evaluation: {:.6f}s.'.format(dt))
 
         return -chi2/2.
 

@@ -14,6 +14,7 @@ internally two functions, :func:`prior() <MultiNest.prior>` and
 .. moduleauthor:: Jesus Torrado <torradocacho@lorentz.leidenuniv.nl>
 .. moduleauthor:: Benjamin Audren <benjamin.audren@epfl.ch>
 """
+from __future__ import print_function
 from pymultinest import run as nested_run
 import numpy as np
 import os
@@ -253,7 +254,7 @@ def run(cosmo, data, command_line):
         Please see the encompassing function docstring
 
         """
-        for i, name in zip(range(ndim), NS_param_names):
+        for i, name in zip(list(range(ndim)), NS_param_names):
             cube[i] = data.mcmc_parameters[name]['prior']\
                 .map_from_unit_interval(cube[i])
 
@@ -264,7 +265,7 @@ def run(cosmo, data, command_line):
 
         """
         # Updates values: cube --> data
-        for i, name in zip(range(ndim), NS_param_names):
+        for i, name in zip(list(range(ndim)), NS_param_names):
             data.mcmc_parameters[name]['current'] = cube[i]
         # Propagate the information towards the cosmo arguments
         data.update_cosmo_arguments()
@@ -324,13 +325,16 @@ def from_NS_output_to_chains(folder):
         for line in afile:
             arg   = line.split('=')[0].strip()
             value = line.split('=')[1].strip()
-            arg_type = (NS_user_arguments[arg]['type']
-                        if arg in NS_user_arguments else
-                        NS_auto_arguments[arg]['type'])
-            value = arg_type(value)
-            if arg == 'clustering_params':
-                value = [a.strip() for a in value.split()]
-            NS_arguments[arg] = value
+            # FK: we need to take care of newly introduced 'base_dir'
+            # variable here (by just skipping it):
+            if not arg == 'base_dir':
+                arg_type = (NS_user_arguments[arg]['type']
+                            if arg in NS_user_arguments else
+                            NS_auto_arguments[arg]['type'])
+                value = arg_type(value)
+                if arg == 'clustering_params':
+                    value = [a.strip() for a in value.split()]
+                NS_arguments[arg] = value
     multimodal = NS_arguments.get('multimodal')
     # Read parameters order
     NS_param_names = np.loadtxt(base_name+name_paramnames, dtype='str').tolist()
@@ -421,7 +425,7 @@ def from_NS_output_to_chains(folder):
         # Add ACCEPTED points
         mode_data = np.array(mode_lines[i].split(), dtype='float64')
         columns = 2+NS_arguments['n_params']
-        mode_data = mode_data.reshape([mode_data.shape[0]/columns, columns])
+        mode_data = mode_data.reshape([mode_data.shape[0]//columns, columns])
         # Rearrange: sample-prob | -2*loglik | params (clustering first)
         #       ---> sample-prob |   -loglik | params (log.param order)
         mode_data[:, 1]  = mode_data[:, 1] / 2.
