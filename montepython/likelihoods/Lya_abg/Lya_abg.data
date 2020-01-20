@@ -1,13 +1,13 @@
 # Lyman-alpha likelihood based on the alpha-beta-gamma
-# approach, described in detail in 1907.01496.
+# approach described in 1704.07838 and 1806.08371.
+# Full likelihood described in detail in 1907.01496.
 # Likelihood written by M. Archidiacono, R. Murgia,
 # D.C. Hooper, J. Lesgourgues, and M. Viel.
 
 # This likelihood should always be used together with
 # a CMB likelihood (e.g. Planck). This likelihood is only
 # applicable for models that can be described by the
-# alpha-beta-gamma parameterisation. See 1907.01496
-# for the full aplicability.
+# alpha-beta-gamma parameterisation.
 
 # Important! This likelihood requires CLASS version 2.9 or higher.
 
