@@ -11,8 +11,7 @@ import numpy as np
 from scipy import interpolate
 from lmfit import Minimizer, Parameters, report_fit
 from scipy.linalg import block_diag
-import pprint
-import _pickle as pickle
+import pprint, pickle
 
 
 class Lya_abg(Likelihood):
