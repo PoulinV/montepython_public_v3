@@ -806,7 +806,7 @@ def compute_lkl(cosmo, data):
     # DCH adding a check to make sure the derived_lkl are passed properly
     if data.get_mcmc_parameters(['derived_lkl']) != []:
         try:
-            for name, value in data.derived_lkl.iteritems():
+            for (name, value) in data.derived_lkl.items():
                 data.mcmc_parameters[name]['current'] = value
         except Exception as missing:
             raise io_mp.CosmologicalModuleError(

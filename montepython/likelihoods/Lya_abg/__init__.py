@@ -11,7 +11,8 @@ import numpy as np
 from scipy import interpolate
 from lmfit import Minimizer, Parameters, report_fit
 from scipy.linalg import block_diag
-import pprint, pickle
+import pprint
+import _pickle as pickle
 
 
 class Lya_abg(Likelihood):
@@ -144,16 +145,16 @@ class Lya_abg(Likelihood):
         # Import the two grids for Kriging
         file_path = os.path.join(self.data_directory, self.astro_spectra_file)
         if os.path.exists(file_path):
-            pkl = open(file_path, 'r')
-            self.input_full_matrix_interpolated_ASTRO = pickle.load(pkl)
+            pkl = open(file_path, 'rb')
+            self.input_full_matrix_interpolated_ASTRO = pickle.load(pkl, fix_imports=True, encoding='latin1')
             pkl.close()
         else:
             raise io_mp.ConfigurationError('Error: astro spectra file is missing')
 
         file_path = os.path.join(self.data_directory, self.abg_spectra_file)
         if os.path.exists(file_path):
-            pkl = open(file_path, 'r')
-            self.input_full_matrix_interpolated_ABG = pickle.load(pkl)
+            pkl = open(file_path, 'rb')
+            self.input_full_matrix_interpolated_ABG = pickle.load(pkl, fix_imports=True, encoding='latin1')
             pkl.close()
         else:
             raise io_mp.ConfigurationError('Error: abg spectra file is missing')
@@ -192,40 +193,40 @@ class Lya_abg(Likelihood):
 
         file_path = os.path.join(self.data_directory, self.MIKE_spectra_file)
         if os.path.exists(file_path):
-            pkl = open(file_path, 'r')
-            y_M_reshaped = pickle.load(pkl)
+            pkl = open(file_path, 'rb')
+            y_M_reshaped = pickle.load(pkl, fix_imports=True, encoding='latin1')
             pkl.close()
         else:
             raise io_mp.ConfigurationError('Error: MIKE spectra file is missing')
 
         file_path = os.path.join(self.data_directory, self.HIRES_spectra_file)
         if os.path.exists(file_path):
-            pkl = open(file_path, 'r')
-            y_H_reshaped = pickle.load(pkl)
+            pkl = open(file_path, 'rb')
+            y_H_reshaped = pickle.load(pkl, fix_imports=True, encoding='latin1')
             pkl.close()
         else:
             raise io_mp.ConfigurationError('Error: HIRES spectra file is missing')
 
         file_path = os.path.join(self.data_directory, self.MIKE_cov_file)
         if os.path.exists(file_path):
-            pkl = open(file_path, 'r')
-            cov_M_inverted = pickle.load(pkl)
+            pkl = open(file_path, 'rb')
+            cov_M_inverted = pickle.load(pkl, fix_imports=True, encoding='latin1')
             pkl.close()
         else:
             raise io_mp.ConfigurationError('Error: MIKE covariance matrix file is missing')
 
         file_path = os.path.join(self.data_directory, self.HIRES_cov_file)
         if os.path.exists(file_path):
-            pkl = open(file_path, 'r')
-            cov_H_inverted = pickle.load(pkl)
+            pkl = open(file_path, 'rb')
+            cov_H_inverted = pickle.load(pkl, fix_imports=True, encoding='latin1')
             pkl.close()
         else:
             raise io_mp.ConfigurationError('Error: HIRES covariance matrix file is missing')
 
         file_path = os.path.join(self.data_directory, self.PF_noPRACE_file)
         if os.path.exists(file_path):
-            pkl = open(file_path, 'r')
-            self.PF_noPRACE = pickle.load(pkl)
+            pkl = open(file_path, 'rb')
+            self.PF_noPRACE = pickle.load(pkl, fix_imports=True, encoding='latin1')
             pkl.close()
         else:
             raise io_mp.ConfigurationError('Error: PF_noPRACE file is missing')
