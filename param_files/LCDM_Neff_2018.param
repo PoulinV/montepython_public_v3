@@ -4,7 +4,7 @@
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18','sdss_lrgDR7','kids450_qe_likelihood_public']
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl_TT','simlow','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18']
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_19']
-data.experiments=['Planck_2018_highl_TTTEEE','Planck_2018_lowTT','Planck_2018_lowEE','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_19']
+data.experiments=['Planck_2018_highl_TTTEEE','Planck_2018_lowTT','Planck_2018_lowEE','Pantheon','bao_boss','bao_fs_boss_dr12',SZ_Combination']
 #data.experiments=['Planck_2018_highl_TTTEEE','Planck_2018_lowTT','Planck_2018_lowEE','Planck_2018_lensing','Pantheon','bao_boss','bao_fs_boss_dr12']
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing']
 

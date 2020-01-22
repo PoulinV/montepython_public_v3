@@ -1,7 +1,12 @@
 #------Experiments to test (separated with commas)-----
 
 #data.experiments=['fake_planck_realistic_M030','euclid_pk_M030','euclid_lensing_M030']
-data.experiments=['fake_planck_realistic_massless','euclid_pk_massless','euclid_lensing_massless']
+#data.experiments=['fake_planck_realistic_massless','euclid_pk_massless','euclid_lensing_massless']
+#data.experiments=['fake_planck_realistic_M010_IH','euclid_pk_M010_IH','euclid_lensing_M010_IH']
+#data.experiments=['fake_planck_realistic_M015_IH','euclid_pk_M015_IH','euclid_lensing_M015_IH']
+#data.experiments=['fake_planck_realistic_M020_IH','euclid_pk_M020_IH','euclid_lensing_M020_IH']
+data.experiments=['fake_planck_realistic_M025_IH','euclid_pk_M025_IH','euclid_lensing_M025_IH']
+
 #------ Settings for the over-sampling.
 # The first element will always be set to 1, for it is the sampling of the
 # cosmological parameters. The other numbers describe the over sampling of the
@@ -40,8 +45,8 @@ data.parameters['H0'] 		= [67.36,	50,   80,    0.6,   1, 'cosmo']
 data.parameters['ln10^{10}A_s'] = [ 3.044,   None, None, 0.0029,    1, 'cosmo']
 data.parameters['n_s']          = [0.9649,   None, None, 0.0074,    1, 'cosmo']
 data.parameters['tau_reio']     = [0.0544,   0.04, None,  0.013,    1, 'cosmo']
-data.parameters['M_tot'] = [0.01,0.0,None,0.02,1,'cosmo']
-#data.parameters['M_tot_NH'] = [0.06,0.06,None,0.02,1,'cosmo']
+#data.parameters['M_tot'] = [0.01,0.0,None,0.02,1,'cosmo']
+data.parameters['M_tot_IH'] = [0.25,0.11,None,0.02,1,'cosmo']
 #data.parameters['log10_Gamma_neutrinos'] = [3.071,-2,5,0.5,1,'cosmo']
 
 # Nuisance parameter list, same call, except the name does not have to be a class name
@@ -70,11 +75,11 @@ data.cosmo_arguments['k_pivot'] = 0.05
 # and m/omega = 93.14 eV
 #data.cosmo_arguments['N_ur'] = 2.0328
 data.cosmo_arguments['N_ur'] = 0.00641
-data.cosmo_arguments['N_ncdm'] = 1
-data.cosmo_arguments['deg_ncdm'] = 3
+data.cosmo_arguments['N_ncdm'] = 3
+data.cosmo_arguments['deg_ncdm'] = '1,1,1'
 #data.cosmo_arguments['m_ncdm'] = 0.06
 #data.cosmo_arguments['T_ncdm'] = 0.71611
-data.cosmo_arguments['background_ncdm_distribution'] = 0
+data.cosmo_arguments['background_ncdm_distribution'] = '0,0,0'
 #data.cosmo_arguments['background_ncdm_distribution'] = '2,2,2'
 #data.cosmo_arguments['dark_radiation_perturbations'] = 'yes'
 #data.cosmo_arguments['decaying_neutrino_model'] = 'yes'

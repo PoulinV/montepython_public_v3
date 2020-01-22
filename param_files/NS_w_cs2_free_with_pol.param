@@ -2,8 +2,10 @@
 
 #------Experiments to test (separated with commas)-----
 
+
 #data.experiments=['Planck_highl_lite','Planck_lowl','Planck_lensing','shoes']
-data.experiments=['Planck_2018_lite','Planck_2018_lowTT','Planck_2018_lowEE','Planck_2018_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_19'] 
+#data.experiments=['Planck_2018_lite','Planck_2018_lowTT','Planck_2018_lowEE','Planck_2018_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_19'] 
+data.experiments=['Planck_2018_lite','Planck_2018_lowTT','Planck_2018_lowEE','Planck_2018_lensing','Pantheon','bao_boss','bao_fs_boss_dr12'] 
 #,'sdss_lrgDR7','kids450_qe_likelihood_public']
 # based on what Vivian recommends 
 
@@ -38,12 +40,19 @@ data.experiments=['Planck_2018_lite','Planck_2018_lowTT','Planck_2018_lowEE','Pl
 
 # Cosmological parameters list
 
-data.parameters['omega_b']	= [2.222,  1.8, 3, 0.016, 0.01,'cosmo']
-data.parameters['omega_cdm']    = [0.1199,   0.1, 0.2, 0.0027,    1, 'cosmo']
-data.parameters['H0']            = [67.27,  50,80, 0.65,1,   'cosmo']
+#data.parameters['omega_b']	= [2.222,  1.8, 3, 0.016, 0.01,'cosmo']
+#data.parameters['omega_cdm']    = [0.1199,   0.1, 0.2, 0.0027,    1, 'cosmo']
+#data.parameters['H0']            = [67.27,  50,80, 0.65,1,   'cosmo']
+#data.parameters['n_s']          = [0.9652,  0.9,1.1, 0.004, 1,   'cosmo']
+#data.parameters['A_s']          = [2.1985,   1.8,3, 0.038, 1e-9,'cosmo']
+#data.parameters['tau_reio']     = [0.078,  0.02,0.12, 0.0044,1,   'cosmo']
+
+data.parameters['omega_b']	= [2.222,  2, 2.5, 0.016, 0.01,'cosmo']
+data.parameters['omega_cdm']    = [0.1199,   0.1, 0.15, 0.0027,    1, 'cosmo']
+data.parameters['H0']            = [67.27,  60,80, 0.65,1,   'cosmo']
 data.parameters['n_s']          = [0.9652,  0.9,1.1, 0.004, 1,   'cosmo']
-data.parameters['A_s']          = [2.1985,   1.8,3, 0.038, 1e-9,'cosmo']
-data.parameters['tau_reio']     = [0.078,  0.02,0.12, 0.0044,1,   'cosmo']
+data.parameters['A_s']          = [2.1985,   1.8,2.3, 0.038, 1e-9,'cosmo']
+data.parameters['tau_reio']     = [0.055,  0.02,0.08, 0.0044,1,   'cosmo']
 
 # EDE parameters 
 data.parameters['fraction_axion_ac']    = [0.05,   0.0,  0.15, 0.01,     1, 'cosmo']

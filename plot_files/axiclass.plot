@@ -4,7 +4,7 @@ import numpy as np
 
 #info.redefine={'log10_Omega_axion_ac':'10**log10_Omega_axion_ac/(10**log10_Omega_axion_ac+Omega_m*(10**log10_axion_ac)**(-3)+(2.47310e-5*1.445)*(10**log10_axion_ac)**(-4))','da_rec':'(100*rd_rec)/(da_rec)','R_ds':'theta_s/theta_d','Omega_axion_ac':'Omega_axion_ac/(Omega_axion_ac+(omega_cdm+omega_b/100)/H0/H0*100*100*(10**log10_axion_ac)**(-3)+(2.47310e-5*1.68)/H0/H0*100*100*(10**log10_axion_ac)**(-4))','Omega_many_fld':'(Omega_many_fld*1e-13*((10**log10_axion_ac)**(-6)+1)/2)/(Omega_many_fld*1e-13*((10**log10_axion_ac)**(-6)+1)/2+(omega_cdm+omega_b/100)/H0/H0*100*100*(10**log10_axion_ac)**(-3)+(2.44e-5)*(10**log10_axion_ac)**(-4))','sigma8':'sigma8*(Omega_m/0.3)**0.5','f_axion':'np.log10(f_axion)','m_axion':'np.log10(m_axion)'}
 info.redefine={'sigma8':'sigma8*(Omega_m/0.3)**0.5'}
-info.to_change={'Omega_many_fld':r'$\Omega_{\rm EDE}$','Omega_axion_ac':r'$f_{\rm axion}(a_c)$','log10_Omega_axion_ac':r'$f_{\rm axion}(a_c)$','H0':'H_0','sigma8':r'$S_8$','N_ur':r'$\Delta N_{\rm eff}$','log10_axion_ac':r'${\rm Log}_{10}a_c$','100*theta_s':r'$100~\theta_s$','100*theta_d':r'$100~\theta_d$','f_axion':r'$\alpha$','m_axion':r'$\mu$','scf_parameters__1':r'$\theta_i$','f_axion_ac':r'$f_{\rm EDE}(a_c)$'}
+info.to_change={'Omega_many_fld':r'$\Omega_{\rm EDE}$','Omega_axion_ac':r'$f_{\rm axion}(a_c)$','log10_z_c':r'${\rm log}_{10}(z_c)$','log10_Omega_axion_ac':r'$f_{\rm axion}(a_c)$','H0':'H_0','sigma8':r'$S_8$','N_ur':r'$\Delta N_{\rm eff}$','log10_axion_ac':r'${\rm Log}_{10}a_c$','100*theta_s':r'$100~\theta_s$','100*theta_d':r'$100~\theta_d$','f_axion':r'$\alpha$','m_axion':r'$\mu$','scf_parameters__1':r'$\theta_i$','f_axion_ac':r'$f_{\rm EDE}(a_c)$','fraction_axion_ac':r'$f_{\rm EDE}(a_{\rm eq})$','cs2_fld':r'$c^2_{s,{\rm fld}}=w_{\rm fld}$'}
 #info.new_scales={'theta_s':0.01,'R_ds':0.01}
 #info.to_change={'Omega_many_fld':r'$\Omega_{\rm EDE}$','log10_axion_ac':'a_c','Omega_axion_ac':r'$f_{\rm axion}(a_c)$','H0':'H_0','sigma8':r'$\sigma_8$','100*theta_s':r'$100~\theta_s$','N_ur':r'$\Delta N_{\rm eff}$','log10_axion_ac':r'${\rm Log}_{10}a_c$','Omega_Lambda':'Omega_m','rd_rec':'R_ds','100*theta_d':'theta_d','100*theta_s':'theta_s'}
 #info.legendnames = ['litecore80','litecore120','COrE+']
@@ -19,11 +19,11 @@ info.to_change={'Omega_many_fld':r'$\Omega_{\rm EDE}$','Omega_axion_ac':r'$f_{\r
 #info.legendnames = [r'$n=2$',r'$n=3$',r'$n=\infty$']
 #info.legendnames = [r'$\theta_i$ free',r'$\theta_i=0.1$']
 #info.legendnames = [r'$\theta_i$ free',r'$\theta_i=3$']
-#info.legendnames = [r'Planck 2015',r'Planck 2018']
+info.legendnames = [r'Planck 2015',r'Planck 2018']
 #info.legendnames = ['with switch','without switch']
 #info.legendnames = ['w/o Alens','w/ Alens']
 #info.legendnames = ['TT','TTTEEE']
-info.legendnames = ['LCDM','EDE']
+#info.legendnames = ['scalar field','fluid']
 #info.legendnames = [r'$\Lambda$CDM',r'$n=2$',r'$n=3$',r'$n=\infty$']
 #info.legendnames = [r'$\Lambda$CDM',r'ULA, $n=2$',r'ULA, $n=\infty$']
 #info.legendnames = [r'$\Lambda$CDM',r'$n=2$',r'$n=3$',r'$n=\infty$']
@@ -43,7 +43,8 @@ info.line_width = 2
 #info.to_plot = ['H_0','f_ede','scf_parameters__1','log10_z_c',r'$\theta_i$','omega_cdm',r'${\rm Log}_{10}a_c$','f_axion_ac']
 
 #info.to_plot = ['H_0',r'$\theta_i$','r_s',r'${\rm Log}_{10}a_c$',r'$f_{\rm EDE}(a_c)$',r'$S_8$','omega_cdm','n_s','A_s','tau_reio','omega_b','n_axion','rs_rec',r'$100~\theta_s$','A_lens','A_lens_TTTEEE',r'$\Delta N_{\rm eff}$']
-info.to_plot = ['H_0',r'${\rm Log}_{10}a_c$',r'$f_{\rm EDE}(a_c)$','A_lens']
+#info.to_plot = ['H_0',r'${\rm Log}_{10}a_c$',r'$f_{\rm EDE}(a_c)$','A_lens',r'$c^2_{s,{\rm fld}}=w_{\rm fld}$',r'$f_{\rm EDE}(a_{\rm eq})$']
+info.to_plot = ['H_0','f_ede',r'${\rm log}_{10}(z_c)$',r'$S_8$']
 #info.to_plot = [r'${\rm Log}_{10}a_c$',r'$f_{\rm EDE}(a_c)$','Omega_m','H_0']
 
 #info.to_plot = ['H_0','f_ede','scf_parameters__1','log10_z_c',r'$\theta_i$','omega_cdm','log10_f_axion','log10_m_axion']
@@ -64,4 +65,4 @@ info.custom2d = ['add_h_contour.py','add_sigma8_Omegam_contour.py']
 #info.to_plot = ['f_dcdm', 'Gamma_dcdm']
 info.bins=16
 #info.force_limits = {'log10_z_c':[3,4.5]}
-info.force_limits = {r'$f_{\rm EDE}(a_c)$':[0.001,0.2]}
+info.force_limits = {r'$f_{\rm EDE}(a_c)$':[0.001,0.2],r'$f_{\rm EDE}(a_{\rm eq})$':[0.001,0.2],'H_0':[60,80]}
