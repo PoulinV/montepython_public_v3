@@ -1875,9 +1875,9 @@ def remove_bad_points(info):
             # Deal with single file case
             if len(info.files) == 1:
                 warnings.warn("Convergence computed for a single file")
-                bacon = np.copy(cheese[::3, :])
-                egg = np.copy(cheese[1::3, :])
-                sausage = np.copy(cheese[2::3, :])
+                bacon = np.copy(ham[::3, :])
+                egg = np.copy(ham[1::3, :])
+                sausage = np.copy(ham[2::3, :])
 
                 spam.append(bacon)
                 spam.append(egg)
