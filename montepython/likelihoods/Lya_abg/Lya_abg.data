@@ -1,0 +1,68 @@
+# Lyman-alpha likelihood based on the alpha-beta-gamma
+# approach described in 1704.07838 and 1806.08371.
+# Full likelihood described in detail in 1907.01496.
+# Likelihood written by M. Archidiacono, R. Murgia,
+# D.C. Hooper, J. Lesgourgues, and M. Viel.
+
+# This likelihood should always be used together with
+# a CMB likelihood (e.g. Planck). This likelihood is only
+# applicable for models that can be described by the
+# alpha-beta-gamma parameterisation.
+
+# Important! This likelihood requires CLASS version 2.9 or higher.
+
+
+# Data directory and bin file (for models that fail the checks)
+Lya_abg.data_directory   = data.path['data']
+Lya_abg.bin_file_name = "Lya_bin_file.txt"
+
+# Which dataset we are using
+Lya_abg.DATASET = "mike-hires"
+Lya_abg.zp = 4.5
+
+# The redshift array had first the XQ-100 z (low z) and then the MIKE HIRES z (high z),
+# so we need num_z_XQ to rescale the redshift array when using only MIKE HIRES
+Lya_abg.num_z_XQ = 7
+
+# z with overlapping data of both XQ-100 and MIKE HIRES
+Lya_abg.num_z_overlap = 1
+
+# Files corresponding to grid of simulations
+Lya_abg.grid_file = "Lya_grid/ABG_fullgrid+LCDM.dat"
+Lya_abg.grid_size = 142
+Lya_abg.astro_spectra_file = "Lya_grid/full_matrix_interpolated_ASTRO.pkl"
+Lya_abg.abg_spectra_file = "Lya_grid/full_matrix_interpolated_ABG.pkl"
+Lya_abg.abg_grid_file = "Lya_grid/kriging_GRID_2R_ABG+WDM.dat"
+Lya_abg.abg_astro_grid_file = "Lya_grid/kriging_GRID_2R_astro_18p_HR_noPRACE.dat"
+Lya_abg.MIKE_spectra_file = "Lya_grid/y_M_reshaped.pkl"
+Lya_abg.HIRES_spectra_file = "Lya_grid/y_H_reshaped.pkl"
+Lya_abg.MIKE_cov_file = "Lya_grid/cov_M_inverted.pkl"
+Lya_abg.HIRES_cov_file = "Lya_grid/cov_H_inverted.pkl"
+Lya_abg.PF_noPRACE_file = "Lya_grid/PF_noPRACE.pkl"
+
+# Parameters related to the simulations in the grid
+Lya_abg.num_sim_thermal = 8
+Lya_abg.epsilon = 1e-8
+Lya_abg.exponent = 6.
+
+# Parameters relevant for the fitting function
+# Correspond to min/max values for the simulations
+Lya_abg.alpha_min = 0.
+Lya_abg.alpha_max = 0.17
+Lya_abg.beta_min = 1.5
+Lya_abg.beta_max = 10.
+Lya_abg.gamma_min = -10.
+Lya_abg.gamma_max = -0.15
+
+# List of nuisance parameters expected by the likelihood
+Lya_abg.use_nuisance = ['T0a','T0s','gamma_a','gamma_s','Fz1','Fz2','Fz3','Fz4','F_UV']
+
+# z and k (in s/km) values for the lyman-alpha slope
+# can be changed with some care
+Lya_abg.k_s_over_km = 0.009
+Lya_abg.z = 3.
+
+# Other k (in h/Mpc) values used in the comparisons and checks
+Lya_abg.kmax  = 200.
+Lya_abg.kmin  = 0.01
+Lya_abg.k_size = 10000

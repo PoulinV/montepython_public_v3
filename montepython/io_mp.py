@@ -17,11 +17,14 @@ Finally, the way the error messages are displayed is set there, along with
 ascii-art for the exclamation mark sign.
 """
 
+from __future__ import print_function
 import os
 import re  # Module to handle regular expressions
 from datetime import date
 import fcntl
 import textwrap  # used to format the error messages
+import sys
+import io
 
 # Ascii art for error display
 START_LINE = {}
@@ -67,7 +70,7 @@ def log_likelihood_parameters(likelihood, command_line):
     with open(os.path.join(command_line.folder, 'log.param'), 'a') as log:
     #tolog = open(likelihood.path, 'r')
         log.write("\n\n#-----Likelihood-{0}-----\n".format(likelihood.name))
-        for key, value in likelihood.dictionary.iteritems():
+        for key, value in dictitems(likelihood.dictionary):
             if type(value) != type(''):
                 log.write("%s.%s = %s\n" % (
                     likelihood.name, key, value))
@@ -115,7 +118,7 @@ def log_default_configuration(data, command_line):
     """
     log = open(os.path.join(command_line.folder, 'log.param'), 'a')
     log.write('\n\n#--------Default-Configuration------\n')
-    for key, value in data.path.iteritems():
+    for key, value in dictitems(data.path):
         log.write("data.path['{0}']\t= '{1}'\n".format(key, value))
     log.close()
 
@@ -140,6 +143,9 @@ def log_parameter_names(data, command_line):
     # Create list of varying and derived parameters
     param = data.get_mcmc_parameters(['varying'])
     for elem in data.get_mcmc_parameters(['derived']):
+        param.append(elem)
+    # New type of parameter, derived_lkl: this is a derived parameter calculated in the likelihood, and not known to CLASS. Added by D. C. Hooper
+    for elem in data.get_mcmc_parameters(['derived_lkl']):
         param.append(elem)
     for name in param:
         # Use get_tex_name to convert parameter name to tex name
@@ -167,6 +173,9 @@ def print_parameters(out, data):
     """
     param = data.get_mcmc_parameters(['varying'])
     for elem in data.get_mcmc_parameters(['derived']):
+        param.append(elem)
+    # New type of parameter, derived_lkl: this is a derived parameter calculated in the likelihood, and not known to CLASS. Added by D. C. Hooper
+    for elem in data.get_mcmc_parameters(['derived_lkl']):
         param.append(elem)
     out.write('\n#  -LogLkl\t')
     for i in range(len(param)):
@@ -213,6 +222,9 @@ def print_vector(out, N, loglkl, data):
             out[j].write('%.6e\t' %
                          data.mcmc_parameters[elem]['last_accepted'])
         for elem in data.get_mcmc_parameters(['derived']):
+            out[j].write('%.6e\t' %
+                         data.mcmc_parameters[elem]['last_accepted'])
+        for elem in data.get_mcmc_parameters(['derived_lkl']):
             out[j].write('%.6e\t' %
                          data.mcmc_parameters[elem]['last_accepted'])
         out[j].write('\n')
@@ -270,12 +282,12 @@ def create_output_files(command_line, data):
                 suffix += 1
         data.out_name = os.path.join(
             command_line.folder, outname_base)+str(suffix)+'.txt'
-        print 'Creating %s\n' % data.out_name
+        print('Creating %s\n' % data.out_name)
     else:
         data.out_name = os.path.join(
             command_line.folder, outname_base)+command_line.chain_number+'.txt'
         data.out = open(data.out_name, 'w')
-        print 'Creating %s\n' % data.out_name
+        print('Creating %s\n' % data.out_name)
     # in case of a restart, copying the whole thing in the new file
     if command_line.restart is not None:
         # Construct filename of old chain from input.
@@ -437,7 +449,7 @@ def pretty_print(string, status, return_string=False):
         if return_string:
             output += START_LINE[status][start_index]+line+'\n'
         else:
-            print START_LINE[status][start_index]+line
+            print(START_LINE[status][start_index]+line)
         index += 1
     if return_string:
         return output
@@ -450,7 +462,7 @@ def safe_exec(string):
     exec(string, {'__builtins__': {}})
 
 
-class File(file):
+class File(io.FileIO):
     """
     New class of file, to provide an equivalent of the tail command (on linux).
 
@@ -484,7 +496,7 @@ class LockError(Exception):
     LOCK_FAILED = 1
 
 
-def lock(file, flags):
+def lock(file_obj, flags):
     """
     Lock a given file to prevent other instances of the code to write to the
     same file.
@@ -496,14 +508,14 @@ def lock(file, flags):
     """
     import fcntl
     try:
-        fcntl.flock(file.fileno(), flags)
+        fcntl.flock(file_obj.fileno(), flags)
     except IOError as exc_value:
         # The exception code varies on different systems so we'll catch
         # every IO error
         raise LockError(*exc_value)
 
 
-def unlock(file):
+def unlock(file_obj):
     """
     Unlock a previously locked file.
 
@@ -513,7 +525,7 @@ def unlock(file):
 
     """
     import fcntl
-    fcntl.flock(file.fileno(), fcntl.LOCK_UN)
+    fcntl.flock(file_obj.fileno(), fcntl.LOCK_UN)
 
 
 def warning_message(message, *args):
@@ -579,3 +591,22 @@ class FiducialModelWritten(MyError):
 class AnalyzeError(MyError):
     """Used when encountering a fatal mistake in analyzing chains"""
     pass
+
+# Nils : Added for python 3.x and python 2.x compatibility
+def dictitems(d):
+    if sys.version_info >= (3,0):
+        return d.items()
+    else:
+        return d.iteritems()
+
+def dictkeys(d):
+    if sys.version_info >= (3,0):
+        return d.keys()
+    else:
+        return d.iterkeys()
+
+def dictvalues(d):
+    if sys.version_info >= (3,0):
+        return d.values()
+    else:
+        return d.itervalues()

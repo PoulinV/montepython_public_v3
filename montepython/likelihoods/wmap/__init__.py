@@ -31,7 +31,7 @@ class wmap(Likelihood):
         # self.cls = np.loadtxt(self.cl_test_file)
 
         # loglike = self.wmaplike(self.cls)
-        # print "got %g expected %g"%(loglike,-845.483)
+        # print("got %g expected %g"%(loglike,-845.483))
 
         self.l_max = max(self.ttmax, self.temax)
         self.need_cosmo_arguments(data, {'l_max_scalars': self.l_max})

@@ -74,9 +74,9 @@ class bao_fs_boss_dr12(Likelihood):
             H_at_z = cosmo.Hubble(self.z[i]) * conts.c / 1000.0
             rd = cosmo.rs_drag() * self.rs_rescale
             theo_fsig8 = cosmo.scale_independent_growth_factor_f(self.z[i])*cosmo.sigma(8./cosmo.h(),self.z[i])
-            #print 'f(',self.z[i],') =',cosmo.scale_independent_growth_factor_f(self.z[i])
-            #print 'sigma8(',self.z[i],') =',cosmo.sigma(8./cosmo.h(),self.z[i])
-            #print 'f*sig8 =',theo_fsig8
+            #print('f(',self.z[i],') =',cosmo.scale_independent_growth_factor_f(self.z[i]))
+            #print('sigma8(',self.z[i],') =',cosmo.sigma(8./cosmo.h(),self.z[i]))
+            #print('f*sig8 =',theo_fsig8)
 
             theo_DM_rdfid_by_rd_in_Mpc = DM_at_z / rd * self.rd_fid_in_Mpc
             theo_H_rd_by_rdfid = H_at_z * rd / self.rd_fid_in_Mpc

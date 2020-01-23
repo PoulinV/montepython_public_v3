@@ -12,13 +12,13 @@ The fancy short/long help formatting, as well as the automatic help creation
 from docstrings is entirely due to Francesco Montesano.
 
 """
+from __future__ import print_function
 import os
 import sys
 import textwrap as tw
 import re
 import argparse as ap  # Python module to handle command line arguments
 import warnings
-
 import io_mp
 
 
@@ -189,7 +189,7 @@ def custom_help(split_string="<++>"):
         def __call__(self, parser, namespace, values, option_string=None):
 
             # create the help string and store it into a string
-            from StringIO import StringIO
+            from io import StringIO
             fstr = StringIO()
             try:
                 parser.print_help(file=fstr)
@@ -604,9 +604,14 @@ def create_parser():
             Interpret the chains as samples from the probability distribution
             P^(1/T) instead of P. (*OPT*)<++>
         <**>--no-mean<**> : None
-            <++>remove the mean likelihood from the plot<++>. By default, when
-            plotting marginalised 1D posteriors, the code also shows the mean
-            likelihood per bin with dashed lines; this flag switches off the
+            <++>Deprecated: remove the mean likelihood from the plot<++>. By
+            default, when plotting marginalised 1D posteriors, the code does
+            not show the mean likelihood per bin with dashed lines; this flag
+            used to switches off the dashed lines.<++>
+        <**>--plot-mean<**> : None
+            <++>plot the mean likelihood from the plot<++>. By default, when
+            plotting marginalised 1D posteriors, the code does not show the mean
+            likelihood per bin with dashed lines; this flag switches on the
             dashed lines.<++>
         <**>--short-title-1d<**> : None
             <++>short 1D plot titles<++>. Remove mean and confidence limits above each 1D plots.<++>
@@ -678,7 +683,7 @@ def create_parser():
         <**>--gaussian-smoothing<**> : float
             <++>width of gaussian smoothing for plotting posteriors (default: 0.5)<++>,
             in units of bin size, increase for smoother data<++>
-        <**>--interpolation-smoothing<**> : float
+        <**>--interpolation-smoothing<**> : int
             <++>interpolation factor for plotting posteriors (default: 4)<++>,
             1 means no interpolation, increase for smoother curves<++>
         <**>--posterior-smoothing<**> : int
@@ -929,9 +934,12 @@ def create_parser():
     # -- temperature (OPTIONAL)
     infoparser.add_argument('-T', help=helpdict['T'], type=float,
                            dest='temperature', default=1.0)
-    # -- to remove the mean-likelihood line
+    # -- deprecated: remove the mean-likelihood line
     infoparser.add_argument('--no-mean', help=helpdict['no-mean'],
-                            dest='mean_likelihood', action='store_false')
+                            dest='mean_likelihood_old', action='store_false')
+    # -- plot the mean-likelihood line
+    infoparser.add_argument('--plot-mean', help=helpdict['plot-mean'],
+                            dest='mean_likelihood', action='store_true')
     # -- to remove the mean and 68% limits on top of each 1D plot
     infoparser.add_argument('--short-title-1d', help=helpdict['short-title-1d'],
                             dest='short_title_1d', action='store_true')

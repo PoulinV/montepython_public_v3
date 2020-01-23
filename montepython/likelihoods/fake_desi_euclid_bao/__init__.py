@@ -93,7 +93,7 @@ class fake_desi_euclid_bao(Likelihood):
             fid_file = open(os.path.join(
                 self.data_directory, self.fiducial_file), 'w')
             fid_file.write('# Fiducial parameters')
-            for key, value in data.mcmc_parameters.iteritems():
+            for key, value in io_mp.dictitems(data.mcmc_parameters):
                 fid_file.write(', %s = %.5g' % (
                     key, value['current']*value['scale']))
             fid_file.write('\n')
@@ -174,7 +174,7 @@ class fake_desi_euclid_bao(Likelihood):
                     fid_file.write("   %.8g  %.8g  %.8g %5d \n" % (self.z[i], theo, sigma, self.type[i]))
                 else:
                     invcovmat11=relative_invcov11[i]/theo1/theo1
-                    print i,relative_invcov11[i],invcovmat11
+                    print(i,relative_invcov11[i],invcovmat11)
                     invcovmat22=relative_invcov22[i]/theo2/theo2
                     invcovmat12=relative_invcov12[i]/theo1/theo2
                     fid_file.write(self.nickname)
@@ -185,7 +185,7 @@ class fake_desi_euclid_bao(Likelihood):
         # Exit after writing fiducial file
         # (return an imaginary number to let the sampler know that fiducial models were just created)
         if self.fid_values_exist is False:
-            print '\n'
+            print('\n')
             warnings.warn(
                 "Writing fiducial model in %s, for %s likelihood\n" % (
                     self.data_directory+'/'+self.fiducial_file, self.name))

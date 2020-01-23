@@ -16,6 +16,18 @@ for the bibtex entries).
 Recent changelog
 ----------------
 
+v3.3.0, Jan 23, 2020
+
+* Added python 3 compatibility, python 2.7 still supported (N. Schöneberg, F. Köhlinger)
+
+* Added Lyman-alpha alpha-beta-gamma likelihood from 1907.01496 (M. Archidiacono, D.C. Hooper, R. Murgia)
+
+* Added new type of parameters, derived_lkl, that behave like derived parameters of the likelihood and are not passed to class (D.C. Hooper)
+
+* Added joint prior on sz nuisance parameters for all Planck 18 likelihoods. Bestfits and covmats updated to reflect this (D.C. Hooper)
+
+* Various bugfixes and minor improvements, e.g. updated example plot file with more options and clarifications
+
 v3.2.0, Aug 21, 2019
 
 * Added Planck 2018 likelihoods and example param files (Deanna Hooper)
@@ -77,8 +89,8 @@ information to the .data file, e.g. authors and references.
 Prerequisites
 -------------
 
-* You need the python program **version 2.7** or above, but less than 3.0.
-  Note that lower versions of python will work, down to 2.6 (tested), if you
+* You need the python program **version 2.7.x** or **version 3.x**.
+  Note that lower versions of python may work, down to 2.6, if you
   add manually two extra packages
   (`ordereddict <http://code.activestate.com/recipes/576693/>`_ and
   `argparse <https://pypi.python.org/pypi/argparse/1.2.1>`_).
@@ -156,6 +168,9 @@ package for python), python (well... did I say this code was in python ?) with
 a version > 2.6.  If this step fails again, kindly ask your system admin, (s)he
 is there for this, after all. Note that the installation (last command) is
 not strictly speaking mandatory.
+
+Take care to use the same Python version when compiling CLASS as will be used
+when running Monte Python.
 
 Remember that if you modify `CLASS` to implement some new physics, you will need to
 perform this part again for the new `CLASS`.

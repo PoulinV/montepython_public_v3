@@ -24,6 +24,11 @@ import scipy.interpolate as itp
 from scipy.linalg import cholesky, solve_triangular
 import time
 
+try:
+    xrange
+except NameError:
+    xrange = range
+
 class kids450_qe_likelihood_public(Likelihood):
 
     def __init__(self, path, data, command_line):
@@ -113,8 +118,8 @@ class kids450_qe_likelihood_public(Likelihood):
                 self.m_corr_fiducial_per_zbin = np.loadtxt(fname, usecols=[1])
         except:
             self.m_corr_fiducial_per_zbin = np.zeros(self.nzbins)
-            print 'Could not load m-correction values from \n', fname
-            print 'Setting them to zero instead.'
+            print('Could not load m-correction values from \n', fname)
+            print('Setting them to zero instead.')
 
         try:
             fname = os.path.join(self.data_directory, '{:}zbins/sigma_int_n_eff_{:}zbins.dat'.format(self.nzbins, self.nzbins))
@@ -137,7 +142,7 @@ class kids450_qe_likelihood_public(Likelihood):
             # these dummies will set noise power always to 0!
             self.sigma_e = np.zeros(self.nzbins)
             self.n_eff = np.ones(self.nzbins)
-            print 'Could not load sigma_e and n_eff!'
+            print('Could not load sigma_e and n_eff!')
 
         collect_bp_EE_in_zbins = []
         collect_bp_BB_in_zbins = []
@@ -189,7 +194,7 @@ class kids450_qe_likelihood_public(Likelihood):
                     zpcheck = zptemp
                     if np.sum((zptemp - zpcheck)**2) > 1e-6:
                         raise io_mp.LikelihoodError('The redshift values for the window files at different bins do not match.')
-                print 'Loaded n(zbin{:}) from: \n'.format(zbin + 1), window_file_path
+                print('Loaded n(zbin{:}) from: \n'.format(zbin + 1), window_file_path)
                 # we add a zero as first element because we want to integrate down to z = 0!
                 z_samples += [np.concatenate((np.zeros(1), zptemp + shift_to_midpoint))]
                 hist_samples += [np.concatenate((np.zeros(1), hist_pz))]
@@ -201,7 +206,7 @@ class kids450_qe_likelihood_public(Likelihood):
 
         # prevent undersampling of histograms!
         if self.nzmax < len(zptemp):
-            print "You're trying to integrate at lower resolution than supplied by the n(z) histograms. \n Increase nzmax! Aborting now..."
+            print("You're trying to integrate at lower resolution than supplied by the n(z) histograms. \n Increase nzmax! Aborting now...")
             exit()
         # if that's the case, we want to integrate at histogram resolution and need to account for
         # the extra zero entry added
@@ -209,12 +214,12 @@ class kids450_qe_likelihood_public(Likelihood):
             self.nzmax = z_samples.shape[1]
             # requires that z-spacing is always the same for all bins...
             self.redshifts = z_samples[0, :]
-            print 'Integrations performed at resolution of histogram!'
+            print('Integrations performed at resolution of histogram!')
         # if we interpolate anyway at arbitrary resolution the extra 0 doesn't matter
         else:
             self.nzmax += 1
             self.redshifts = np.linspace(z_samples.min(), z_samples.max(), self.nzmax)
-            print 'Integration performed at set nzmax resolution!'
+            print('Integration performed at set nzmax resolution!')
 
         self.pz = np.zeros((self.nzmax, self.nzbins))
         self.pz_norm = np.zeros(self.nzbins, 'float64')
@@ -241,7 +246,7 @@ class kids450_qe_likelihood_public(Likelihood):
         else:
             self.need_cosmo_arguments(data, {'z_max_pk': self.z_max, 'output': 'mPk', 'P_k_max_h/Mpc': self.k_max_h_by_Mpc})
 
-        print 'Time for loading all data files:', time.time() - start_load
+        print('Time for loading all data files:', time.time() - start_load)
 
         fname = os.path.join(self.data_directory, 'number_datapoints.txt')
         np.savetxt(fname, [ndata], header='number of datapoints in masked datavector')
@@ -294,9 +299,9 @@ class kids450_qe_likelihood_public(Likelihood):
         if self.marginalize_over_multiplicative_bias:
             if self.nzbins > 1:
                 m_corr_per_zbin = np.random.multivariate_normal(self.m_corr_fiducial_per_zbin, self.cov_m_corr)
-                #print 'm-correction'
-                #print self.m_corr_fiducial_per_zbin, self.cov_m_corr
-                #print m_corr_per_zbin
+                #print('m-correction')
+                #print(self.m_corr_fiducial_per_zbin, self.cov_m_corr)
+                #print(m_corr_per_zbin)
             else:
                 m_corr_per_zbin = np.random.normal(self.m_corr_fiducial_per_zbin, self.err_multiplicative_bias)
         else:
@@ -321,7 +326,7 @@ class kids450_qe_likelihood_public(Likelihood):
             self.rho_crit = self.get_critical_density()
             # derive the linear growth factor D(z)
             linear_growth_rate = np.zeros_like(self.redshifts)
-            #print self.redshifts
+            #print(self.redshifts)
             for index_z, z in enumerate(self.redshifts):
                 try:
                     # for CLASS ver >= 2.6:
@@ -374,9 +379,9 @@ class kids450_qe_likelihood_public(Likelihood):
             #A_B_modes = np.random.normal(self.best_fit_A_B_modes, self.best_fit_err_A_B_modes)
             #exp_B_modes = np.random.normal(self.best_fit_exp_B_modes, self.best_fit_err_exp_B_modes)
             amp_BB, exp_BB = np.random.multivariate_normal(self.params_resetting_bias, self.cov_resetting_bias)
-            #print 'resetting bias'
-            #print self.params_resetting_bias, self.cov_resetting_bias
-            #print amp_BB, exp_BB
+            #print('resetting bias')
+            #print(self.params_resetting_bias, self.cov_resetting_bias)
+            #print(amp_BB, exp_BB)
 
         # get distances from cosmo-module:
         r, dzdr = cosmo.z_of_r(self.redshifts)
@@ -427,7 +432,7 @@ class kids450_qe_likelihood_public(Likelihood):
                 if self.baryon_feedback:
                     if 'A_bary' in data.mcmc_parameters:
                         A_bary = data.mcmc_parameters['A_bary']['current'] * data.mcmc_parameters['A_bary']['scale']
-                        #print 'A_bary={:.4f}'.format(A_bary)
+                        #print('A_bary={:.4f}'.format(A_bary))
                         pk[index_ells, index_z] = pk_dm * self.baryon_feedback_bias_sqr(k_in_inv_Mpc / self.small_h, self.redshifts[index_z], A_bary=A_bary)
                     else:
                         pk[index_ells, index_z] = pk_dm * self.baryon_feedback_bias_sqr(k_in_inv_Mpc / self.small_h, self.redshifts[index_z])
@@ -438,7 +443,7 @@ class kids450_qe_likelihood_public(Likelihood):
         if self.bootstrap_photoz_errors:
             # draw a random bootstrap n(z); borders are inclusive!
             random_index_bootstrap = np.random.randint(int(self.index_bootstrap_low), int(self.index_bootstrap_high) + 1)
-            #print 'Bootstrap index:', random_index_bootstrap
+            #print('Bootstrap index:', random_index_bootstrap)
             pz = np.zeros((self.nzmax, self.nzbins), 'float64')
             pz_norm = np.zeros(self.nzbins, 'float64')
             for zbin in xrange(self.nzbins):
@@ -532,8 +537,8 @@ class kids450_qe_likelihood_public(Likelihood):
 
                     if intrinsic_alignment:
                         factor_IA = self.get_factor_IA(self.redshifts[1:], linear_growth_rate[1:], amp_IA, exp_IA) #/ self.dzdr[1:]
-                        #print F_of_x
-                        #print self.eta_r[1:, zbin1].shape
+                        #print(F_of_x)
+                        #print(self.eta_r[1:, zbin1].shape)
                         Cl_II_integrand[1:, zbin1, zbin2] = pr[1:, zbin1] * pr[1:, zbin2] * factor_IA**2 / r[1:]**2 * pk[index_ell, 1:]
                         Cl_GI_integrand[1:, zbin1, zbin2] = (g[1:, zbin1] * pr[1:, zbin2] + g[1:, zbin2] * pr[1:, zbin1]) * factor_IA / r[1:]**2 * pk[index_ell, 1:]
 
@@ -564,7 +569,7 @@ class kids450_qe_likelihood_public(Likelihood):
         theory_BB = np.zeros((self.nzcorrs, self.band_offset_BB), 'float64')
         theory_noise_EE = np.zeros((self.nzcorrs, self.band_offset_EE), 'float64')
         theory_noise_BB = np.zeros((self.nzcorrs, self.band_offset_BB), 'float64')
-        #print theory.shape
+        #print(theory.shape)
         index_corr = 0
         #A_noise_corr = np.zeros(self.nzcorrs)
         for zbin1 in xrange(self.nzbins):
@@ -727,8 +732,8 @@ class kids450_qe_likelihood_public(Likelihood):
         E_z = constant[self.baryon_model]['E2']*a_sqr+constant[self.baryon_model]['E1']*a+constant[self.baryon_model]['E0']
 
         # only for debugging; tested and works!
-        #print 'AGN: A2=-0.11900, B2= 0.1300, C2= 0.6000, D2= 0.002110, E2=-2.0600'
-        #print self.baryon_model+': A2={:.5f}, B2={:.5f}, C2={:.5f}, D2={:.5f}, E2={:.5f}'.format(constant[self.baryon_model]['A2'], constant[self.baryon_model]['B2'], constant[self.baryon_model]['C2'],constant[self.baryon_model]['D2'], constant[self.baryon_model]['E2'])
+        #print('AGN: A2=-0.11900, B2= 0.1300, C2= 0.6000, D2= 0.002110, E2=-2.0600')
+        #print(self.baryon_model+': A2={:.5f}, B2={:.5f}, C2={:.5f}, D2={:.5f}, E2={:.5f}'.format(constant[self.baryon_model]['A2'], constant[self.baryon_model]['B2'], constant[self.baryon_model]['C2'],constant[self.baryon_model]['D2'], constant[self.baryon_model]['E2']))
 
         # original formula:
         #bias_sqr = 1.-A_z*np.exp((B_z-C_z)**3)+D_z*x*np.exp(E_z*x)
@@ -743,8 +748,8 @@ class kids450_qe_likelihood_public(Likelihood):
 
         # arbitrary convention
         z0 = 0.3
-        #print utils.growth_factor(z, self.Omega_m)
-        #print self.rho_crit
+        #print(utils.growth_factor(z, self.Omega_m))
+        #print(self.rho_crit)
         factor = -1. * amplitude * const * self.rho_crit * self.Omega_m / linear_growth_rate * ((1. + z) / (1. + z0))**exponent
 
         return factor
@@ -787,13 +792,13 @@ class kids450_qe_likelihood_public(Likelihood):
             slicing_points_y = slicing_points_BB_y
             band_offset = self.band_offset_BB
 
-        #print band_window_matrix
-        #print band_window_matrix.shape
+        #print(band_window_matrix)
+        #print(band_window_matrix.shape)
 
         bwm_sliced = band_window_matrix[slicing_points_x[0]:slicing_points_x[1], slicing_points_y[0]:slicing_points_y[1]]
 
-        #print bwm
-        #print bwm.shape
+        #print(bwm)
+        #print(bwm.shape)
 
         #ell_norm = ells_sum * (ells_sum + 1) / (2. * np.pi)
 
@@ -807,7 +812,7 @@ class kids450_qe_likelihood_public(Likelihood):
             index_ell_high = int((index_corr + 1) * len(self.ells_intp))
             spline_w_alpha_l = itp.splrep(self.ells_intp, bwm_sliced[alpha, index_ell_low:index_ell_high])
             #norm_val = np.sum(itp.splev(ells_sum, spline_w_alpha_l))
-            #print 'Norm of W_al = {:.2e}'.format(norm_val)
+            #print('Norm of W_al = {:.2e}'.format(norm_val))
             D_avg[index_band] = np.sum(itp.splev(ells_sum, spline_w_alpha_l) * D_l)
 
         return D_avg
@@ -837,13 +842,13 @@ class kids450_qe_likelihood_public(Likelihood):
             slicing_points_y = slicing_points_BB_y
             band_offset = self.band_offset_BB
 
-        #print band_window_matrix
-        #print band_window_matrix.shape
+        #print(band_window_matrix)
+        #print(band_window_matrix.shape)
 
         bwm_sliced = band_window_matrix[slicing_points_x[0]:slicing_points_x[1], slicing_points_y[0]:slicing_points_y[1]]
 
-        #print bwm
-        #print bwm.shape
+        #print(bwm)
+        #print(bwm.shape)
 
         ell_norm = ells_sum * (ells_sum + 1) / (2. * np.pi)
 

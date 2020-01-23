@@ -1,3 +1,9 @@
+v3.3.0  + Added python 3 compatibility, python 2.7 still supported (N. Schöneberg, F. Köhlinger)
+	+ Added Lyman-alpha alpha-beta-gamma likelihood from 1907.01496 (M. Archidiacono, D.C. Hooper, R. Murgia)
+	+ Added new type of parameters, derived_lkl, that behave like derived parameters of the likelihood and are not passed to class (D.C. Hooper)
+	+ Added joint prior on sz nuisance parameters for all Planck 18 likelihoods. Bestfits and covmats updated to reflect this (D.C. Hooper)
+	+ Various bugfixes and minor improvements, e.g.	updated example plot file with more options and clarifications
+---------------------------------------------------------------------
 v3.2.0  + Added Planck 2018 likelihoods and example param files (Deanna Hooper)
         + Added BOSS DR12 and eBOSS DR14 Lya and QSO BAO likelihoods from 1906.11628 (James Farr)
         + Added KiDS+VIKING-450 likelihood from 1812.06076 (KiDS collaboration)
