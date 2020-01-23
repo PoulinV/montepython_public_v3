@@ -567,7 +567,7 @@ def compute_posterior(information_instances):
                 info.interp_hist, info.interp_grid = cubic_interpolation(
                     info, info.hist, info.bincenters)
 
-                # minimum credible interval (method by Jan Haman). Fails for
+                # minimum credible interval (method by Jan Hamann). Fails for
                 # multimodal histograms
                 bounds = minimum_credible_intervals(info)
                 info.bounds[info.native_index] = bounds
