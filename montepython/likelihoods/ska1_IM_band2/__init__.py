@@ -7,6 +7,11 @@ from math import exp, log, pi, log10
 import scipy.integrate
 # Created by Tim Sprenger in 2017
 
+try:
+    xrange
+except NameError:
+    xrange = range
+
 class ska1_IM_band2(Likelihood):
 
     def __init__(self, path, data, command_line):
@@ -171,7 +176,7 @@ class ska1_IM_band2(Likelihood):
                 self.data_directory, self.fiducial_file)
             with open(fid_file_path, 'w') as fid_file:
                 fid_file.write('# Fiducial parameters')
-                for key, value in data.mcmc_parameters.iteritems():
+                for key, value in io_mp.dictitems(data.mcmc_parameters):
                     fid_file.write(', %s = %.5g' % (
                         key, value['current']*value['scale']))
                 fid_file.write('\n')
@@ -194,7 +199,7 @@ class ska1_IM_band2(Likelihood):
                 for index_z in xrange(self.nbin):
 			fid_file.write('%.8g %.8g\n' % (sigma_A[index_z], sigma_B[index_z]))
 		fid_file.write('%.8g\n' % sigma_NL)
-            print '\n'
+            print('\n')
             warnings.warn(
                 "Writing fiducial model in %s, for %s likelihood\n" % (
                     self.data_directory+'/'+self.fiducial_file, self.name))

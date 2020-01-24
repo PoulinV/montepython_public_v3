@@ -21,6 +21,11 @@ import os
 import numpy as np
 import math
 
+try:
+    xrange
+except NameError:
+    xrange = range
+
 class CFHTLens_correlation(Likelihood):
 
     def __init__(self, path, data, command_line):

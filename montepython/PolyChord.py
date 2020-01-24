@@ -16,6 +16,7 @@ internally two functions, :func:`prior() <PolyChord.prior>` and
 
 .. moduleauthor:: Will Handley <wh260@cam.ac.uk>
 """
+from __future__ import print_function
 from pypolychord import run_polychord as polychord_run
 from pypolychord.settings import PolyChordSettings as PC_Settings
 import numpy as np
@@ -233,7 +234,7 @@ def initialise(cosmo, data, command_line):
         os.makedirs(PC_folder)
 
     # If absent, create the sub-folder PC/clusters
-    PC_clusters_folder = os.path.join(PC_folder,'clusters') 
+    PC_clusters_folder = os.path.join(PC_folder,'clusters')
     if not os.path.exists(PC_clusters_folder):
         os.makedirs(PC_clusters_folder)
 
@@ -357,7 +358,9 @@ def run(cosmo, data, command_line):
         data.update_cosmo_arguments()
 
         # Compute likelihood
-        logl = sampler.compute_lkl(cosmo, data)[0,0]
+        #logl = sampler.compute_lkl(cosmo, data)[0,0]
+        # FK: index to scalar variable error...
+        logl = sampler.compute_lkl(cosmo, data)
 
         # Compute derived parameters and pass them back
         phi = [0.0] * nDerived
@@ -374,9 +377,18 @@ def run(cosmo, data, command_line):
     # Launch PolyChord
     polychord_run(loglike, nDims, nDerived, settings, prior)
 
-    warnings.warn('The sampling with PolyChord is done.\n' +
-                  'You can now analyse the output calling Monte Python ' +
-                  ' with the -info flag in the chain_name/PC subfolder,')
+    # FK: write out the warning message below also as a file in the PC-subfolder
+    # so that there's a clear indication for convergence instead of just looking at
+    # the STDOUT-log!
+    text = 'The sampling with PolyChord is done.\n' + \
+           'You can now analyse the output calling Monte Python ' + \
+           'with the -info flag in the chain_name/PC subfolder.'
+
+    warnings.warn(text)
+
+    fname = os.path.join(data.PC_arguments['base_dir'], 'convergence.txt')
+    with open(fname, 'w') as afile:
+        afile.write(text)
 
 def from_PC_output_to_chains(folder):
     """
@@ -433,10 +445,10 @@ def from_PC_output_to_chains(folder):
             if line.strip()[0] == '#':
                 continue
 
-            # These lines allow PolyChord to deal with fixed nuisance parameters 
+            # These lines allow PolyChord to deal with fixed nuisance parameters
             sigma = float(line.split(',')[3].strip())
             if sigma == 0.0:
-                #If derived parameter, keep it, else discard it:                                 
+                #If derived parameter, keep it, else discard it:
                 paramtype = line.split(',')[5].strip()[1:-2]
                 if paramtype != 'derived':
                     continue

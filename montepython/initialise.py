@@ -4,12 +4,13 @@
 .. moduleauthor:: Benjamin Audren <benjamin.audren@epfl.ch>
 
 """
+from __future__ import print_function
 import io_mp
 import parser_mp   # parsing the input command line
 from data import Data
 import sys
 import os
-
+from io_mp import dictitems,dictvalues,dictkeys
 
 def initialise(custom_command=''):
     """
@@ -126,7 +127,7 @@ def recover_local_path(command_line):
         if os.path.isfile(conf_file):
             for line in open(conf_file):
                 exec(line)
-            for key, value in path.iteritems():
+            for key, value in dictitems(path):
                 path[key] = os.path.normpath(os.path.expanduser(value))
         else:
             # The error is ignored if reading from a log.param, because it is

@@ -14,6 +14,7 @@ internally two functions, :func:`prior() <MultiNest.prior>` and
 .. moduleauthor:: Jesus Torrado <torradocacho@lorentz.leidenuniv.nl>
 .. moduleauthor:: Benjamin Audren <benjamin.audren@epfl.ch>
 """
+from __future__ import print_function
 from pymultinest import run as nested_run
 import numpy as np
 import os
@@ -132,6 +133,8 @@ def initialise(cosmo, data, command_line):
     # Use chain name as a base name for MultiNest files
     chain_name = [a for a in command_line.folder.split(os.path.sep) if a][-1]
     base_name = os.path.join(NS_folder, chain_name)
+    #FK: add base folder name to NS_arguments for later reference
+    data.NS_arguments['base_dir'] = NS_folder
 
     # Prepare arguments for PyMultiNest
     # -- Automatic arguments
@@ -251,7 +254,7 @@ def run(cosmo, data, command_line):
         Please see the encompassing function docstring
 
         """
-        for i, name in zip(range(ndim), NS_param_names):
+        for i, name in zip(list(range(ndim)), NS_param_names):
             cube[i] = data.mcmc_parameters[name]['prior']\
                 .map_from_unit_interval(cube[i])
 
@@ -262,7 +265,7 @@ def run(cosmo, data, command_line):
 
         """
         # Updates values: cube --> data
-        for i, name in zip(range(ndim), NS_param_names):
+        for i, name in zip(list(range(ndim)), NS_param_names):
             data.mcmc_parameters[name]['current'] = cube[i]
         # Propagate the information towards the cosmo arguments
         data.update_cosmo_arguments()
@@ -270,6 +273,11 @@ def run(cosmo, data, command_line):
         for i, name in enumerate(derived_param_names):
             cube[ndim+i] = data.mcmc_parameters[name]['current']
         return lkl
+    
+    #FK: recover name of base folder and remove entry from dict before passing it
+    # on to MN:
+    base_dir = data.NS_arguments['base_dir']
+    del data.NS_arguments['base_dir']
 
     # Launch MultiNest, and recover the output code
     output = nested_run(loglike, prior, **data.NS_arguments)
@@ -277,11 +285,17 @@ def run(cosmo, data, command_line):
     # Assuming this worked, i.e. if output is `None`,
     # state it and suggest the user to analyse the output.
     if output is None:
-        warnings.warn('The sampling with MultiNest is done.\n' +
-                      'You can now analyse the output calling Monte Python ' +
-                      ' with the -info flag in the chain_name/NS subfolder,' +
-                      'or, if you used multimodal sampling, in the ' +
-                      'chain_name/mode_# subfolders.')
+        # FK: write out the warning message below also as a file in the NS-subfolder
+        # so that there's a clear indication for convergence instead of just looking at
+        # the STDOUT-log!
+        text = 'The sampling with MultiNest is done.\n' + \
+               'You can now analyse the output calling Monte Python ' + \
+               'with the -info flag in the chain_name/NS subfolder,' + \
+               ' or, if you used multimodal sampling, in the ' + \
+               'chain_name/mode_# subfolders.'
+        fname = os.path.join(base_dir, 'convergence.txt')
+        with open(fname, 'w') as afile:
+            afile.write(text)
 
 
 def from_NS_output_to_chains(folder):
@@ -311,13 +325,16 @@ def from_NS_output_to_chains(folder):
         for line in afile:
             arg   = line.split('=')[0].strip()
             value = line.split('=')[1].strip()
-            arg_type = (NS_user_arguments[arg]['type']
-                        if arg in NS_user_arguments else
-                        NS_auto_arguments[arg]['type'])
-            value = arg_type(value)
-            if arg == 'clustering_params':
-                value = [a.strip() for a in value.split()]
-            NS_arguments[arg] = value
+            # FK: we need to take care of newly introduced 'base_dir'
+            # variable here (by just skipping it):
+            if not arg == 'base_dir':
+                arg_type = (NS_user_arguments[arg]['type']
+                            if arg in NS_user_arguments else
+                            NS_auto_arguments[arg]['type'])
+                value = arg_type(value)
+                if arg == 'clustering_params':
+                    value = [a.strip() for a in value.split()]
+                NS_arguments[arg] = value
     multimodal = NS_arguments.get('multimodal')
     # Read parameters order
     NS_param_names = np.loadtxt(base_name+name_paramnames, dtype='str').tolist()
@@ -408,7 +425,7 @@ def from_NS_output_to_chains(folder):
         # Add ACCEPTED points
         mode_data = np.array(mode_lines[i].split(), dtype='float64')
         columns = 2+NS_arguments['n_params']
-        mode_data = mode_data.reshape([mode_data.shape[0]/columns, columns])
+        mode_data = mode_data.reshape([mode_data.shape[0]//columns, columns])
         # Rearrange: sample-prob | -2*loglik | params (clustering first)
         #       ---> sample-prob |   -loglik | params (log.param order)
         mode_data[:, 1]  = mode_data[:, 1] / 2.

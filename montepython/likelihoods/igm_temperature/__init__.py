@@ -11,7 +11,7 @@ class igm_temperature(Likelihood_prior):
 
         if(cosmo.baryon_temperature(self.z) > self.Tb_max):
             lkl = data.boundary_loglike
-            # print 'Tb(',self.z,') =',self.cosmo.igm_temperature(self.z),' >
-            # ',self.Tb_max
+            # print('Tb(',self.z,') =',self.cosmo.igm_temperature(self.z),' >
+            # ',self.Tb_max)
 
         return lkl
