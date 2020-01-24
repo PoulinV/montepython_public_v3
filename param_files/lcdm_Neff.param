@@ -3,9 +3,9 @@
 #data.experiments=['core_lens_extr_mnu','fake_desi_vol','euclid_lensing_maria','euclid_pk','tau_21cm']
 #data.experiments=['core_lens_extr_mnu','euclid_lensing_theoritical_errors_0p025','euclid_pk_theoritical_errors_0p025','tau_21cm']
 #data.experiments=['Planck_highl_TTTEEE','simlow','Planck_lensing','hst_riess_2016','Planck_SZ']
-data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','JLA','bao_boss','bao_fs_boss_dr12','SH0ES_18']
+#data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18_ADAM']
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_18']
-
+data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing']
 
 
 #data.experiments=['Planck_highl_TTTEEE','simlow','Planck_lensing','Planck_SZ','hst_riess_2016']
@@ -53,7 +53,7 @@ data.parameters['100*theta_s']  = [1.04075,   None, None,   3e-4,    1, 'cosmo']
 data.parameters['ln10^{10}A_s'] = [  3.053,   None, None, 0.0029,    1, 'cosmo']
 data.parameters['n_s']          = [ 0.9624,   None, None, 0.0074,    1, 'cosmo']
 data.parameters['tau_reio']     = [ 0.0581,   0.04, None,  0.013,    1, 'cosmo']
-data.parameters['N_ur'] = [0.00641,-1,1,0.1,1,'cosmo']
+data.parameters['N_ur'] = [2.0328,1,4,0.5,1,'cosmo']
 #data.parameters['ceff2_ur'] = [0.333,0.,1,0.1,1,'cosmo']
 #data.parameters['cvis2_ur'] = [0.333,0.,1,0.1,1,'cosmo']
 
@@ -164,7 +164,7 @@ data.parameters['A_pol']             = [      1,    1,    1,     0,     1,'nuisa
 ###JLA Nuisance parameters
 #data.parameters['alpha']   = [0.15 ,  None, None, 0.001, 1, 'nuisance']
 #data.parameters['beta']    = [3.559,  None, None, 0.02,  1, 'nuisance']
-data.parameters['M']	   = [-19.02, None, None, 0.004,  1, 'nuisance']
+#data.parameters['M']	   = [-19.02, None, None, 0.004,  1, 'nuisance']
 #data.parameters['Delta_M'] = [-0.10,  None, None, 0.004,  1, 'nuisance']
 
 # Nuisance parameter list, same call, except the name does not have to be a class name
@@ -196,6 +196,11 @@ data.parameters['H0']              = [0, None, None, 0,     1,   'derived']
 #data.parameters['A_s']             = [0, None, None, 0,  1e-9,   'derived']
 data.parameters['sigma8']          = [0, None, None, 0,     1,   'derived']
 data.parameters['Omega_m']          = [0, None, None, 0,     1,   'derived']
+data.parameters['rs_rec']          = [0, None, None, 0,     1,   'derived']
+data.parameters['rd_rec']          = [0, None, None, 0,     1,   'derived']
+data.parameters['da_rec']          = [0, None, None, 0,     1,   'derived']
+data.parameters['100*theta_d']          = [0, None, None, 0,     1,   'derived']
+data.cosmo_arguments['compute damping scale'] = 'yes'
 
 # Other cosmo parameters (fixed parameters, precision parameters, etc.)
 
@@ -208,8 +213,8 @@ data.cosmo_arguments['k_pivot'] = 0.05
 # and m/omega = 93.14 eV
 #data.cosmo_arguments['N_ur'] = 2.0328
 data.cosmo_arguments['N_ncdm'] = 1
-data.cosmo_arguments['deg_ncdm'] = 3
-data.cosmo_arguments['m_ncdm'] = 0.02
+data.cosmo_arguments['deg_ncdm'] = 1
+data.cosmo_arguments['m_ncdm'] = 0.06
 data.cosmo_arguments['T_ncdm'] = 0.71611
 #data.cosmo_arguments['Omega_Lambda'] = 0.
 # Increase precision of cosmological parameter extraction to match CORE+ specifications

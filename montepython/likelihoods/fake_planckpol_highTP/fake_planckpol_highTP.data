@@ -1,0 +1,24 @@
+# VG created this file, 04/11/18
+
+fake_planckpol_highTP.data_directory     = data.path['data']
+fake_planckpol_highTP.fiducial_file      = 'fake_planckpol_highTP_fiducial.dat'
+
+# experimental sensitivity:
+
+fake_planckpol_highTP.l_min              = 30
+fake_planckpol_highTP.l_max              = 2500
+fake_planckpol_highTP.f_sky              = 0.2
+fake_planckpol_highTP.num_channels       = 1
+
+# angular resolution
+# theta_fwhm must be in in arcmin
+
+fake_planckpol_highTP.theta_fwhm = [7.]
+
+# resolution for Temperature and Polarisation
+# sigma's must be in muK.arcmin
+# (with respect to Table 1.1 in bluebook, obtained by mutiplying
+# angular resolution * DT/T * 2.726 )
+
+fake_planckpol_highTP.sigma_T = [43.]
+fake_planckpol_highTP.sigma_P = [81.]

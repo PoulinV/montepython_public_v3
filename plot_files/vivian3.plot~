@@ -1,0 +1,2 @@
+info.redefine = {'Gamma_dcdm': '(f_dcdm*Gamma_dcdm)'}
+info_to_change = {'Gamma_dcdm':'f_dcdm Gamma_dcdm' }

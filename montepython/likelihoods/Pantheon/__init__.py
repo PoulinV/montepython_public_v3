@@ -66,7 +66,6 @@ class Pantheon(Likelihood_sn):
         # sample, given the redshift of the supernova.)
         redshifts = self.light_curve_params.zcmb
         size = redshifts.size
-
         moduli = np.empty((size, ))
         for index, row in self.light_curve_params.iterrows():
             z_cmb = row['zcmb']

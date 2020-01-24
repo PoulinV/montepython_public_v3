@@ -1,6 +1,6 @@
 #------Experiments to test (separated with commas)-----
-
-data.experiments=['Planck_highl_TTTEEE','simlow','Planck_lensing']
+data.experiments=['Planck_2018_highl_TTTEEE','Planck_2018_lowTT','Planck_2018_lowEE','Planck_2018_lensing','Pantheon','bao_boss','bao_fs_boss_dr12']
+#data.experiments=['Planck_highl_TTTEEE','simlow','Planck_lensing']
 #data.experiments=['Planck_highl_TTTEEE','Planck_lowl','Planck_lensing']
 #data.experiments=['core_lens_extr_perso']
 #------ Settings for the over-sampling.
@@ -19,7 +19,7 @@ data.experiments=['Planck_highl_TTTEEE','simlow','Planck_lensing']
 # the three Planck likelihoods used, only Planck_highl requires nuisance
 # parameters, therefore over_sampling has a length of two (cosmology, plus one
 # set of nuisance).
-data.over_sampling=[1, 4]
+data.over_sampling=[1, 4, 4]
 
 #------ Parameter list -------
 
@@ -41,9 +41,24 @@ data.parameters['ln10^{10}A_s'] = [ 3.0945,  2, 4, 0.0029,    1, 'cosmo']
 data.parameters['n_s']          = [0.9645,   0.8, 1.2, 0.0074,    1, 'cosmo']
 data.parameters['z_reio']     = [10,   5, 13,  2,    1, 'cosmo']
 #data.parameters['tau_reio']     = [0.09463,   0.04, None,  0.013,    1, 'cosmo']
-data.parameters['PBH_fraction']=[0.,0.,1000,10,1e-7,'cosmo']
+data.parameters['PBH_fraction']=[0.,0.,100,10,1e-9,'cosmo']
 
 # Nuisance parameter list, same call, except the name does not have to be a class name
+data.parameters['A_sbpx_100_100_TT']=[1,1,1,     0,     1,'nuisance']
+data.parameters['A_sbpx_143_143_TT']=[1,1,1,     0,     1,'nuisance']
+data.parameters['A_sbpx_143_217_TT']=[1,1,1,     0,     1,'nuisance']
+data.parameters['A_sbpx_217_217_TT']=[1,1,1,     0,     1,'nuisance']
+data.parameters['A_sbpx_100_100_EE']=[1,1,1,     0,     1,'nuisance']
+data.parameters['A_sbpx_100_143_EE']=[1,1,1,     0,     1,'nuisance']
+data.parameters['A_sbpx_100_217_EE']=[1,1,1,     0,     1,'nuisance']
+data.parameters['A_sbpx_143_143_EE']=[1,1,1,     0,     1,'nuisance']
+data.parameters['A_sbpx_143_217_EE']=[1,1,1,     0,     1,'nuisance']
+data.parameters['A_sbpx_217_217_EE']=[1,1,1,     0,     1,'nuisance']
+
+data.parameters['A_cnoise_e2e_100_100_EE']=[1,1,1,     0,     1,'nuisance']
+data.parameters['A_cnoise_e2e_143_143_EE']=[1,1,1,     0,     1,'nuisance']
+data.parameters['A_cnoise_e2e_217_217_EE']=[1,1,1,     0,     1,'nuisance']
+
 
 data.parameters['A_cib_217']         = [     61,    0,  200,     7,     1,'nuisance']   
 data.parameters['cib_index']         = [   -1.3, -1.3, -1.3,     0,     1,'nuisance']   
@@ -140,6 +155,11 @@ data.parameters['calib_217P']        = [      1,    1,    1,     0,     1,'nuisa
 data.parameters['A_planck']          = [100.028,   90,  110,  0.25,  0.01,'nuisance']  
 data.parameters['A_pol']             = [      1,    1,    1,     0,     1,'nuisance']
 
+###Pantheon
+data.parameters['M']       = [-19.02, -19.5, -18.5, 0.004,  1, 'nuisance']
+
+
+
 # Derived parameters
 
 data.parameters['tau_reio']          = [1, None, None, 0,     1,   'derived']
@@ -168,8 +188,11 @@ data.cosmo_arguments['reio_parametrization'] = 'reio_camb'
 data.cosmo_arguments['reio_stars_and_dark_matter'] = 'yes'
 data.cosmo_arguments['recombination']='recfast'
 data.cosmo_arguments['on the spot']= 'no'
+data.cosmo_arguments['PBH_with_wimp_halo'] = 'yes'
 data.cosmo_arguments['PBH_accreting_mass'] = 1e5 
+data.cosmo_arguments['PBH_relative_velocities'] = -11
 data.cosmo_arguments['PBH_accretion_recipe'] ='spherical_accretion'
+data.cosmo_arguments['effective_bondi_radius_file'] = '/datadec/users/users/vpoulin/class_directories/class_perso/effective_bondi_radii/cs2/effective_bondi_radius_m1e5_cs2.dat'
 data.cosmo_arguments['energy_repartition_coefficient'] = 'no_factorization'
 data.cosmo_arguments['energy_deposition_function'] = 'DarkAges'
 data.cosmo_arguments['DarkAges_mode'] = 'built_in'

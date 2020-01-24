@@ -2415,13 +2415,13 @@ class Likelihood_sn(Likelihood):
         Likelihood.__init__(self, path, data, command_line)
 
         # try and import pandas
-        try:
-            import pandas
-        except ImportError:
-            raise io_mp.MissingLibraryError(
-                "This likelihood has a lot of IO manipulation. You have "
-                "to install the 'pandas' library to use it. Please type:\n"
-                "`(sudo) pip install pandas --user`")
+        #try:
+        #    import pandas
+        #except ImportError:
+        #    raise io_mp.MissingLibraryError(
+        #        "This likelihood has a lot of IO manipulation. You have "
+        #        "to install the 'pandas' library to use it. Please type:\n"
+        #        "`(sudo) pip install pandas --user`")
 
         # check that every conflicting experiments is not present in the list
         # of tested experiments, in which case, complain

@@ -15,11 +15,11 @@
 #
 # BOSS LOWZ DR10&11 (D_V in Mpc divided by r_s^fid in Mpc) Anderson et al. 1312.4877
 # found in Section 8.2 (directly using the exact sound horizon)
-LOWZ    0.32    8.47    0.17    3
+#LOWZ    0.32    8.47    0.17    3
 #
 # BOSS CMASS DR10&11 (D_V in Mpc divided by r_s^fid in Mpc) Anderson et al. 1312.4877
 # found in Section 8.2 (directly using the exact sound horizon)
-CMASS   0.57    13.77   0.13    3
+#CMASS   0.57    13.77   0.13    3
 #
 # BOSS LyaQSO (DA/rs) Font-Ribera et al. 1311.1767
 # LyaQSO  2.36   10.8     0.4     5

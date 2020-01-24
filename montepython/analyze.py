@@ -82,7 +82,7 @@ def analyze(command_line):
 
     # Determine how many different folders are asked through the 'info'
     # command, and create as many Information instances
-    files = separate_files(command_line.files)
+    files = separate_files(command_line.files) 
 
     # Create an instance of the Information class for each subgroup found in
     # the previous function. They will each hold all relevant information, and
@@ -91,22 +91,22 @@ def analyze(command_line):
     for item in files:
         info = Information(command_line)
         information_instances.append(info)
-
+	
         # Prepare the files, according to the case, load the log.param, and
         # prepare the output (plots folder, .covmat, .info and .log files).
         # After this step, info.files will contain all chains.
         status = prepare(item, info)
-        # If the preparation step generated new files (for instance,
+	# If the preparation step generated new files (for instance,
         # translating from NS or CH to Markov Chains) this routine should stop
         # now.
         if not status:
             return
-
+	print item, files
         # Compute the mean, maximum of likelihood, 1-sigma variance for this
         # main folder. This will create the info.chain object, which contains
         # all the points computed stacked in one big array.
         convergence(info)
-
+	print "here"
         # check if analyze() is called directly by the user, or by the mcmc loop during an updating phase
         try:
             # command_line.update is defined when called by the mcmc loop
@@ -273,7 +273,7 @@ def convergence(info):
     # Circle through all files to find the global maximum of likelihood
     #print('--> Finding global maximum of likelihood')
     find_maximum_of_likelihood(info)
-
+	
     # Restarting the circling through files, this time removing the burnin,
     # given the maximum of likelihood previously found and the global variable
     # LOG_LKL_CUTOFF. spam now contains all the accepted points that were
@@ -1066,7 +1066,7 @@ def compute_posterior(information_instances):
                                  loc='upper right',
                                  borderaxespad=0.,
                                  prop={'fontsize': info.legendsize})
-            fig2d.subplots_adjust(wspace=0, hspace=0)
+            fig2d.subplots_adjust(wspace=0.05, hspace=0.05)
             fig2d.savefig(
                 os.path.join(
                     conf.folder, 'plots', '{0}_triangle.{1}'.format(
@@ -1709,13 +1709,15 @@ def find_maximum_of_likelihood(info):
     maximum.
     """
     min_minus_lkl = []
+    
     for chain_file in info.files:
         # cheese will brutally contain everything (- log likelihood) in the
         # file chain_file being scanned.
         # This could potentially be faster with pandas, but is already quite
         # fast
         #
-        # This would read the chains including comment lines:
+        print chain_file
+	# This would read the chains including comment lines:
         #cheese = (np.array([float(line.split()[1].strip())
         #                    for line in open(chain_file, 'r')]))
         #
@@ -2299,10 +2301,10 @@ class Information(object):
             tex.write("& 95\% lower & 95\% upper \\\\ \\hline \n")
             for index, name in zip(self.indices, self.tex_names):
                 tex.write("%s &" % name)
-                tex.write("$%.4g$ & $%.4g_{%.2g}^{+%.2g}$ " % (
+                tex.write("$%.6g$ & $%.6g_{%.2g}^{+%.2g}$ " % (
                     self.bestfit[index], self.mean[index],
                     self.bounds[index, 0, 0], self.bounds[index, 0, 1]))
-                tex.write("& $%.4g$ & $%.4g$ \\\\ \n" % (
+                tex.write("& $%.6g$ & $%.6g$ \\\\ \n" % (
                     self.mean[index]+self.bounds[index, 1, 0],
                     self.mean[index]+self.bounds[index, 1, 1]))
 

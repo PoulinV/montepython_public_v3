@@ -1,0 +1,3 @@
+# Values for t_u_GC (Gyrs) (following 1902.07081)
+t_univers_gc.t_u    =  13.2
+t_univers_gc.sigma  = 0.4

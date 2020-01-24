@@ -1,7 +1,13 @@
-# This likelihood corresponds to the Planck 2018 low_l TT commader data (only temperature)
 
+# for Planck 2013 release:
+#Planck_lowl_TT.path_clik = os.path.join(data.path['clik'], '../commander_v4.1_lm49.clik')
+
+# for the Planck 2015 release (baseline):
+#Planck_lowl_TT.path_clik = os.path.join(data.path['clik'], '../plc_2.0/low_l/bflike/lowl_SMW_70_dx11d_2014_10_03_v5c_Ap')
+Planck_lowl_TT.path_clik = os.path.join(data.path['clik'], '../plc_2.0/low_l/commander/commander_rc2_v1.1_l2_29_B.clik/')
+# This likelihood corresponds to the Planck 2018 low_l TT commader data (only temperature)
 # Grab the clik version of the lowl_TT likelihood
-Planck_lowl_TT.path_clik = os.path.join(data.path['clik'], '../../../baseline/plc_3.0/low_l/commander/commander_dx12_v3_2_29.clik')
+#Planck_lowl_TT.path_clik = os.path.join(data.path['clik'], '../../../baseline/plc_3.0/low_l/commander/commander_dx12_v3_2_29.clik')
 
 # note concerning the Planck 2018 likelihood:
 # This likelihood has a nuisance parameter A_planck that should be declared in

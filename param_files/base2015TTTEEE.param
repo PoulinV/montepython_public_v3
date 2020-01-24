@@ -40,6 +40,14 @@ data.parameters['ln10^{10}A_s'] = [ 3.0753,   None, None, 0.0029,    1, 'cosmo']
 data.parameters['n_s']          = [0.96229,   None, None, 0.0074,    1, 'cosmo']
 data.parameters['tau_reio']     = [0.09463,   0.04, None,  0.013,    1, 'cosmo']
 
+#data.parameters['omega_cdm']    = [0.1199,   0.1, 0.2, 0.0027,    1, 'cosmo']
+#data.parameters['omega_b']	= [2.222,  1.8, 3, 0.016, 0.01,'cosmo']
+#data.parameters['H0']            = [67.27,  50,80, 0.65,1,   'cosmo']
+#data.parameters['100*theta_s']  = [ 1.0418,   1.0400, 1.0430,   3e-4,    1, 'cosmo']
+#data.parameters['n_s']          = [0.9652,  0.9,1.1, 0.004, 1,   'cosmo']
+#data.parameters['A_s']          = [2.1985,   1.8,3, 0.038, 1e-9,'cosmo']
+#data.parameters['tau_reio']     = [0.078,  0.02,0.12, 0.0044,1,   'cosmo']
+
 # Nuisance parameter list, same call, except the name does not have to be a class name
 
 data.parameters['A_cib_217']         = [     61,    0,  200,     7,     1,'nuisance']   
@@ -142,15 +150,15 @@ data.parameters['A_pol']             = [      1,    1,    1,     0,     1,'nuisa
 data.parameters['z_reio']          = [1, None, None, 0,     1,   'derived']
 data.parameters['Omega_Lambda']    = [1, None, None, 0,     1,   'derived']
 data.parameters['YHe']             = [1, None, None, 0,     1,   'derived']
-data.parameters['H0']              = [0, None, None, 0,     1,   'derived']
-data.parameters['A_s']             = [0, None, None, 0,  1e-9,   'derived']
+#data.parameters['H0']              = [0, None, None, 0,     1,   'derived']
+#data.parameters['A_s']             = [0, None, None, 0,  1e-9,   'derived']
 data.parameters['sigma8']          = [0, None, None, 0,     1,   'derived']
 
 # Other cosmo parameters (fixed parameters, precision parameters, etc.)
 
 data.cosmo_arguments['sBBN file'] = data.path['cosmo']+'/bbn/sBBN.dat'
 data.cosmo_arguments['k_pivot'] = 0.05
-
+data.cosmo_arguments['non linear'] = 'halofit'
 # The base model features two massless
 # and one massive neutrino with m=0.06eV.
 # The settings below ensures that Neff=3.046
@@ -160,7 +168,7 @@ data.cosmo_arguments['N_ncdm'] = 1
 data.cosmo_arguments['m_ncdm'] = 0.06
 data.cosmo_arguments['T_ncdm'] = 0.71611
 
-data.cosmo_arguments['recombination']='hyrec'
+#data.cosmo_arguments['recombination']='hyrec'
 
 # These two are required to get sigma8 as a derived parameter
 # (class must compute the P(k) until sufficient k)
@@ -171,3 +179,138 @@ data.cosmo_arguments['P_k_max_h/Mpc'] = 1.
 
 data.N=20
 data.write_step=5
+
+
+
+#----PRECISION-------
+
+#data.cosmo_arguments['a_ini_over_a_today_default']=1.e-14
+#data.cosmo_arguments['back_integration_stepsize']=7.e-3
+#data.cosmo_arguments['tol_background_integration']=1.e-4
+#data.cosmo_arguments['tol_perturb_integration']=1.e-7
+
+#data.cosmo_arguments['recfast_z_initial']=1.e4
+
+#data.cosmo_arguments['recfast_Nz0']=100000
+#data.cosmo_arguments['tol_thermo_integration']=1.e-5
+#data.cosmo_arguments['recfast_Heswitch']=6
+#data.cosmo_arguments['recfast_fudge_He']=0.86
+
+#data.cosmo_arguments['recfast_Hswitch']=1
+#data.cosmo_arguments['recfast_fudge_H']=1.14
+#data.cosmo_arguments['recfast_delta_fudge_H']=-0.035
+#data.cosmo_arguments['recfast_AGauss1']=-0.14
+#data.cosmo_arguments['recfast_AGauss2']= 0.05
+#data.cosmo_arguments['recfast_zGauss1']= 7.28
+#data.cosmo_arguments['recfast_zGauss2']= 6.75
+#data.cosmo_arguments['recfast_wGauss1']= 0.18
+#data.cosmo_arguments['recfast_wGauss2']= 0.33
+#data.cosmo_arguments['recfast_x_H0_trigger_delta'] = 0.01
+#data.cosmo_arguments['recfast_x_He0_trigger_delta'] = 0.01
+#data.cosmo_arguments['recfast_z_He_1']=8000.
+#data.cosmo_arguments['recfast_delta_z_He_1']=50.
+#data.cosmo_arguments['recfast_z_He_2']=5000.
+#data.cosmo_arguments['recfast_delta_z_He_2']=100.
+#data.cosmo_arguments['recfast_z_He_3']=3500.
+#data.cosmo_arguments['recfast_delta_z_He_3']=50.
+#data.cosmo_arguments['recfast_x_He0_trigger']=0.995
+#data.cosmo_arguments['recfast_x_He0_trigger2']=0.995
+#data.cosmo_arguments['recfast_x_He0_trigger_delta']=0.01
+#data.cosmo_arguments['recfast_x_H0_trigger']=0.995
+#data.cosmo_arguments['recfast_x_H0_trigger2']=0.995
+#data.cosmo_arguments['recfast_x_H0_trigger_delta']=0.01
+
+#data.cosmo_arguments['recfast_H_frac']=1.e-3
+
+#data.cosmo_arguments['reionization_z_start_max']=50.
+#data.cosmo_arguments['reionization_sampling']=1.e-2
+#data.cosmo_arguments['reionization_optical_depth_tol']=1.e-2
+#data.cosmo_arguments['reionization_exponent']=1.5
+
+#data.cosmo_arguments['reionization_width']=0.5
+
+#data.cosmo_arguments['reionization_start_factor']=8.
+#data.cosmo_arguments['helium_fullreio_redshift']=3.5
+#data.cosmo_arguments['helium_fullreio_width']=0.5
+
+#data.cosmo_arguments['thermo_rate_smoothing_radius']=50
+
+#data.cosmo_arguments['gauge']=1 
+
+##data.cosmo_arguments['k_scalar_min_eta0']=0.002
+##data.cosmo_arguments['k_scalar_max_eta0_over_l_max']=3.
+#data.cosmo_arguments['k_scalar_step_sub']=0.015
+#data.cosmo_arguments['k_scalar_step_super']=0.0001 
+#data.cosmo_arguments['k_scalar_step_transition']=0.2
+#start_small_k_at_eta_g_over_eta_h']=0.006
+#start_large_k_at_eta_g_over_eta_k']=1.e-5
+#tight_coupling_trigger_eta_g_over_eta_h']=0.008
+#tight_coupling_trigger_eta_g_over_eta_k']=0.05
+#start_sources_at_eta_g_over_eta_h']=0.01
+#data.cosmo_arguments['start_small_k_at_tau_c_over_tau_h']=0.0004
+#data.cosmo_arguments['start_large_k_at_tau_h_over_tau_k']=0.05
+#data.cosmo_arguments['tight_coupling_trigger_tau_c_over_tau_h']=0.005
+#data.cosmo_arguments['tight_coupling_trigger_tau_c_over_tau_k']=0.008
+#data.cosmo_arguments['start_sources_at_tau_c_over_tau_h']=0.006
+#data.cosmo_arguments['tight_coupling_approximation']=5
+#data.cosmo_arguments['k_min_tau0']=0.002
+#data.cosmo_arguments['k_max_tau0_over_l_max']=3.
+#data.cosmo_arguments['k_step_sub']=0.015
+#data.cosmo_arguments['k_step_super']=0.0001
+#data.cosmo_arguments['k_step_super_reduction']=0.1
+#data.cosmo_arguments['l_max_g']=50
+#data.cosmo_arguments['l_max_pol_g']=25
+#data.cosmo_arguments['l_max_ur']=50
+#data.cosmo_arguments['l_max_ncdm']=50
+#data.cosmo_arguments['perturb_sampling_stepsize']=0.01
+
+#data.cosmo_arguments['radiation_streaming_approximation'] = 2
+#data.cosmo_arguments['radiation_streaming_trigger_tau_over_tau_k'] = 240.
+#data.cosmo_arguments['radiation_streaming_trigger_tau_c_over_tau'] = 100.
+
+#data.cosmo_arguments['ur_fluid_approximation'] = 2
+#data.cosmo_arguments['ur_fluid_trigger_tau_over_tau_k'] = 50.
+
+#data.cosmo_arguments['ncdm_fluid_approximation'] = 3
+#data.cosmo_arguments['ncdm_fluid_trigger_tau_over_tau_k'] = 51.
+
+#data.cosmo_arguments['tol_ncdm_synchronous'] = 1.e-10
+#data.cosmo_arguments['tol_ncdm_newtonian'] = 1.e-10
+
+#data.cosmo_arguments['l_logstep']=1.026
+#data.cosmo_arguments['l_linstep']=25
+
+#data.cosmo_arguments['hyper_sampling_flat']=12.
+#data.cosmo_arguments['hyper_sampling_curved_low_nu']=10.
+#data.cosmo_arguments['hyper_sampling_curved_high_nu']=10.
+#data.cosmo_arguments['hyper_nu_sampling_step']=10.
+#data.cosmo_arguments['hyper_phi_min_abs']=1.e-10
+#data.cosmo_arguments['hyper_x_tol']=1.e-4
+#data.cosmo_arguments['hyper_flat_approximation_nu']=1.e6
+
+#data.cosmo_arguments['q_linstep']=0.20
+#data.cosmo_arguments['q_logstep_spline']= 20.
+#data.cosmo_arguments['q_logstep_trapzd']=0.5
+#data.cosmo_arguments['q_numstep_transition']=250
+
+#data.cosmo_arguments['transfer_neglect_delta_k_S_t0']=100.
+#data.cosmo_arguments['transfer_neglect_delta_k_S_t1']=100.
+#data.cosmo_arguments['transfer_neglect_delta_k_S_t2']=100.
+#data.cosmo_arguments['transfer_neglect_delta_k_S_e']=100.
+#data.cosmo_arguments['transfer_neglect_delta_k_V_t1']=100.
+#data.cosmo_arguments['transfer_neglect_delta_k_V_t2']=100.
+#data.cosmo_arguments['transfer_neglect_delta_k_V_e']=100.
+#data.cosmo_arguments['transfer_neglect_delta_k_V_b']=100.
+#data.cosmo_arguments['transfer_neglect_delta_k_T_t2']=100.
+#data.cosmo_arguments['transfer_neglect_delta_k_T_e']=100.
+#data.cosmo_arguments['transfer_neglect_delta_k_T_b']=100.
+
+#data.cosmo_arguments['neglect_CMB_sources_below_visibility']=1.e-30
+#data.cosmo_arguments['transfer_neglect_late_source']=3000.
+
+#data.cosmo_arguments['halofit_k_per_decade']=3000.
+
+#data.cosmo_arguments['l_switch_limber']=40.
+#data.cosmo_arguments['accurate_lensing']=1
+#data.cosmo_arguments['num_mu_minus_lmax']=1000.
+#data.cosmo_arguments['delta_l_max']=1000.

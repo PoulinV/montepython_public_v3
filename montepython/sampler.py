@@ -28,6 +28,7 @@ from io_mp import dictitems,dictvalues,dictkeys
 import os
 import scipy.linalg as la
 import scipy.optimize as op
+from iminuit import minimize as minuit
 
 def run(cosmo, data, command_line):
     """
@@ -430,22 +431,41 @@ def get_minimum(cosmo, data, command_line, covmat):
 
     # For HST with 1 param the best is TNC with 'eps':stepsizes, bounds, tol, although bounds make it smlower (but avoids htting unphysical region)
     # For forecasts or Planck lite SLSQP with tol=0.00001 works well, but does not work for full Planck TTTEEE highl
-    result = op.minimize(chi2_eff,
+    ###VP:old minimizer
+    #result = op.minimize(chi2_eff,
+    #                     parameters,
+    #                     args = (cosmo,data),
+    #                     #method='trust-region-exact',
+    #                     #method='BFGS',
+    #                     #method='TNC',
+    #                     #method='L-BFGS-B',
+    #                     method='SLSQP',
+    #                     #method='COBYLA',
+    #			 #options={'eps':stepsizes},
+    #                     #constraints=cons,
+    #                     bounds=bounds,
+    #                     tol=command_line.minimize_tol)
+    #                     #options = {'disp': True})
+    #                                #'initial_tr_radius': stepsizes,
+    #                                #'max_tr_radius': stepsizes})
+    
+    #try minuit
+    result = minuit(chi2_eff,
                          parameters,
                          args = (cosmo,data),
                          #method='trust-region-exact',
                          #method='BFGS',
                          #method='TNC',
                          #method='L-BFGS-B',
-                         method='SLSQP',
+                         #method='SLSQP',
+                         #method='COBYLA',
                          #options={'eps':stepsizes},
                          #constraints=cons,
-                         bounds=bounds,
-                         tol=command_line.minimize_tol)
+                         bounds=bounds)
+                         #tol=command_line.minimize_tol)
                          #options = {'disp': True})
                                     #'initial_tr_radius': stepsizes,
                                     #'max_tr_radius': stepsizes})
-
     #result = op.differential_evolution(chi2_eff,
     #                                   bounds,
     #                                   args = (cosmo,data))

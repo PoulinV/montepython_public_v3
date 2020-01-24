@@ -460,7 +460,8 @@ class Data(object):
 
             folder = os.path.abspath(os.path.join(
                 self.path['MontePython'], "likelihoods", "%s" % elem))
-            # add the folder of the likelihood to the path of libraries to...
+
+	    # add the folder of the likelihood to the path of libraries to...
             # ... import easily the likelihood.py program
             try:
                 exec("from likelihoods.%s import %s" % (
@@ -491,7 +492,6 @@ class Data(object):
                 else:
                     raise io_mp.ConfigurationError(
                         "The following key: '%s' was not found" % e)
-
     def read_file(self, param, structure, field='', separate=False):
         """
         Execute all lines concerning the Data class from a parameter file
@@ -852,7 +852,7 @@ class Data(object):
                         "Failed to estimate m1 resulting in sum(m_i) > M_tot."
                         " Exiting run.")
                 self.cosmo_arguments['m_ncdm'] = r'%g, %g, %g' % (m1,m2,m3)
-                del self.cosmo_arguments[elem]
+		del self.cosmo_arguments[elem]
             elif elem == 'M_tot_IH'or elem == '{\sum}m_nu_IH':
                 # By T. Brinckmann
                 # Inverted hierarchy massive neutrinos. Calculates the individual
@@ -916,7 +916,37 @@ class Data(object):
             elif elem == 'w0wa':
                 self.cosmo_arguments['wa_fld'] = self.cosmo_arguments[elem] - self.cosmo_arguments['w0_fld']
                 del self.cosmo_arguments[elem]
-
+	    elif elem == 'log10_Gamma_dcdm':
+                self.cosmo_arguments['Gamma_dcdm'] = 10**(self.cosmo_arguments[elem])
+                del self.cosmo_arguments[elem]
+	    elif elem == 'log10_Gamma_dcdm2bar':
+                self.cosmo_arguments['Gamma_dcdm2bar'] = 10**(self.cosmo_arguments[elem])
+                del self.cosmo_arguments[elem]
+            elif elem == 'log10_a_c':
+                self.cosmo_arguments['a_c'] = 10**(self.cosmo_arguments[elem])
+                del self.cosmo_arguments[elem]
+            elif elem == 'log10_Omega_many_fld':
+                self.cosmo_arguments['Omega_many_fld'] = 10**(self.cosmo_arguments[elem])
+                del self.cosmo_arguments[elem]
+            elif elem == 'log10_m_axion':
+                self.cosmo_arguments['m_axion'] = 10**(self.cosmo_arguments[elem])
+                del self.cosmo_arguments[elem]
+ 	    elif elem == 'log10_f_axion':
+                self.cosmo_arguments['f_axion'] = 10**(self.cosmo_arguments[elem])
+                del self.cosmo_arguments[elem]
+	    elif elem == 'log10_m_dmeff':
+                self.cosmo_arguments['m_dmeff'] = 10**(self.cosmo_arguments[elem])
+                del self.cosmo_arguments[elem]
+	    elif elem == 'log10_Gamma_neutrinos':
+                if self.cosmo_arguments['N_ncdm'] == 3:
+			Gamma = 10**(self.cosmo_arguments[elem])
+			self.cosmo_arguments['Gamma_neutrinos'] =  r'%g, %g, %g' % (Gamma,Gamma,Gamma)
+		else:
+			self.cosmo_arguments['Gamma_neutrinos'] = 10**(self.cosmo_arguments[elem])
+        	del self.cosmo_arguments[elem]
+	    elif elem == 'f_axion_ac':
+		self.cosmo_arguments['log10_fraction_axion_ac'] = math.log10(self.cosmo_arguments[elem])
+		del self.cosmo_arguments[elem]
             # Finally, deal with all the parameters ending with __i, where i is
             # an integer. Replace them all with their name without the trailing
             # double underscore, concatenated with each other. The test is
