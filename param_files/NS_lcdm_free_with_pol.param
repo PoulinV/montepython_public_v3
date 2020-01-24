@@ -3,7 +3,7 @@
 #------Experiments to test (separated with commas)-----
 
 #data.experiments=['Planck_highl_lite','Planck_lowl','Planck_lensing','shoes']
-data.experiments=['Planck_2018_lite','Planck_2018_lowTT','Planck_2018_lowEE','Planck_2018_lensing','Pantheon','bao_boss','bao_fs_boss_dr12','SH0ES_19'] 
+data.experiments=['Planck_2018_lite','Planck_2018_lowTT','Planck_2018_lowEE','Planck_2018_lensing','Pantheon','bao_boss','bao_fs_boss_dr12'] 
 #,'sdss_lrgDR7','kids450_qe_likelihood_public']
 # based on what Vivian recommends 
 
